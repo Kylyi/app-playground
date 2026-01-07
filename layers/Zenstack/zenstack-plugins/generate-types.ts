@@ -14,7 +14,7 @@ const cliPlugin: CliPlugin = {
   name: 'Generate Types',
 
   generate: ({ model, defaultOutputPath, pluginOptions }) => {
-    console.log('\n💀 Generate Types Plugin')
+    console.log('\n🚧 Generate Types Plugin')
     if (pluginOptions.report !== true) {
       return
     }
@@ -32,7 +32,6 @@ const cliPlugin: CliPlugin = {
 
       for (const field of dm.fields) {
         if (isDataField(field) && field.type?.reference?.ref?.$type === 'DataModel') {
-          // console.log(field.type?.reference.ref.)
           references.push({
             referenceName: field.name,
             referenceModelName: field.type.reference?.ref?.name ?? '',
@@ -40,8 +39,6 @@ const cliPlugin: CliPlugin = {
           })
         }
       }
-
-      console.log(references)
 
       output += `\nexport type ${dm.name}Full = Partial<Required<${dm.name}, 'id'>> & {${references.map(reference => `\n  ${reference.referenceName}?: Partial<Required<${reference.referenceModelName}Full, 'id'>>${reference.isArray ? '[]' : ''}`).join(', ')}\n}\n`
     }
