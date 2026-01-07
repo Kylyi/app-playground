@@ -1,13 +1,10 @@
 import '../shared/timestamps'
 import '../enums/user-type'
 import './post'
-import '../plugins/plugin'
 
 model User with Timestamps {
     id       String @id @default(cuid())
     email    String @unique @email @length(6, 32)
-    password String @password(hasher: bcryptHasher(10))
-    type     UserType
 
     /// Posts of the user
     posts    Post[]

@@ -1,9 +1,8 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: [
-    // './libs/User',
+    './libs/User',
     // './libs/Core',
-    // './libs/Zenstack',
+    './libs/Zenstack',
     // './libs/Utilities',
   ],
 
@@ -14,11 +13,17 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/fonts',
+    '@pinia/nuxt',
+    '@pinia/colada-nuxt',
   ],
 
   ssr: false,
 
   compatibilityDate: '2025-07-15',
+
+  typescript: {
+    includeWorkspace: true,
+  },
 
   eslint: {
     config: {

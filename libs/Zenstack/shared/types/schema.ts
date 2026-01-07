@@ -81,15 +81,6 @@ export class SchemaType implements SchemaDef {
                     unique: true,
                     attributes: [{ name: "@unique" }, { name: "@email" }, { name: "@length", args: [{ name: "min", value: ExpressionUtils.literal(6) }, { name: "max", value: ExpressionUtils.literal(32) }] }]
                 },
-                password: {
-                    name: "password",
-                    type: "String",
-                    attributes: [{ name: "@password", args: [{ name: "hasher", value: ExpressionUtils.call("bcryptHasher", [ExpressionUtils.literal(10)]) }] }]
-                },
-                type: {
-                    name: "type",
-                    type: "UserType"
-                },
                 posts: {
                     name: "posts",
                     type: "Post",
