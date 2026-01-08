@@ -7,3 +7,5 @@ const connectionString = import.meta.env.DB_URL
 export const db = new ZenStackClient(schema, {
   dialect: new PostgresDialect({ pool: new Pool({ connectionString }) }),
 })
+
+export type DbClient = typeof db

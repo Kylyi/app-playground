@@ -2,10 +2,14 @@
 // const { user } = useClientQueries()
 // const { data } = user.useFindMany({ include: { posts: true } })
 
-const { data } = useQuery({
-  key: ['users'],
-  query: () => $fetch('/api/users'),
-})
+// const { data } = useQuery({
+//   key: ['users'],
+//   query: () => $fetch('/api/users'),
+// })
+
+const { $client } = useNuxtApp()
+
+const data = await $client.user.findMany()
 </script>
 
 <template>

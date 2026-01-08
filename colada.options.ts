@@ -25,19 +25,7 @@ export function PiniaColadaErrorHandlerPlugin(): PiniaColadaPlugin {
 }
 
 export default {
-  plugins: [PiniaColadaErrorHandlerPlugin(), PiniaColadaQueryHooksPlugin({
-    onError(error) {
-      console.error('Global error:', error)
-      // You could also trigger a global notification here
-    },
-    // other hooks
-    onSuccess(data) {
-      console.log('onSuccess', data)
-    },
-    onSettled() {
-      console.log('onSettled')
-    },
-  })],
+  plugins: [PiniaColadaErrorHandlerPlugin()],
   mutationOptions: {
     onError(error) {
       console.log('onError', error.data)

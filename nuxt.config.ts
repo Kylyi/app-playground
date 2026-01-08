@@ -1,3 +1,5 @@
+import { join } from 'pathe'
+
 export default defineNuxtConfig({
   extends: [
     './libs/User',
@@ -20,6 +22,16 @@ export default defineNuxtConfig({
   ssr: false,
 
   compatibilityDate: '2025-07-15',
+
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+
+    openAPI: {
+      route: join('/open-api.json'),
+    },
+  },
 
   typescript: {
     includeWorkspace: true,
