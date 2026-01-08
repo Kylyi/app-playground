@@ -28,6 +28,7 @@ export default {
   plugins: [PiniaColadaErrorHandlerPlugin()],
   mutationOptions: {
     onError(error) {
+      // @ts-expect-error
       console.log('onError', error.data)
     },
   },
