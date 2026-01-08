@@ -55,15 +55,11 @@ const openAPIHandler = new OpenAPIHandler(router, {
 
 export default defineEventHandler(async event => {
   const request = toWebRequest(event)
-
-  const authorization = getHeader(event, 'authorization')
-  const context = authorization
-    ? { user: { id: 'test', name: 'John Doe', email: 'john@doe.com' } }
-    : {}
+  const fakeUser = { id: '1', name: 'John Doe' }
 
   const { response } = await openAPIHandler.handle(request, {
     prefix: '/api',
-    context,
+    context: { user: fakeUser },
   })
 
   if (response) {

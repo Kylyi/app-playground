@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   hooks: {
     ready: async () => {
       console.log('✔ Generating OpenAPI...')
-      await generateOpenAPI()
+      // await generateOpenAPI()
     },
   },
 })
