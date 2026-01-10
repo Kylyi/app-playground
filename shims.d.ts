@@ -1,8 +1,8 @@
-interface ImportMetaEnv {
+type ImportMetaEnv = {
   readonly NUXT_PUBLIC_ENV: string
   readonly DB_URL: string
 }
 
-interface ImportMeta {
+type ImportMeta = {
   readonly env: ImportMetaEnv
 }

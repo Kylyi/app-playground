@@ -36,10 +36,10 @@ export function $date(
 
   if (isUtc) {
     // @ts-expect-error - dayjs.utc() is not typed
-    return dayjs.utc(date ?? undefined, format, strict)
+    return dayjs.utc(date, format, strict)
   }
 
-  return dayjs(date ?? undefined, format, strict)
+  return dayjs(date, format, strict)
 }
 
 export type Dayjs = ReturnType<typeof dayjs>

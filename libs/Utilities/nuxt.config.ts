@@ -18,8 +18,13 @@ export default defineNuxtConfig({
     ],
   },
 
+  runtimeConfig: {
+    public: {
+      filesHost: '/api/files',
+    },
+  },
+
   alias: {
-    $utils: join(process.cwd(), 'generated', 'utils.ts'),
     $utilsConfig: join(process.cwd(), 'generated', 'utilsConfig.ts'),
     $comparatorEnum: join(process.cwd(), 'generated', 'comparator-enum.ts'),
     $dataType: join(process.cwd(), 'generated', 'data-type.type.ts'),
@@ -30,7 +35,6 @@ export default defineNuxtConfig({
       imports: [
         { name: 'z', from: 'zod/v4' },
 
-        // Server-specific imports
         // Lodash
         { name: 'get', from: 'lodash-es' },
         { name: 'set', from: 'lodash-es' },

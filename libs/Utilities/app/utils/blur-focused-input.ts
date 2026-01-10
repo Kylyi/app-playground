@@ -1,5 +1,7 @@
 /**
  * Blurs any focused input element
+ *
+ * @returns the blurred element
  */
 export function blurFocusedInput() {
   const activeElement = useSharedActiveElement()
@@ -10,5 +12,7 @@ export function blurFocusedInput() {
     || activeElement.value?.contentEditable === 'true'
   ) {
     activeElement.value.blur()
+
+    return activeElement.value
   }
 }

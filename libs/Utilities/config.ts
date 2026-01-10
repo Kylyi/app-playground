@@ -3,7 +3,13 @@ import type { Locale } from '#i18n'
 // Types
 import type { ExtendedDataType } from '$dataType'
 
+// Models
+import type { FileModel } from './app/models/file.model'
 import type { ComparatorEnum as MergedComparatorEnum } from '$comparatorEnum'
+
+// Functions
+import { uploadFile } from './app/utils/upload-file'
+import { deleteFile } from './app/utils/delete-file'
 
 const environment = import.meta.env.NUXT_PUBLIC_ENV ?? 'development'
 
@@ -119,6 +125,7 @@ export type IUtilitiesConfig = {
     // For example, if we use the `Comparator.IN` for the `number` data type, we
     // want to only allow numbers to be inputted
     numberDataTypes?: ExtendedDataType[]
+    dateTimeDataTypes?: ExtendedDataType[]
   }
 
   /**
@@ -126,6 +133,38 @@ export type IUtilitiesConfig = {
    */
   logging: {
     limit?: number
+  }
+
+  /**
+   * Files handling
+   */
+  files: {
+    /**
+     * The function to handle the file upload
+     *
+     * NOTE: You should mutate the `FileModel` attributes when uploading the file:
+     * - `uploadProgress`
+     * - `hasError`
+     * - `uploadedFile`
+     */
+    uploadHandler?: (payload: {
+      file: FileModel
+      requestHandler?: any
+      additionalData?: IItem
+      onError?: (error: any) => void
+      onComplete?: (res: any) => void
+    }) => Promise<any> | any
+
+    /**
+     * The function to handle the file deletion
+     */
+    deleteHandler?: (payload: {
+      file: FileModel
+      requestHandler: any
+      additionalData?: IItem
+      onComplete?: (res: any) => void
+      onError?: (error: any) => void
+    }) => Promise<any> | any
   }
 
   // Request handling
@@ -171,6 +210,7 @@ export const defaultUtilitiesConfig = {
     formatFncByDataType: {} as Partial<Record<ExtendedDataType, IFormatFnc>>,
     parseFncByDataType: {} as Partial<Record<ExtendedDataType, IParseFnc>>,
     numberDataTypes: ['number', 'numberSimple'] as ExtendedDataType[],
+    dateTimeDataTypes: ['date', 'datetime', 'yearMonth', 'timestamp', 'fullDateTime'] as ExtendedDataType[],
   },
 
   // Logging
@@ -196,6 +236,41 @@ export const defaultUtilitiesConfig = {
      *
      */
     errorHandler: undefined,
+  },
+
+  // Files handling
+  files: {
+    uploadHandler: async ({ file, requestHandler, onComplete, onError }) => {
+      try {
+        const result = await requestHandler?.(() => uploadFile({ file })) ?? uploadFile({ file })
+
+        file.uploadProgress = 100
+        file.hasError = false
+        file.uploadedFile = result
+        onComplete?.(result)
+
+        return result
+      } catch (error) {
+        file.hasError = true
+        file.uploadProgress = 0
+        file.uploadedFile = undefined
+        onError?.(error)
+
+        return null
+      }
+    },
+    deleteHandler: async ({ file, requestHandler, onComplete, onError }) => {
+      try {
+        const result = await requestHandler?.(() => deleteFile({ file })) ?? deleteFile({ file })
+        onComplete?.(result)
+
+        return result
+      } catch (error) {
+        onError?.(error)
+
+        return null
+      }
+    },
   },
 } satisfies IUtilitiesConfig
 
