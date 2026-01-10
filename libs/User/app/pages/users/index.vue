@@ -9,7 +9,7 @@
 
 const { $client } = useNuxtApp()
 
-const data = await $client.user.findMany()
+const data = await $client.user.findMany({ })
 </script>
 
 <template>
