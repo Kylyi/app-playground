@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const { data } = useQuery({
   key: ['users'],
-  query: () => $api().user.findMany({ id: '', age: 0 }),
+  query: () => $api().user.findMany({
+    id: '1',
+    age: 0,
+  }),
 })
 </script>
 
