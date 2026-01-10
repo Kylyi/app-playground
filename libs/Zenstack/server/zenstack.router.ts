@@ -1,8 +1,6 @@
-import { publicProcedure } from './procedures/public.procedure'
+// Routes
+import health from './router/general/health'
 
 export const router = {
-  health: publicProcedure
-    .handler(async () => {
-      return 'ok' as const
-    }),
+  health,
 }

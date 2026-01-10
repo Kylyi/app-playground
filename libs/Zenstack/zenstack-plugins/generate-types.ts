@@ -1,5 +1,5 @@
 import type { CliPlugin } from '@zenstackhq/sdk'
-import { isArrayExpr, isDataField, isDataModel } from '@zenstackhq/sdk/ast'
+import { isDataField, isDataModel } from '@zenstackhq/sdk/ast'
 import fs from 'node:fs'
 
 const initialOutput = `// Generated types
