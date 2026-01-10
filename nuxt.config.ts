@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     './libs/User',
     // './libs/Core',
     './libs/Zenstack',
-    // './libs/Utilities',
+    './libs/Utilities',
   ],
 
   modules: [
@@ -35,13 +35,6 @@ export default defineNuxtConfig({
 
   typescript: {
     includeWorkspace: true,
-  },
-
-  eslint: {
-    config: {
-      standalone: false,
-      stylistic: true,
-    },
   },
 
   fonts: {

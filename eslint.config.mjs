@@ -1,23 +1,19 @@
 // @ts-check
 
 import antfu from '@antfu/eslint-config'
-import nuxt from './.nuxt/eslint.config.mjs'
+import { createConfigForNuxt } from '@nuxt/eslint-config'
 
-export default nuxt(
-  antfu(
-    {
-      unocss: true,
-      formatters: true,
+export default createConfigForNuxt(
+  {
+    features: {
+      standalone: false,
+      stylistic: true,
     },
-  ),
+  },
 )
-  .append({
-    ignores: [
-      '.fttemplates',
-      'i18n',
-      'zenstack/generated',
-    ],
-  })
+  .prepend(
+    antfu({ unocss: true, formatters: true }),
+  )
   .overrideRules({
     'vue/max-attributes-per-line': ['warn', { singleline: 1, multiline: { max: 1 } }],
     'ts/consistent-type-imports': ['warn', { prefer: 'type-imports', fixStyle: 'separate-type-imports' }],
@@ -49,5 +45,4 @@ export default nuxt(
     'unicorn/consistent-function-scoping': 'off',
     'perfectionist/sort-objects': 'off',
     'ts/no-unsafe-function-type': 'off',
-  },
-  )
+  })
