@@ -12,6 +12,7 @@ export const router = {
 }
 
 export type IRouter = typeof router
+export type IRouterClient = RouterClient<IRouter>
 `
 
 export default defineNuxtModule({
