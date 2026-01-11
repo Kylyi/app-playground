@@ -11,5 +11,41 @@
   ],
   "i18n-ally.localesPaths": [],
   "javascript.preferences.importModuleSpecifier": "project-relative",
-  "typescript.preferences.importModuleSpecifier": "project-relative"
+  "typescript.preferences.importModuleSpecifier": "project-relative",
+
+  // TypeScript Performance Optimizations
+  "typescript.tsserver.maxTsServerMemory": 14096,
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": [
+      "**/node_modules",
+      "**/.git",
+      "**/.nuxt",
+      "**/dist",
+      "**/.output",
+      "**/.data"
+    ]
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "off",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // Disable unnecessary language features that slow down IntelliSense
+  "typescript.suggest.completeFunctionCalls": false,
+  "typescript.suggest.completeJSDocs": false,
+
+  // File watcher exclusions
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.nuxt/**": true,
+    "**/dist/**": true,
+    "**/.output/**": true,
+    "**/.data/**": true,
+    "**/bun.lock": true
+  }
 }
