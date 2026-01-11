@@ -3,7 +3,7 @@ import { ComparatorEnum } from '$comparatorEnum'
 import type { ExtendedDataType } from '$dataType'
 
 // Models
-import type { FilterItem } from '../models/filter-item'
+import type { FilterItem } from '../models/filter-item.model'
 
 // Functions
 import { useText } from './useText'

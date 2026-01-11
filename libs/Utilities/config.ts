@@ -11,8 +11,7 @@ import type { ComparatorEnum as MergedComparatorEnum } from '$comparatorEnum'
 import { uploadFile } from './app/utils/upload-file'
 import { deleteFile } from './app/utils/delete-file'
 
-const rC = useRuntimeConfig()
-const environment = rC.public.env
+const environment = import.meta.env.NUXT_PUBLIC_ENV
 
 type IComponent = {
   component: string

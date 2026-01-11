@@ -1,11 +1,16 @@
 import { join } from 'pathe'
-import { defineNuxtConfig } from 'nuxt/config'
+import { createResolver } from '@nuxt/kit'
+
+const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxtjs/i18n',
     '@nuxt/test-utils/module',
+    '@nuxt/scripts',
+    '@nuxt/hints',
+    '@nuxt/eslint',
   ],
 
   $meta: {
@@ -15,6 +20,7 @@ export default defineNuxtConfig({
   imports: {
     imports: [
       { name: 'z', from: 'zod/v4' },
+      { name: 'ClassType', from: resolve('./app/types/class-type.type.ts'), type: true },
     ],
   },
 
@@ -51,6 +57,17 @@ export default defineNuxtConfig({
 
   typescript: {
     includeWorkspace: true,
+
+    tsConfig: {
+      compilerOptions: {
+        paths: {
+          $utils: [join(process.cwd(), 'generated', 'utils.ts')],
+          $dataType: [join(process.cwd(), 'generated', 'data-type.type.ts')],
+          $utilsConfig: [join(process.cwd(), 'generated', 'utilsConfig.ts')],
+          $comparatorEnum: [join(process.cwd(), 'generated', 'comparator-enum.ts')],
+        },
+      },
+    },
   },
 
   i18n: {

@@ -8,6 +8,7 @@ useHead({
 
 <template>
   <NuxtLayout>
+    <Notifications />
     <NuxtRouteAnnouncer />
     <NuxtLoadingIndicator />
 

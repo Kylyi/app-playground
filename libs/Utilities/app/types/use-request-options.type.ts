@@ -13,7 +13,7 @@ export type UseRequestOptions<T = any> = {
    * Falls back to the `utilsConfig.request.payloadKey` if not provided
    * Provide `null` to ignore the payload key
    */
-  payloadKey?: string
+  payloadKey?: string | null
 
   /**
    * The function to modify the response object

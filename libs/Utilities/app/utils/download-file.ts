@@ -1,6 +1,3 @@
-const rC = useRuntimeConfig()
-const filesHost = rC.public.filesHost
-
 /**
  * Will download a file (or open it, or return the URL) based on the file path
  * Uses the `filesHost` from the runtime config to construct the URL by default
@@ -26,6 +23,9 @@ export async function handleDownloadFile(
   },
 ) {
   const { returnUrlOnly, url: _url, open } = options || {}
+
+  const rC = useRuntimeConfig()
+  const filesHost = rC.public.filesHost
 
   if (!('path' in file)) {
     return

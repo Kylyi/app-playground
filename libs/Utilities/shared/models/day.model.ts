@@ -49,7 +49,7 @@ export class Day {
       extraObj?: Record<string, unknown>
     } = {},
   ) {
-    const { holidays = { '2025-03-02': true }, extraObj = {}, useUtc = true } = options
+    const { holidays = {}, extraObj = {}, useUtc = true } = options
 
     this.dateObj = $date(date, { utc: useUtc })
     this.dateString = this.dateObj.format('YYYY-MM-DD')

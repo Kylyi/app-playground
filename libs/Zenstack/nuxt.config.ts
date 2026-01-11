@@ -1,5 +1,4 @@
 import { join } from 'pathe'
-import { defineNuxtConfig } from 'nuxt/config'
 
 // Scripts
 import { generateOpenAPI } from './scripts/generate-open-api'

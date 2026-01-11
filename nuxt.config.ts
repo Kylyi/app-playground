@@ -5,17 +5,12 @@ export default defineNuxtConfig({
     './libs/User',
     // './libs/Core',
     './libs/Zenstack',
+    './libs/UI',
     './libs/Utilities',
   ],
 
   modules: [
-    '@unocss/nuxt',
-    '@nuxt/eslint',
-    '@nuxt/hints',
     '@nuxt/image',
-    '@nuxt/scripts',
-    '@nuxt/fonts',
-    '@pinia/nuxt',
     '@pinia/colada-nuxt',
   ],
 
@@ -35,6 +30,12 @@ export default defineNuxtConfig({
 
   typescript: {
     includeWorkspace: true,
+
+    tsConfig: {
+      compilerOptions: {
+        types: ['nuxt'],
+      },
+    },
   },
 
   fonts: {

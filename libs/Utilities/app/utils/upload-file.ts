@@ -3,13 +3,13 @@ import axios from 'axios'
 // Models
 import type { FileModel } from '../models/file.model'
 
-const rC = useRuntimeConfig()
-const filesHost = rC.public.filesHost
-
 export function uploadFile(payload: {
   file: FileModel
 }) {
   const { file } = payload
+
+  const rC = useRuntimeConfig()
+  const filesHost = rC.public.filesHost
 
   file.abortController = new AbortController()
 
