@@ -2,7 +2,6 @@ import type { Locale } from '#i18n'
 
 // Types
 import type { ExtendedDataType } from '$dataType'
-// import type { UseRequestOptions } from './app/functions/use-request-default'
 
 // Models
 import type { FileModel } from './app/models/file.model'
@@ -11,7 +10,6 @@ import type { ComparatorEnum as MergedComparatorEnum } from '$comparatorEnum'
 // Functions
 import { uploadFile } from './app/utils/upload-file'
 import { deleteFile } from './app/utils/delete-file'
-// import { useRequest } from './app/functions/use-request-default'
 
 const rC = useRuntimeConfig()
 const environment = rC.public.env
@@ -171,10 +169,12 @@ export type IUtilitiesConfig = {
   }
 
   // Request handling
-  // request: {
-  //   useRequest: typeof useRequest
-  //   useRequestOptions: UseRequestOptions
-  // }
+  request: {
+    payloadKey?: string
+    modifyFnc?: (obj: any) => any
+    onComplete?: (payload: { response: any, result: any }) => void
+    onError?: (payload: { error: any, response: any }) => Promise<any> | any
+  }
 }
 
 export const defaultUtilitiesConfig = {
@@ -209,13 +209,13 @@ export const defaultUtilitiesConfig = {
     limit: 100,
   },
 
-  //
-
   // Request handling
-  // request: {
-  //   useRequest,
-  //   useRequestOptions: { payloadKey: undefined, modifyFnc: undefined },
-  // },
+  request: {
+    payloadKey: undefined,
+    modifyFnc: undefined,
+    onComplete: undefined,
+    onError: undefined,
+  },
 
   // Files handling
   files: {

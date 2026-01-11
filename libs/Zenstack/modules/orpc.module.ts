@@ -5,14 +5,15 @@ import { existsSync } from 'node:fs'
 
 const { resolve } = createResolver(import.meta.url)
 
-const orpcRouterTemplate = `<ROUTER_IMPORTS>
+const orpcRouterTemplate = `import type { RouterClient } from '@orpc/server'
+<ROUTER_IMPORTS>
 
 export const router = {
   <ROUTERS>
 }
 
 export type IRouter = typeof router
-export type IRouterClient = RouterClient<IRouter>
+export type IRouterClient = RouterClient<typeof router>
 `
 
 export default defineNuxtModule({

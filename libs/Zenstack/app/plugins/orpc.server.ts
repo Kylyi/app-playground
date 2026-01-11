@@ -10,12 +10,12 @@ import { router } from '$router'
 export default defineNuxtPlugin(nuxt => {
   const event = useRequestEvent()
 
-  const client = createRouterClient(router, {
+  const client: IRouterClient = createRouterClient(router, {
     context: {
       db,
       user: { id: '1', name: 'John Doe' },
     },
-  }) as IRouterClient
+  })
 
   return {
     provide: { client },

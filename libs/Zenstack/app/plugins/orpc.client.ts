@@ -1,6 +1,5 @@
 import { createORPCClient } from '@orpc/client'
 import { RPCLink } from '@orpc/client/fetch'
-import type { RouterClient } from '@orpc/server'
 import type { IRouterClient } from '$router'
 
 export default defineNuxtPlugin(() => {
@@ -11,7 +10,7 @@ export default defineNuxtPlugin(() => {
     headers: event?.headers,
   })
 
-  const client = createORPCClient(link) as IRouterClient
+  const client: IRouterClient = createORPCClient(link)
 
   return {
     provide: { client },
