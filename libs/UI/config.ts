@@ -1,6 +1,6 @@
 // @unocss-include
 
-import utilsConfig from '$utilsConfig'
+import { utilsConfig } from '$utilsConfig'
 
 // Types
 import type { IUIState } from './app/types/ui-state.type'

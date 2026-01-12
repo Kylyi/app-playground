@@ -41,6 +41,8 @@ export default defineNuxtConfig({
       { name: 'useUIStore', from: resolve('./app/stores/ui.store.ts') },
       { name: 'useBreadcrumbs', from: resolve('./app/components/Breadcrumbs/functions/useBreadcrumbs') },
       { name: 'notify', from: resolve('./app/components/Notification/functions/useNotifications') },
+
+      { name: 'extendUIConfig', from: resolve('./config.ts') },
     ],
   },
 
