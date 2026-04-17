@@ -17,8 +17,19 @@ logs
 .DS_Store
 .fleet
 .idea
+# Root generated/ is local build output except the versioned Monaco types bundle.
+generated
+errors
+.nuxtrc
+
+# TypeScript build cache
+*.tsbuildinfo*
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Generated docs artifacts
+content/docs
+public/mcp

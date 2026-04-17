@@ -16,14 +16,16 @@ export default defineNuxtConfig({
     '@nuxt/image',
   ],
 
-  ssr: true,
-
   components: {
     dirs: [{ path: './components', pathPrefix: false }],
   },
 
   future: {
     compatibilityVersion: 5,
+  },
+
+  typescript: {
+    includeWorkspace: true
   },
 
   compatibilityDate: '2026-04-17',

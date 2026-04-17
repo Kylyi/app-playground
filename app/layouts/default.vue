@@ -5,12 +5,7 @@
 <template>
   <div class="layout layout--default">
     <div flex="~ gap-4">
-      <NuxtLink to="/users">
-        Users
-      </NuxtLink>
-      <NuxtLink to="/users/create">
-        Create User
-      </NuxtLink>
+      ...links here...
     </div>
 
     <slot />
