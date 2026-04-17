@@ -12,20 +12,34 @@ export default createConfigForNuxt(
   },
 )
   .prepend(
-    antfu({ unocss: true, formatters: true }),
+    // Disable gitmodules auto-ignore so that libs/* submodules are linted
+    antfu({ unocss: true, formatters: true, gitignore: { filesGitModules: [] } }),
   )
+  .append({
+    ignores: [
+      'libs/**/package.json',
+      '**/*.generated.*',
+    ],
+  })
+  .append({
+    // Core `curly: all` (antfu/curly allows single-line bodies; overrideRules cannot add new rule keys).
+    rules: {
+      'antfu/curly': 'off',
+      'curly': ['warn', 'all'],
+    },
+  })
   .overrideRules({
     'vue/max-attributes-per-line': ['warn', { singleline: 1, multiline: { max: 1 } }],
     'ts/consistent-type-imports': ['warn', { prefer: 'type-imports', fixStyle: 'separate-type-imports' }],
     'ts/consistent-type-definitions': ['warn', 'type'],
-    'curly': ['warn', 'all'],
     'vue/max-len': ['warn', { code: 120, template: 120, ignorePattern: '^import .*' }],
-    '@stylistic/brace-style': 'off',
-    'style/brace-style': 'off',
+    // 1tbs, multiline blocks: pairs with core `curly` --fix (which otherwise leaves awkward one-line bodies).
+    '@stylistic/brace-style': ['warn', '1tbs', { allowSingleLine: false }],
+    'style/brace-style': ['warn', '1tbs', { allowSingleLine: false }],
+    'vue/brace-style': ['warn', '1tbs', { allowSingleLine: false }],
     'no-console': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-v-text-v-html-on-component': 'warn',
-    'node/prefer-global/process': ['warn', 'always'],
     'ts/no-use-before-define': 'off',
     'ts/ban-types': 'off',
     'unused-imports/no-unused-imports': 'off',

@@ -1,0 +1,6 @@
+[submodule "libs/UI"]
+	path = libs/UI
+	url = git@github.com:gentlsro/ui.git
+[submodule "libs/Utilities"]
+	path = libs/Utilities
+	url = git@github.com:gentlsro/utilities.git

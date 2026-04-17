@@ -1,40 +1,37 @@
 import { join } from 'pathe'
+import { cwd } from 'node:process'
+import { readFileSync } from 'node:fs'
+
+const isMonorepo = import.meta.env.VITE_MONOREPO === 'true'
 
 export default defineNuxtConfig({
   extends: [
-    './libs/User',
-    // './libs/Core',
-    './libs/Zenstack',
-    './libs/UI',
-    './libs/Utilities',
+    // Gentl
+    ...isMonorepo
+      ? ['./libs/UI', './libs/Utilities']
+      : ['github:gentlsro/UI#v2.1'],
   ],
 
   modules: [
     '@nuxt/image',
-    '@pinia/colada-nuxt',
   ],
 
-  ssr: false,
+  ssr: true,
 
-  compatibilityDate: '2025-07-15',
-
-  nitro: {
-    experimental: {
-      openAPI: true,
-    },
-
-    openAPI: {
-      route: join('/open-api.json'),
-    },
+  components: {
+    dirs: [{ path: './components', pathPrefix: false }],
   },
 
-  typescript: {
-    includeWorkspace: true,
+  future: {
+    compatibilityVersion: 5,
+  },
 
-    tsConfig: {
-      compilerOptions: {
-        types: ['nuxt'],
-      },
+  compatibilityDate: '2026-04-17',
+
+  eslint: {
+    config: {
+      standalone: false,
+      stylistic: true,
     },
   },
 
@@ -42,6 +39,34 @@ export default defineNuxtConfig({
     defaults: {
       weights: [400, 600, 700],
       styles: ['normal', 'italic'],
+    },
+  },
+
+  i18n: {
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
+    compilation: {
+      strictMessage: false,
+      escapeHtml: false,
+    },
+  },
+
+  icon: {
+    size: '1em',
+    mode: 'svg',
+    serverBundle: {
+      collections: (() => {
+        try {
+          const path = join(cwd(), 'generated', 'icon-collections.ts')
+          const content = readFileSync(path, 'utf8')
+          const m = content.match(/export const iconCollections = (\[[\s\S]*?\]) as const/)
+
+          return m?.[1] ? JSON.parse(m[1]) : []
+        } catch {
+          return []
+        }
+      })(),
     },
   },
 
