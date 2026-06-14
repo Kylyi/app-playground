@@ -22,7 +22,7 @@ const loadData: IPivotProps['loadData'] = {
           units: faker.number.int({ min: 1, max: 50 }),
         }
       },
-      { count: 250 },
+      { count: 300 },
     )
 
     return { data, count: data.length }
@@ -42,7 +42,7 @@ const columns = ref([
 
 const values = ref([
   new PivotValue({ field: 'revenue' }),
-  // new PivotValue({ field: 'units' }),
+  new PivotValue({ field: 'units' }),
 ])
 </script>
 

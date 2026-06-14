@@ -1,11 +1,14 @@
 <script setup lang="ts">
-
+const { toggleDark } = useTheme()
 </script>
 
 <template>
   <div class="layout layout--default">
     <div flex="~ gap-4">
-      ...links here...
+      <Btn
+        label="trigger"
+        @click="toggleDark()"
+      />
     </div>
 
     <slot />
