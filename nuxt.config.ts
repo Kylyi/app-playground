@@ -16,6 +16,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
   ],
 
+  ssr: false,
+
   components: {
     dirs: [{ path: './components', pathPrefix: false }],
   },
@@ -24,11 +26,11 @@ export default defineNuxtConfig({
     compatibilityVersion: 5,
   },
 
-  typescript: {
-    includeWorkspace: true
-  },
-
   compatibilityDate: '2026-04-17',
+
+  typescript: {
+    includeWorkspace: true,
+  },
 
   eslint: {
     config: {

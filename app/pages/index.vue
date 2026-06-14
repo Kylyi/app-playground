@@ -6,6 +6,7 @@ const CATEGORIES = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books
 
 const loadData: IPivotProps['loadData'] = {
   fnc: () => {
+    console.time('loadData')
     const data = faker.helpers.multiple(
       () => {
         const date = faker.date.between({ from: '2023-01-01', to: '2025-12-31' })
@@ -22,8 +23,10 @@ const loadData: IPivotProps['loadData'] = {
           units: faker.number.int({ min: 1, max: 50 }),
         }
       },
-      { count: 300 },
+      { count: 15000 },
     )
+
+    console.timeEnd('loadData')
 
     return { data, count: data.length }
   },
