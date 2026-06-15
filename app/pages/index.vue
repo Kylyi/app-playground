@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { faker } from '@faker-js/faker'
+import { ComparatorEnum } from '$comparatorEnum'
 
 const REGIONS = ['North America', 'Europe', 'Asia Pacific', 'Latin America'] as const
 const CATEGORIES = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books'] as const
 
 const loadData: IPivotProps['loadData'] = {
   fnc: () => {
-    console.time('loadData')
     const data = faker.helpers.multiple(
       () => {
         const date = faker.date.between({ from: '2023-01-01', to: '2025-12-31' })
@@ -23,29 +23,22 @@ const loadData: IPivotProps['loadData'] = {
           units: faker.number.int({ min: 1, max: 50 }),
         }
       },
-      { count: 15000 },
+      { count: 25 },
     )
-
-    console.timeEnd('loadData')
 
     return { data, count: data.length }
   },
 }
 
-const rows = ref([
-  new PivotRow({ field: 'region', dataType: 'string', width: '120px' }),
-  new PivotRow({ field: 'category', dataType: 'string', width: '160px' }),
-  new PivotRow({ field: 'product', dataType: 'string', width: '160px' }),
-])
-
-const columns = ref([
-  new PivotColumn({ field: 'year' }),
-  new PivotColumn({ field: 'quarter' }),
-])
-
-const values = ref([
-  new PivotValue({ field: 'revenue' }),
-  new PivotValue({ field: 'units' }),
+const items = ref([
+  new PivotItem({ field: 'region', dataType: 'string', width: '120px', usage: { row: { index: 0 } } }),
+  new PivotItem({ field: 'category', dataType: 'string', width: '160px', usage: { row: { index: 1 } } }),
+  new PivotItem({ field: 'product', dataType: 'string', width: '160px', usage: { row: { index: 2 } } }),
+  new PivotItem({ field: 'year', dataType: 'number', usage: { column: { index: 0 } } }),
+  new PivotItem({ field: 'quarter', usage: { column: { index: 1 } } }),
+  new PivotItem({ field: 'revenue', dataType: 'number', width: '80px', usage: { value: [{ index: 0 }] } }),
+  new PivotItem({ field: 'units', dataType: 'number', width: '80px', usage: { value: [{ index: 1 }] } }),
+  new PivotItem({ field: 'date', dataType: 'date', usage: { filter: [] } }),
 ])
 </script>
 
@@ -56,10 +49,9 @@ const values = ref([
     h="95vh"
   >
     <Pivot
+      v-model:items="items"
       :load-data
-      :rows
-      :columns
-      :values
+      title="Sales Report"
       :config="{ useEmptyRow: true }"
     />
   </div>
