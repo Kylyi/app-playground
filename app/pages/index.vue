@@ -1,29 +1,25 @@
 <script setup lang="ts">
 import { faker } from '@faker-js/faker'
-import { ComparatorEnum } from '$comparatorEnum'
 
-const REGIONS = ['North America', 'Europe', 'Asia Pacific', 'Latin America'] as const
-const CATEGORIES = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books'] as const
+const CENTERS = ['Distribuce - frigo', 'Kamiony - cisterny', 'Pekárny', 'Provozní režie'] as const
+const MONTHS = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06'] as const
 
 const loadData: IPivotProps['loadData'] = {
   fnc: () => {
     const data = faker.helpers.multiple(
       () => {
-        const date = faker.date.between({ from: '2023-01-01', to: '2025-12-31' })
+        const center = faker.helpers.arrayElement(CENTERS)
+        const month = faker.helpers.arrayElement(MONTHS)
 
         return {
-          region: faker.helpers.arrayElement(REGIONS),
-          category: faker.helpers.arrayElement(CATEGORIES),
-          product: faker.commerce.productName(),
-          date,
-          year: date.getFullYear(),
-          quarter: `Q${Math.floor(date.getMonth() / 3) + 1}`,
-          month: date.toLocaleString('en-US', { month: 'short' }),
-          revenue: faker.number.float({ min: 50, max: 5000, fractionDigits: 2 }),
-          units: faker.number.int({ min: 1, max: 50 }),
+          center,
+          month,
+          revenue: faker.number.float({ min: 1000, max: 500000, fractionDigits: 2 }),
+          cost: faker.number.float({ min: 500, max: 400000, fractionDigits: 2 }),
+          units: faker.number.int({ min: 10, max: 5000 }),
         }
       },
-      { count: 25 },
+      { count: 48 },
     )
 
     return { data, count: data.length }
@@ -31,14 +27,11 @@ const loadData: IPivotProps['loadData'] = {
 }
 
 const items = ref([
-  new PivotItem({ field: 'region', dataType: 'string', width: '120px', usage: { row: { index: 0 } } }),
-  new PivotItem({ field: 'category', dataType: 'string', width: '160px', usage: { row: { index: 1 } } }),
-  new PivotItem({ field: 'product', dataType: 'string', width: '160px', usage: { row: { index: 2 } } }),
-  new PivotItem({ field: 'year', dataType: 'number', usage: { column: { index: 0 } } }),
-  new PivotItem({ field: 'quarter', usage: { column: { index: 1 } } }),
-  new PivotItem({ field: 'revenue', dataType: 'number', width: '80px', usage: { value: [{ index: 0 }] } }),
-  new PivotItem({ field: 'units', dataType: 'number', width: '80px', usage: { value: [{ index: 1 }] } }),
-  new PivotItem({ field: 'date', dataType: 'date', usage: { filter: [] } }),
+  new PivotItem({ field: 'center', label: 'Název střediska', dataType: 'string', width: '180px', usage: { row: { index: 0 } } }),
+  new PivotItem({ field: 'month', dataType: 'string', usage: { column: { index: 0 } } }),
+  new PivotItem({ field: 'revenue', label: 'Výnosy', dataType: 'number', width: '100px', usage: { value: [{ index: 0 }] } }),
+  new PivotItem({ field: 'cost', label: 'Náklady', dataType: 'number', width: '100px', usage: { value: [{ index: 1 }] } }),
+  new PivotItem({ field: 'units', label: 'Počet jednotek', dataType: 'number', width: '100px', usage: { value: [{ index: 2 }] } }),
 ])
 </script>
 
@@ -52,7 +45,7 @@ const items = ref([
       v-model:items="items"
       :load-data
       title="Sales Report"
-      :config="{ useEmptyRow: true }"
+      :config="{ useEmptyRow: true, valuesOnRows: true }"
     />
   </div>
 </template>
