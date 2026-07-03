@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const date = $date('2026-01-01')
+const test = $t('general.generalInfo')
 </script>
 
 <template>
@@ -8,7 +9,6 @@ const date = $date('2026-01-01')
     overflow="auto"
     h="95vh"
   >
-    <DateInput v-model="date" />
-    {{ formatValue(date, undefined, { dataType: 'date' }) }}
+    <Table />
   </div>
 </template>
