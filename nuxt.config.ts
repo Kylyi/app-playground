@@ -28,10 +28,6 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-04-17',
 
-  typescript: {
-    includeWorkspace: true,
-  },
-
   eslint: {
     config: {
       standalone: false,
@@ -47,9 +43,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    bundle: {
-      optimizeTranslationDirective: false,
-    },
     compilation: {
       strictMessage: false,
       escapeHtml: false,
