@@ -12,7 +12,7 @@
     "**/node_modules": true,
     "**/tsconfig.json": true,
     "**/.gitignore": true,
-    "**/.gitmodules": true,
+    // "**/.gitmodules": true,
     "**/.npmrc": true,
     "**/.nuxt": true,
     "**/.agents": true,

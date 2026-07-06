@@ -1,14 +1,16 @@
 import { join } from 'pathe'
 import { cwd } from 'node:process'
 import { readFileSync } from 'node:fs'
+import { connectLibs } from './connect-libs'
 
 const isMonorepo = import.meta.env.VITE_MONOREPO === 'true'
+const connectedLibs = connectLibs()
 
 export default defineNuxtConfig({
   extends: [
     // Gentl
     ...isMonorepo
-      ? ['./libs/UI', './libs/Utilities']
+      ? ['./packages/UI', './packages/Utilities']
       : ['github:gentlsro/UI#2.3'],
   ],
 
@@ -19,11 +21,45 @@ export default defineNuxtConfig({
   ssr: false,
 
   components: {
-    dirs: [{ path: './components', pathPrefix: false }],
+    dirs: [
+      { path: './components', pathPrefix: false },
+      ...connectedLibs.componentDirs,
+    ],
+  },
+
+  imports: {
+    dirs: [
+      ...connectedLibs.importDirs,
+    ],
   },
 
   future: {
     compatibilityVersion: 5,
+  },
+
+  compatibilityDate: '2026-07-06',
+
+  nitro: {
+    scanDirs: [
+      ...connectedLibs.serverDirs,
+    ],
+  },
+
+  hooks: {
+    'prepare:types': ({ tsConfig, sharedTsConfig }) => {
+      tsConfig.include ??= []
+      tsConfig.include.push(...connectedLibs.appTypeIncludes)
+
+      sharedTsConfig.include ??= []
+      sharedTsConfig.include.push(...connectedLibs.sharedTypeIncludes)
+    },
+
+    'nitro:config': nitroConfig => {
+      nitroConfig.typescript ??= {}
+      nitroConfig.typescript.tsConfig ??= {}
+      nitroConfig.typescript.tsConfig.include ??= []
+      nitroConfig.typescript.tsConfig.include.push(...connectedLibs.serverTypeIncludes)
+    },
   },
 
   eslint: {

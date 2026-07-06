@@ -12,5 +12,7 @@ const rC = useRuntimeConfig()
     h="95vh"
   >
     {{ typeof rC.public.useUtc }}: {{ rC.public.useUtc }}
+
+    <Test />
   </div>
 </template>
