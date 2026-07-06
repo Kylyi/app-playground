@@ -57,6 +57,7 @@
     "@nuxtjs/i18n": "10.4.0",
     "@types/jsonwebtoken": "9.0.10",
     "@types/lodash-es": "4.17.12",
+    "@types/node": "26.1.0",
     "@unocss/eslint-plugin": "66.7.4",
     "@unocss/nuxt": "66.7.4",
     "@vue/test-utils": "2.4.11",

@@ -4,7 +4,7 @@ const { data } = useFetch('/api/from-lib')
 
 <template>
   <div>
-    <h1>Test</h1>
+    <h1>Test {{ fromShared() }}</h1>
     {{ data }}
   </div>
 </template>

@@ -1,3 +1,5 @@
+import { fromShared } from '..//../shared/utils/from-shared'
+
 export function fromServer() {
-  return 'fromServer'
+  return `fromServer-${fromShared()}`
 }

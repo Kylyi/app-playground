@@ -139,9 +139,7 @@ export function connectLibs(libs: string[] = discoverLibs()): ConnectedLibsConfi
     ]),
     serverDirs: connectedLibs.map(lib => lib.serverDir).filter(existsSync),
     appTypeIncludes: connectedLibs.map(lib => `../libs/${lib.name}/app/**/*`),
-    serverTypeIncludes: connectedLibs.flatMap(lib => [
-      `../libs/${lib.name}/server/api/*`,
-    ]),
+    serverTypeIncludes: connectedLibs.map(lib => `../libs/${lib.name}/server/**/*`),
     sharedTypeIncludes: connectedLibs.map(lib => `../libs/${lib.name}/shared/**/*`),
     i18n: getConnectedLibsI18n(connectedLibs),
   }
