@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     // Gentl
     ...isMonorepo
       ? ['./libs/UI', './libs/Utilities']
-      : ['github:gentlsro/UI#v2.1'],
+      : ['github:gentlsro/UI#2.3'],
   ],
 
   modules: [
@@ -25,8 +25,6 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 5,
   },
-
-  compatibilityDate: '2026-04-17',
 
   eslint: {
     config: {
