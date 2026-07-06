@@ -1,5 +1,9 @@
+import { serverFnc } from '../../../../server/utils/server-fnc'
+import { fromServer } from '../utils/from-server'
+
 export default defineEventHandler(() => {
   return {
-    message: 'Hello World',
+    fromServer: fromServer(),
+    serverFnc: serverFnc(),
   }
 })

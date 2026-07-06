@@ -15,6 +15,19 @@ type ComponentDir = {
   pathPrefix: false
 }
 
+type ConnectedLibI18nLocale = {
+  code: string
+  dateFormat?: string
+  currency?: string
+  files: string[]
+  icon?: string
+}
+
+type ConnectedLibI18nConfig = {
+  langDir: string
+  locales: ConnectedLibI18nLocale[]
+}
+
 export type ConnectedLibsConfig = {
   componentDirs: ComponentDir[]
   importDirs: string[]
@@ -22,9 +35,23 @@ export type ConnectedLibsConfig = {
   appTypeIncludes: string[]
   serverTypeIncludes: string[]
   sharedTypeIncludes: string[]
+  i18n: ConnectedLibI18nConfig
 }
 
 const libsRootDir = join(cwd(), 'libs')
+
+const localeDefaultsByCode: Record<string, Omit<ConnectedLibI18nLocale, 'code' | 'files'>> = {
+  'cs-CZ': {
+    dateFormat: 'DD.MM.YYYY',
+    currency: 'CZK',
+    icon: 'i-emojione:flag-for-czechia',
+  },
+  'en-US': {
+    dateFormat: 'MM/DD/YYYY',
+    currency: 'USD',
+    icon: 'i-emojione:flag-for-united-kingdom',
+  },
+}
 
 function discoverLibs() {
   if (existsSync(libsRootDir) === false) {
@@ -35,6 +62,51 @@ function discoverLibs() {
     .filter(entry => entry.isDirectory())
     .map(entry => entry.name)
     .sort()
+}
+
+function getLocaleCode(fileName: string) {
+  return fileName.match(/^(.+?)_/)?.[1]
+}
+
+function discoverLibI18nFiles(lib: ConnectedLib) {
+  const i18nDir = join(lib.rootDir, 'i18n')
+
+  if (existsSync(i18nDir) === false) {
+    return []
+  }
+
+  return readdirSync(i18nDir, { withFileTypes: true })
+    .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
+    .map(entry => ({
+      code: getLocaleCode(entry.name),
+      path: `${lib.name}/i18n/${entry.name}`,
+    }))
+    .filter((entry): entry is { code: string, path: string } => Boolean(entry.code))
+    .sort((a, b) => a.path.localeCompare(b.path))
+}
+
+function getConnectedLibsI18n(connectedLibs: ConnectedLib[]): ConnectedLibI18nConfig {
+  const filesByLocaleCode = new Map<string, string[]>()
+
+  for (const lib of connectedLibs) {
+    for (const file of discoverLibI18nFiles(lib)) {
+      filesByLocaleCode.set(file.code, [
+        ...(filesByLocaleCode.get(file.code) ?? []),
+        file.path,
+      ])
+    }
+  }
+
+  return {
+    langDir: '../libs',
+    locales: [...filesByLocaleCode.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([code, files]) => ({
+        code,
+        ...localeDefaultsByCode[code],
+        files: files.sort(),
+      })),
+  }
 }
 
 function resolveLibs(libs: string[]): ConnectedLib[] {
@@ -68,9 +140,9 @@ export function connectLibs(libs: string[] = discoverLibs()): ConnectedLibsConfi
     serverDirs: connectedLibs.map(lib => lib.serverDir).filter(existsSync),
     appTypeIncludes: connectedLibs.map(lib => `../libs/${lib.name}/app/**/*`),
     serverTypeIncludes: connectedLibs.flatMap(lib => [
-      `../libs/${lib.name}/server/**/*`,
-      `../libs/${lib.name}/shared/**/*.d.ts`,
+      `../libs/${lib.name}/server/api/*`,
     ]),
     sharedTypeIncludes: connectedLibs.map(lib => `../libs/${lib.name}/shared/**/*`),
+    i18n: getConnectedLibsI18n(connectedLibs),
   }
 }

@@ -40,6 +40,16 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-07-06',
 
   nitro: {
+    imports: {
+      dirsScanOptions: {
+        fileFilter: file => {
+          const allowed = ['UI', 'Utilities']
+
+          return allowed.some(allowed => file.includes(allowed))
+        },
+      },
+    },
+
     scanDirs: [
       ...connectedLibs.serverDirs,
     ],

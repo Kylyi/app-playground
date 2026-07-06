@@ -5,6 +5,6 @@ const { data } = useFetch('/api/from-lib')
 <template>
   <div>
     <h1>Test</h1>
-    {{ data?.message }}
+    {{ data }}
   </div>
 </template>

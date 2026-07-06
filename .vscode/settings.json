@@ -12,11 +12,12 @@
     "**/node_modules": true,
     "**/tsconfig.json": true,
     "**/.gitignore": true,
-    // "**/.gitmodules": true,
+    "**/.gitmodules": true,
     "**/.npmrc": true,
     "**/.nuxt": true,
     "**/.agents": true,
     "**/pnpm*": true,
     "**/eslint.config.mjs": true
-  }
+  },
+  "js/ts.preferences.importModuleSpecifier": "project-relative"
 }
