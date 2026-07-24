@@ -13,6 +13,8 @@ const rC = useRuntimeConfig()
   >
     {{ typeof rC.public.useUtc }}: {{ rC.public.useUtc }}
 
-    <Test />
+    <TextArea
+      autogrow
+    />
   </div>
 </template>
