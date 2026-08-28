@@ -1,15 +1,19 @@
 import { join } from 'pathe'
 import { cwd } from 'node:process'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { connectLibs } from './connect-libs'
+import { createResolver } from 'nuxt/kit'
 
 const isMonorepo = import.meta.env.VITE_MONOREPO === 'true'
 const connectedLibs = connectLibs()
 
+const { resolve } = createResolver(import.meta.url)
+const hasUtilitiesLib = isMonorepo || existsSync(resolve('./packages/Utilities'))
+
 export default defineNuxtConfig({
   extends: [
     // Gentl
-    ...isMonorepo
+    ...hasUtilitiesLib
       ? ['./packages/UI', './packages/Utilities']
       : ['github:gentlsro/UI#2.3'],
   ],
