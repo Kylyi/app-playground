@@ -1,0 +1,3 @@
+<template>
+  <VaporListDrag />
+</template>

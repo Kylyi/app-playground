@@ -1,0 +1,88 @@
+import { expect, test } from '@playwright/test'
+
+test('button preserves content, submit, loading and DOM ownership through root changes', async ({ page }) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/cs-CZ/vapor-button')
+  await expect(page.getByTestId('button-example')).toHaveAttribute('data-ready', 'true')
+  const subject = page.getByTestId('subject')
+  await expect(subject).toHaveClass(/custom-button/)
+  await expect(subject.locator('.btn-icon')).toHaveClass(/i-eva:plus-fill/)
+  await expect(subject.locator('.btn-label')).toHaveCSS('letter-spacing', '2px')
+  await expect(page.getByTestId('default-content')).toBeVisible()
+  await subject.hover()
+  await expect(page.getByText('Button tooltip', { exact: true })).toBeVisible()
+  await subject.click()
+  await expect(page.getByTestId('clicks')).toHaveText('1')
+  await expect(page.getByTestId('submits')).toHaveText('1')
+  await expect(subject.locator('.btn-label')).toHaveText('Action 1')
+  await expect(subject.locator('.ripple-container')).toHaveCount(1)
+  await page.getByRole('button', { name: 'Toggle loading', exact: true }).click()
+  await subject.locator('.btn-loading').click()
+  await expect(page.getByTestId('clicks')).toHaveText('1')
+  await expect(page.getByTestId('submits')).toHaveText('1')
+  await page.getByRole('button', { name: 'Toggle loading', exact: true }).click()
+  await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+  await expect(page.getByTestId('custom-icon')).toBeVisible()
+  await expect(page.getByTestId('custom-label')).toHaveCSS('letter-spacing', '2px')
+  await expect(subject.locator('.btn-icon, .btn-label')).toHaveCount(0)
+
+  for (const tag of ['BUTTON', 'A', 'BUTTON', 'A']) {
+    if (tag === 'A') {
+      await page.getByRole('button', { name: 'Toggle link', exact: true }).click()
+    }
+    await page.getByRole('button', { name: 'Focus control', exact: true }).click()
+    await expect(subject).toBeFocused()
+    await expect(page.getByTestId('root-tag')).toHaveText(tag)
+    if (tag === 'A') {
+      await expect(subject).toHaveAttribute('href', '/cs-CZ/vapor-button?visited=true')
+      await expect(subject).toHaveClass(/no-active/)
+      await expect(subject).toHaveClass(/no-underline/)
+      await page.getByRole('button', { name: 'Toggle disabled', exact: true }).click()
+      await expect(subject).toBeDisabled()
+      expect(await subject.evaluate(el => el.tagName)).toBe('BUTTON')
+      await page.getByRole('button', { name: 'Toggle disabled', exact: true }).click()
+      await expect(subject).toHaveAttribute('href', '/cs-CZ/vapor-button?visited=true')
+      await page.getByRole('button', { name: 'Toggle link', exact: true }).click()
+    }
+  }
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await page.getByRole('button', { name: 'Focus control', exact: true }).click()
+  await expect(page.getByTestId('root-tag')).toHaveText('')
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await page.getByRole('button', { name: 'Focus control', exact: true }).click()
+  await expect(subject).toBeFocused()
+  await page.getByRole('button', { name: 'Toggle link', exact: true }).click()
+  await subject.click()
+  await expect(page).toHaveURL(/\/cs-CZ\/vapor-button\?visited=true$/)
+  expect(errors).toEqual([])
+})
+
+test('link attributes, replace navigation, SSR and localized example links survive refactor', async ({ browser, page, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  try {
+    const ssr = await context.newPage()
+    await ssr.goto('/cs-CZ/vapor-button?loading=true')
+    await expect(ssr.getByTestId('subject').locator('.btn-loading')).toBeVisible()
+    await expect(ssr.getByTestId('external')).toHaveAttribute('href', 'https://example.com/')
+    await expect(ssr.getByTestId('external')).toHaveAttribute('target', '_blank')
+    await expect(ssr.getByTestId('external')).toHaveAttribute('rel', /noopener/)
+    await expect(ssr.getByTestId('iconify').locator('.btn-icon')).toBeVisible()
+    await expect(ssr.getByTestId('download')).toHaveAttribute('download', 'icon.ico')
+    await expect(ssr.getByTestId('download')).toHaveAttribute('target', '_blank')
+    await expect(ssr.getByTestId('target')).toHaveAttribute('target', 'button-preview')
+    await expect(ssr.getByRole('link', { name: 'Btn · chování a DOM', exact: true }))
+      .toHaveAttribute('href', '/cs-CZ/vapor-button')
+    await expect(ssr.getByRole('link', { name: 'Btn · loading', exact: true }))
+      .toHaveAttribute('href', '/cs-CZ/vapor-button?loading=true')
+  } finally {
+    await context.close()
+  }
+  await page.goto('/cs-CZ/vapor-button')
+  await expect(page.getByTestId('button-example')).toHaveAttribute('data-ready', 'true')
+  await expect(page.getByTestId('iconify').locator('.btn-icon')).toBeVisible()
+  const historyLength = await page.evaluate(() => history.length)
+  await page.getByTestId('replace').click()
+  await expect(page).toHaveURL(/\?replaced=true$/)
+  expect(await page.evaluate(() => history.length)).toBe(historyLength)
+})

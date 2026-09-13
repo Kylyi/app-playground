@@ -1,0 +1,163 @@
+import { expect, test } from '@playwright/test'
+
+function trackProblems(page) {
+  const problems = []
+  page.on('pageerror', error => problems.push(error.message))
+  page.on('console', message => {
+    if (/hydration|no active component/i.test(message.text())) {
+      problems.push(message.text())
+    }
+  })
+
+  return problems
+}
+
+test('CurrencyInput preserves currency positions, decimals, slots and public methods', async ({ page }) => {
+  const problems = trackProblems(page)
+  await page.goto('/cs-CZ/vapor-currency-input')
+  await expect(page.getByTestId('currency-input-example')).toHaveAttribute('data-ready', 'true')
+  const field = page.getByTestId('currency-input-field')
+  const input = field.locator('input')
+  const value = page.getByTestId('currency-input-value')
+  await expect(input).toHaveValue('12,50')
+  await expect(field.locator('.currency-input__symbol.appended')).toHaveText('Kč')
+  await field.locator('.number-input__step button').first().click()
+  await expect(value).toHaveText('13')
+  await input.fill('99,50')
+  await page.getByRole('button', { name: 'Blur input', exact: true }).click()
+  await expect(value).toHaveText('99.5')
+  await page.getByRole('button', { name: 'Toggle currency position', exact: true }).click()
+  await expect(field.locator('.currency-input__symbol.prepended')).toHaveText('Kč')
+  await page.getByRole('button', { name: 'Select input', exact: true }).click()
+  expect(await input.evaluate(el => [el.selectionStart, el.selectionEnd])).toEqual([0, 5])
+  await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+  await expect(field.locator('label')).toContainText('Custom Currency')
+  await field.getByRole('button', { name: 'Slot focus', exact: true }).click()
+  await expect(input).toBeFocused()
+  await field.getByRole('button', { name: 'Slot clear', exact: true }).click()
+  await expect(value).toHaveText('empty')
+  await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+  await expect(field.locator('label')).toHaveText('Currency')
+  await page.getByRole('button', { name: 'Replace model', exact: true }).click()
+  await expect(input).toHaveValue('7,50')
+  await page.getByRole('button', { name: 'Toggle readonly', exact: true }).click()
+  await expect(input).toHaveAttribute('readonly', '')
+  await expect(field.locator('button')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle readonly', exact: true }).click()
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await expect(input).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await page.getByRole('button', { name: 'Focus input', exact: true }).click()
+  await expect(input).toBeFocused()
+  await expect(input).toHaveValue('7,50')
+  expect(problems).toEqual([])
+})
+
+test('ColorInput and ColorPicker preserve RGBA selection, opacity, slots and remount', async ({ page }) => {
+  const problems = trackProblems(page)
+  await page.goto('/cs-CZ/vapor-color-inputs')
+  await expect(page.getByTestId('color-inputs-example')).toHaveAttribute('data-ready', 'true')
+  const field = page.getByTestId('color-input-field')
+  const input = field.locator('input')
+  const palette = page.getByTestId('standalone-palette')
+  await expect(field.locator('label')).toHaveText('Color')
+  await input.click()
+  await expect(page.locator('.menu')).toBeVisible()
+  await page.locator('.menu [data-color="white"]').click()
+  await expect(page.getByTestId('color-input-value')).toHaveText('rgba(255, 255, 255, 1)')
+  await expect(page.locator('.menu')).toHaveCount(0)
+  await expect(field.locator('[data-cy="color-picker-preview"]')).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+  await palette.locator('[data-color="white"]').click()
+  await expect(page.getByTestId('palette-value')).toHaveText('rgba(255, 255, 255, 1)')
+  await expect(palette.locator('[data-color="black"]')).toHaveCount(0)
+  await palette.locator('input[type="range"]').fill('50')
+  await expect(page.getByTestId('palette-value')).toHaveText('rgba(255, 255, 255, 0.5)')
+  await expect(palette.locator('input:not([type="range"])')).toHaveValue('50')
+  await page.getByTestId('standalone-range').focus()
+  await page.getByTestId('standalone-range').press('ArrowRight')
+  await expect(page.getByTestId('range-value')).toHaveText('30')
+  await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+  await expect(field.locator('label')).toHaveText('Custom Color')
+  await field.getByRole('button', { name: 'Slot clear', exact: true }).click()
+  await expect(page.getByTestId('color-input-value')).toHaveText('empty')
+  await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+  await expect(field.locator('label')).toHaveText('Color')
+  await page.getByRole('button', { name: 'Replace model', exact: true }).click()
+  await expect(input).toHaveValue('#00ff00')
+  await page.getByRole('button', { name: 'Select input', exact: true }).click()
+  expect(await input.evaluate(el => [el.selectionStart, el.selectionEnd])).toEqual([0, 7])
+  await page.getByRole('button', { name: 'Blur input', exact: true }).click()
+  await expect(input).not.toBeFocused()
+  await page.getByRole('button', { name: 'Toggle readonly', exact: true }).click()
+  await input.click()
+  await expect(page.locator('.menu')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle readonly', exact: true }).click()
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await expect(input).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await input.click()
+  await expect(page.locator('.menu')).toBeVisible()
+  await page.locator('.menu [data-color="white"]').click()
+  await expect(input).toHaveValue('rgba(255, 255, 255, 1)')
+  expect(problems).toEqual([])
+})
+
+test('ColorPicker supports Tailwind output and ColorInput transforms tokens on blur', async ({ page }) => {
+  const problems = trackProblems(page)
+  await page.goto('/cs-CZ/vapor-color-inputs?mode=tw')
+  await expect(page.getByTestId('color-inputs-example')).toHaveAttribute('data-ready', 'true')
+  const palette = page.getByTestId('standalone-palette')
+  await palette.locator('[data-color="white"]').click()
+  await expect(page.getByTestId('palette-value')).toHaveText('white')
+  await expect(palette.locator('input[type="range"]')).toHaveCount(0)
+  const input = page.getByTestId('color-input-field').locator('input')
+  await input.fill('blue-600')
+  await page.getByRole('button', { name: 'Blur input', exact: true }).click()
+  await expect(input).toHaveValue(/#[0-9a-f]{6}/i)
+  await expect(page.getByRole('link', { name: 'ColorInput · Tailwind barvy', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-color-inputs?mode=tw')
+  expect(problems).toEqual([])
+})
+
+test('currency and color examples render values and localized links without JavaScript', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  try {
+    const page = await context.newPage()
+    await page.goto('/cs-CZ/vapor-currency-input')
+    await expect(page.getByTestId('currency-input-field').locator('input')).toHaveValue('12,50')
+    await expect(page.getByRole('link', { name: 'CurrencyInput · měna a maska', exact: true }))
+      .toHaveAttribute('href', '/cs-CZ/vapor-currency-input')
+    await page.goto('/cs-CZ/vapor-color-inputs')
+    await expect(page.getByTestId('color-input-field').locator('input')).toHaveValue('#ff0000')
+    await expect(page.locator('.menu')).toHaveCount(0)
+    await expect(page.getByTestId('standalone-palette').locator('[data-color="white"]')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'ColorInput · picker a RGBA', exact: true }))
+      .toHaveAttribute('href', '/cs-CZ/vapor-color-inputs')
+  } finally {
+    await context.close()
+  }
+})
+
+test('ColorInput selects a color through the mobile dialog', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  })
+  try {
+    const page = await context.newPage()
+    const problems = trackProblems(page)
+    await page.goto('/cs-CZ/vapor-color-inputs')
+    await expect(page.getByTestId('color-inputs-example')).toHaveAttribute('data-ready', 'true')
+    await page.getByTestId('color-input-field').locator('input').tap()
+    const dialog = page.locator('.dialog__wrapper')
+    await expect(dialog).toBeVisible()
+    await dialog.locator('[data-color="white"]').tap()
+    await expect(page.getByTestId('color-input-value')).toHaveText('rgba(255, 255, 255, 1)')
+    await expect(dialog).toHaveCount(0)
+    expect(problems).toEqual([])
+  } finally {
+    await context.close()
+  }
+})

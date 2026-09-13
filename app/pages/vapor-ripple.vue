@@ -1,0 +1,3 @@
+<template>
+  <VaporRipple />
+</template>

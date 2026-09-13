@@ -1,0 +1,3 @@
+<template>
+  <VaporButton />
+</template>

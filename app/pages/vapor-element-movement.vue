@@ -1,0 +1,3 @@
+<template>
+  <VaporElementMovement />
+</template>

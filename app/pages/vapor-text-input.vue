@@ -1,0 +1,3 @@
+<template>
+  <VaporTextInput />
+</template>

@@ -19,5 +19,7 @@
     "**/pnpm*": true,
     "**/eslint.config.mjs": true
   },
-  "js/ts.preferences.importModuleSpecifier": "project-relative"
+  "js/ts.preferences.importModuleSpecifier": "project-relative",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true
 }

@@ -1,0 +1,3 @@
+<template>
+  <VaporFileInputInner />
+</template>

@@ -2,6 +2,7 @@
 
 import antfu from '@antfu/eslint-config'
 import { createConfigForNuxt } from '@nuxt/eslint-config'
+import vapor from './tooling/eslint/vapor.mjs'
 
 export default createConfigForNuxt(
   {
@@ -19,6 +20,8 @@ export default createConfigForNuxt(
     ignores: [
       'libs/**/package.json',
       '**/*.generated.*',
+      'playwright-report/**',
+      'test-results/**',
     ],
   })
   .append({
@@ -26,7 +29,21 @@ export default createConfigForNuxt(
     rules: {
       'antfu/curly': 'off',
       'curly': ['warn', 'all'],
+      'style/padding-line-between-statements': [
+        'warn',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
     },
+  })
+  .append({
+    files: ['**/*.{vue,ts,js,mjs}'],
+    plugins: { vapor },
+    rules: { 'vapor/renderer-independent': 'error' },
+  })
+  .append({
+    files: ['tooling/**/*.test.mjs'],
+    // Rule tests run with Node, without booting Nuxt/Vitest.
+    rules: { 'test/no-import-node-test': 'off' },
   })
   .overrideRules({
     'vue/max-attributes-per-line': ['warn', { singleline: 1, multiline: { max: 1 } }],

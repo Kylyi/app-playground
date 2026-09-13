@@ -1,0 +1,3 @@
+<template>
+  <VaporFileStringPreview />
+</template>

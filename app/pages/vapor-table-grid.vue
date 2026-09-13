@@ -1,0 +1,3 @@
+<template>
+  <VaporTableEdit responsive />
+</template>

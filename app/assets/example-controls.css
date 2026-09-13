@@ -1,0 +1,117 @@
+/* Opt in only native fixture controls; library components keep their own UI. */
+:root {
+  --example-surface: #f8fafc;
+  --example-border: #94a3b8;
+  --example-ink: #1e293b;
+  --example-accent: #1d4ed8;
+  --example-hover: #eff6ff;
+  --example-button: #1d4ed8;
+  --example-button-hover: #1e40af;
+}
+
+.dark {
+  --example-surface: #1e293b;
+  --example-border: #64748b;
+  --example-ink: #f1f5f9;
+  --example-accent: #93c5fd;
+  --example-hover: #334155;
+  --example-button: #2563eb;
+  --example-button-hover: #1d4ed8;
+}
+
+[data-example-control] {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 4px 6px 4px 0;
+  border: 1px solid var(--example-border);
+  border-radius: 7px;
+  background: var(--example-surface);
+  color: var(--example-ink);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+button[data-example-control] {
+  width: fit-content;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-color: var(--example-button);
+  background: var(--example-button);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: normal;
+  text-align: center;
+  box-shadow: 0 2px 3px #0f172a26;
+}
+
+button[data-example-control]:hover:not(:disabled) {
+  border-color: var(--example-button-hover);
+  background: var(--example-button-hover);
+}
+
+button[data-example-control]:active:not(:disabled),
+button[data-example-control][aria-pressed='true'] {
+  background: var(--example-button-hover);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+button[data-example-control]:disabled {
+  border-color: var(--example-border);
+  background: var(--example-surface);
+  color: var(--example-ink);
+}
+
+[data-example-control]:focus-visible {
+  outline: 3px solid var(--example-accent);
+  outline-offset: 3px;
+}
+
+[data-example-control]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+input[data-example-control]:not([type='checkbox']):not([type='radio']),
+textarea[data-example-control],
+select[data-example-control] {
+  min-height: 38px;
+  padding: 7px 10px;
+}
+
+input[data-example-control][type='checkbox'],
+input[data-example-control][type='radio'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--example-accent);
+}
+
+[data-example-output] {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 100%;
+  margin: 6px 8px 6px 0;
+  padding: 6px 10px;
+  border-left: 3px solid var(--example-border);
+  border-radius: 3px;
+  background: var(--example-surface);
+  color: var(--example-ink);
+  font: 13px/1.6 ui-monospace, monospace;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+
+[data-example-output]::before {
+  content: attr(aria-label) ':';
+  font: 500 12px/1.6 system-ui, sans-serif;
+  opacity: 0.8;
+}
+
+[data-example-output]:empty::after {
+  content: '—';
+}

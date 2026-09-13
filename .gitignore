@@ -25,6 +25,10 @@ errors
 # TypeScript build cache
 *.tsbuildinfo*
 
+# Browser test artifacts
+playwright-report/
+test-results/
+
 # Local env files
 .env
 .env.*

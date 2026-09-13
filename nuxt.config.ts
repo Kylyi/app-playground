@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
   ],
 
-  ssr: false,
+  ssr: true,
 
   components: {
     dirs: [
@@ -35,6 +35,12 @@ export default defineNuxtConfig({
     dirs: [
       ...connectedLibs.importDirs,
     ],
+  },
+
+  // Daniel Roe's Nuxt 4.6 preview installs the VDOM/Vapor interop plugin.
+  // https://github.com/danielroe/nuxt-vapor-demo
+  vue: {
+    vapor: true,
   },
 
   future: {
@@ -57,6 +63,13 @@ export default defineNuxtConfig({
     scanDirs: [
       ...connectedLibs.serverDirs,
     ],
+  },
+
+  vite: {
+    resolve: {
+      // Both renderers compare shared sentinels by identity (e.g. template refs).
+      dedupe: ['vue', '@vue/shared', '@vue/reactivity', '@vue/runtime-core', '@vue/runtime-dom', '@vue/runtime-vapor'],
+    },
   },
 
   hooks: {
