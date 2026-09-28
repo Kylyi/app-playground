@@ -13,6 +13,8 @@ const groupSaves = ref(0)
 const groupDeletes = ref(0)
 const groupRestores = ref(0)
 const drawerPanelOpen = ref(true)
+const drawerPanelWidth = ref(480)
+const pageDrawerWidth = ref(160)
 const pageDrawerOpen = ref(true)
 const pageDrawerMini = ref(false)
 const pageLoading = ref(false)
@@ -90,7 +92,9 @@ onMounted(() => ready.value = true)
     >
       <Drawer
         v-model="drawerPanelOpen"
+        v-model:width="drawerPanelWidth"
         absolute
+        :resizable-config="{ enabled: true }"
         title="Drawer panel"
         data-testid="action-drawer-panel"
       >
@@ -113,9 +117,10 @@ onMounted(() => ready.value = true)
         <PageDrawer
           v-model="pageDrawerOpen"
           v-model:mini="pageDrawerMini"
+          v-model:width="pageDrawerWidth"
           side="left"
-          :width="160"
           :mini-width="48"
+          :resizable-config="{ enabled: true }"
           data-testid="action-page-drawer"
         >
           <span data-testid="action-page-drawer-content">Page drawer content</span>
@@ -246,6 +251,10 @@ onMounted(() => ready.value = true)
         data-example-output
         data-testid="action-drawer-open"
       >{{ drawerOpen }}</output>
+      <output
+        data-example-output
+        data-testid="action-drawer-widths"
+      >{{ drawerPanelWidth }}:{{ pageDrawerWidth }}</output>
 
       <DraggableItem
         :item="draggableItem"

@@ -20,6 +20,7 @@ type Example = {
   controls?: boolean
   empty?: boolean
   feature?: 'filterChips'
+  grouped?: boolean
 }
 
 const groups: { label: string, examples: Example[] }[] = [
@@ -48,6 +49,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'InputWrapper · inline', path: '/vapor-input-layouts', mode: 'inline' },
       { label: 'InputWrapper · label uvnitř', path: '/vapor-input-layouts', mode: 'label-inside' },
       { label: 'Datum a čas · masky a pickery', path: '/vapor-date-time-inputs' },
+      { label: 'DatePicker · události z VDOM rodiče', path: '/vdom-date-picker-events' },
       { label: 'Input · potvrzení, hint a chyby', path: '/vapor-input-feedback' },
       { label: 'CurrencyInput · měna a maska', path: '/vapor-currency-input' },
       { label: 'ColorInput · picker a RGBA', path: '/vapor-color-inputs' },
@@ -75,6 +77,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Btn · loading', path: '/vapor-button', loading: true },
       { label: 'Ripple a Chip · Vapor', path: '/vapor-ripple' },
       { label: 'YearSelector · rok a lifecycle', path: '/vapor-year-selector' },
+      { label: 'Stepper · kroky a ikony', path: '/vapor-stepper' },
       { label: 'Tabs · vnořené Tab', path: '/vapor-tabs', mode: 'basic' },
       { label: 'Tabs · cache panelů', path: '/vapor-tabs' },
       { label: 'Tabs · bez cache', path: '/vapor-tabs', mode: 'plain' },
@@ -98,6 +101,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Table · celá obrazovka, 20 / 1 000', path: '/vapor-table-fetch-more', fullscreen: true },
       { label: 'Pivot · inicializační loading', path: '/vapor-table-pivot-dom', loading: true },
       { label: 'Pivot · potvrzení velkého výpočtu', path: '/vapor-table-pivot-dom', warning: true },
+      { label: 'Pivot · připnuté skupiny řádků', path: '/vapor-table-pivot-dom', grouped: true },
       { label: 'QueryBuilder · hierarchie 24 podmínek', path: '/vapor-query-builder-dom' },
       { label: 'QueryBuilder · 3 podmínky', path: '/vapor-query-builder-dom', small: true },
     ],
@@ -154,6 +158,7 @@ function isActive(example: Example) {
     && (route.query.autogrow !== 'false') === (example.autogrow !== false)
     && route.query.mode === example.mode
     && route.query.feature === example.feature
+    && (route.query.grouped === 'true') === !!example.grouped
 }
 
 const activeExample = computed(() => {
@@ -234,6 +239,7 @@ watch(() => route.fullPath, () => navigationOpen.value = false)
                   feature: example.feature,
                   loading: example.loading ? 'true' : undefined,
                   warning: example.warning ? 'true' : undefined,
+                  grouped: example.grouped ? 'true' : undefined,
                 },
               })"
               size="sm"

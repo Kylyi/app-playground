@@ -148,7 +148,8 @@ test('root drop indicator is not clipped by the QueryBuilder scroll viewport', a
   await page.goto('/vapor-query-builder-dom?small=true')
   await expect(page.getByTestId('query-builder-dom')).toHaveAttribute('data-ready', 'true')
   const builder = page.locator('.query-builder').last()
-  const handle = await builder.locator('.qb-item .query-builder-move-handler').first().boundingBox()
+  // Over the root header the drop goes above the first condition, so drag another one
+  const handle = await builder.locator('.qb-item .query-builder-move-handler').last().boundingBox()
   const root = await builder.locator('.qb-group').first().boundingBox()
   await page.mouse.move(handle.x + 5, handle.y + 5)
   await page.mouse.down()

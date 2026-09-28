@@ -27,7 +27,8 @@ test('Table and Pivot synchronize native scrollers and resize columns after hydr
       await page.mouse.move(box.x + box.width / 2, box.y + 8)
       await page.mouse.down()
       await page.mouse.move(box.x + box.width / 2 + 60, box.y + 8, { steps: 8 })
-      await expect(page.locator(`${root} .splitter--active`)).toBeVisible()
+      // Table teleports its fixed guide to the body; only one resize runs at a time
+      await expect(page.locator('.splitter--active')).toBeVisible()
       await page.mouse.up()
       await expect.poll(() => splitter.evaluate(el => Number.parseFloat(el.style.left))).toBeGreaterThan(oldLeft + 40)
     }
@@ -64,6 +65,11 @@ test('Table top controls remain interactive across renderer boundaries', async (
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   await page.goto('/cs-CZ/vapor-table-pivot-dom')
+  await expect(page.getByTestId('table-pivot-dom')).toHaveAttribute('data-ready', 'true')
+  // Removing filters is only offered while a column or query filter exists
+  await expect(page.getByTestId('table').locator('.table-top__remove-filters')).toHaveCount(0)
+  await page.goto('/cs-CZ/vapor-table-pivot-dom?controls=true')
+  await expect(page.getByTestId('table-pivot-dom')).toHaveAttribute('data-ready', 'true')
 
   const table = page.getByTestId('table')
   const search = table.locator('input[name="_search"]')
@@ -157,7 +163,8 @@ test('resize cancellation and unmount release document listeners without committ
       await page.mouse.move(box.x + box.width / 2, box.y + 8)
       await page.mouse.down()
       await page.mouse.move(box.x + 65, box.y + 8, { steps: 8 })
-      await expect(page.locator(`${root} .splitter--active`)).toBeVisible()
+      // Table teleports its fixed guide to the body; only one resize runs at a time
+      await expect(page.locator('.splitter--active')).toBeVisible()
       if (unmount) {
         await page.getByRole('button', { name: 'Toggle tables' }).evaluate(el => el.click())
       } else {
@@ -248,4 +255,39 @@ test('Pivot header borders align and row headers follow resized columns', async 
   await page.mouse.up()
   await expect.poll(async () => (await header.boundingBox()).width).toBeGreaterThan(startWidth + 60)
   await expect.poll(async () => Math.abs((await header.boundingBox()).width - (await body.boundingBox()).width)).toBeLessThan(1)
+})
+
+test('grouped Pivot pins the context of the rows scrolling underneath', async ({ page }) => {
+  const problems = []
+  page.on('pageerror', error => problems.push(error.message))
+  await page.goto('/cs-CZ/vapor-table-pivot-dom?grouped=true')
+  await expect(page.getByTestId('table-pivot-dom')).toHaveAttribute('data-ready', 'true')
+  const rows = page.locator('.pivot-content__rows')
+  const values = page.locator('.pivot-content__values')
+  const stuck = rows.locator('.virtual-scroll__row.is-stuck')
+  await expect(rows.locator('.content-row').first()).toContainText('Group 0')
+  await expect(rows.locator('.pivot-row-context')).toHaveCount(0)
+
+  // Collapsed groups have no context to pin; Group 0 (13 items) is expanded
+  await rows.locator('.content-row').first().locator('.pivot-collapse-btn').click()
+  await expect(rows.locator('.content-row').filter({ hasText: /^Item \d+$/ }).first()).toBeVisible()
+
+  await rows.evaluate(element => element.scrollTop = 200)
+  await expect(stuck).toHaveCount(1)
+  await expect(stuck.locator('.pivot-row-context')).toContainText('Group 0')
+  await expect(stuck.locator('.pivot-row-context')).not.toContainText('Item')
+  await expect.poll(() => values.evaluate(element => element.scrollTop)).toBe(200)
+  // The value side of the pinned row stays blank
+  await expect(values.locator('.virtual-scroll__row.is-stuck')).toHaveCount(1)
+  await expect(values.locator('.virtual-scroll__row.is-stuck .pivot-value-item-cell')).toHaveCount(0)
+
+  // Past Group 0 only collapsed groups are visible, so the pinned row has no labels to show
+  await rows.evaluate(element => element.scrollTop = element.scrollHeight)
+  await expect(stuck.locator('.pivot-row-context')).toHaveClass(/invisible/)
+  await expect(stuck.locator('.pivot-row-context')).toBeHidden()
+  await rows.evaluate(element => element.scrollTop = 0)
+  await expect(rows.locator('.pivot-row-context')).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Pivot · připnuté skupiny řádků', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-table-pivot-dom?grouped=true')
+  expect(problems).toEqual([])
 })

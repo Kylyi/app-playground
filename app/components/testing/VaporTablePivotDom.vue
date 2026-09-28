@@ -9,6 +9,7 @@ import type { ITableTotal } from '../../../packages/UI/app/components/Table/type
 const route = useRoute()
 const controls = route.query.controls === 'true'
 const empty = route.query.empty === 'true'
+const grouped = route.query.grouped === 'true'
 const controlFeature = typeof route.query.feature === 'string'
   ? route.query.feature as TableFeature
   : undefined
@@ -32,11 +33,17 @@ const features: TableFeature[] = controls
   ? ['search', 'export', 'autofit', ...(controlFeature ? [controlFeature] : [])]
   : ['search', 'export', 'autofit']
 const totals: ITableTotal[] = [{ field: 'value', label: 'Total', dataType: 'number', value: 5050 }]
-const items = [
-  new PivotItem({ field: 'name', usage: { row: { index: 0 } } }),
-  new PivotItem({ field: 'group', usage: { column: { index: 0 } } }),
-  new PivotItem({ field: 'value', dataType: 'number', usage: { value: [{ index: 0, summaryType: SummaryEnum.SUM }] } }),
-]
+const items = grouped
+  ? [
+      new PivotItem({ field: 'group', usage: { row: { index: 0 } } }),
+      new PivotItem({ field: 'name', usage: { row: { index: 1 } } }),
+      new PivotItem({ field: 'value', dataType: 'number', usage: { value: [{ index: 0, summaryType: SummaryEnum.SUM }] } }),
+    ]
+  : [
+      new PivotItem({ field: 'name', usage: { row: { index: 0 } } }),
+      new PivotItem({ field: 'group', usage: { column: { index: 0 } } }),
+      new PivotItem({ field: 'value', dataType: 'number', usage: { value: [{ index: 0, summaryType: SummaryEnum.SUM }] } }),
+    ]
 const loadData = route.query.loading
   ? {
       immediate: route.query.loading === 'immediate',

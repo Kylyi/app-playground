@@ -1115,6 +1115,24 @@ Ve Vapor fixture lokální ref pojmenovaný `size` kolidoval s autoimportem loda
 stranu (`condition ? local : imported = $event`). Fixture používá `contentSize`.
 Tuto kolizi je potřeba došetřit v F05; přejmenování není obecná oprava transformu.
 
+### Sloučení 2.3 (2026-09-28)
+
+UI 2.3 do `cba5b39a` a Utilities 2.3 do `ca64af3` jsou sloučené do 2.3-vapor.
+Pro další synchronizace s 2.3 platí:
+
+- VueUse `useMounted` (a další helpery čekající na `getCurrentInstance`) se ve
+  Vapor komponentě nikdy nepřepne; používat `ref(false)` + `onMounted`.
+- Vapor potomek VDOM rodiče může po jeho re-renderu znovu vyhodnotit čtení props,
+  i když se hodnota nezměnila. Computed, který vrací nový objekt a spouští emit
+  (DatePicker `update:period`), musí číst props přes primitivní computed; jinak
+  vznikne smyčka přes rodiče. Regrese: `/vdom-date-picker-events`.
+- IconRenderer mapuje kanonická Iconify jména (`lucide:check`) na UnoCSS třídu
+  `i-lucide:check`. Třída existuje jen pro ikony nalezené ve zdrojích nebo v
+  safelistu; dynamická kanonická jména bez `i-` zápisu se nevykreslí (dříve je
+  kreslil @nuxt/icon).
+- VirtualScroller 2.3 je port této větve bez Vapor částí; při slučování ponechat
+  Vapor viewport a měření a přebírat jen funkční změny.
+
 ## Známá omezení interopu Vue
 
 - [ ] I01 — Vue 3.6.0-rc.7: odstranění nativního Vapor `div v-if` nevolá

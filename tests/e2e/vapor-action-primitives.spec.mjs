@@ -141,3 +141,50 @@ test('action primitives and localized navigation render during SSR', async ({ br
     await context.close()
   }
 })
+
+test('drawers resize from their inner edge through the native resizer', async ({ page }) => {
+  const problems = []
+  page.on('pageerror', error => problems.push(error.message))
+  await page.goto('/cs-CZ/vapor-action-primitives')
+  await expect(page.getByTestId('action-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const widths = page.getByTestId('action-drawer-widths')
+  await expect(widths).toHaveText('480:160')
+
+  async function drag(owner, deltaX) {
+    const resizer = owner.locator('.drawer-resizer')
+    await resizer.scrollIntoViewIfNeeded()
+    const box = await resizer.boundingBox()
+    const x = box.x + box.width / 2
+    const y = box.y + box.height / 2
+    await page.mouse.move(x, y)
+    await page.mouse.down()
+    await page.mouse.move(x + deltaX, y, { steps: 5 })
+    await expect(owner).toHaveClass(/is-resizing/)
+    await expect(resizer).toHaveClass(/is-resizing/)
+    await page.mouse.up()
+    await expect(owner).not.toHaveClass(/is-resizing/)
+  }
+
+  // A right-side drawer grows when its left edge moves away from it
+  const drawer = page.getByTestId('action-drawer-panel')
+  await expect(drawer.locator('.drawer-resizer')).toHaveAttribute('role', 'separator')
+  await drag(drawer, -60)
+  await expect(widths).toHaveText('540:160')
+  await expect.poll(() => drawer.evaluate(element => Math.round(element.getBoundingClientRect().width))).toBe(540)
+
+  // A left page drawer grows to the right and is clamped by the minimum width
+  const pageDrawer = page.getByTestId('action-page-drawer')
+  await drag(pageDrawer, 40)
+  await expect(widths).toHaveText('540:200')
+  await drag(pageDrawer, -150)
+  await expect(widths).toHaveText('540:200')
+
+  // Releasing the pointer detaches the document listeners
+  await page.mouse.move(10, 10)
+  await expect(widths).toHaveText('540:200')
+
+  // Mini mode hides the resizer
+  await pageDrawer.locator('.page-drawer-bottom').getByRole('button').click()
+  await expect(pageDrawer.locator('.drawer-resizer')).toHaveCount(0)
+  expect(problems).toEqual([])
+})
