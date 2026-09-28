@@ -19,6 +19,13 @@ const wrapperMounted = ref(true)
 const ready = ref(false)
 const pivotRowClicks = ref(0)
 const pivotCellClicks = ref(0)
+const configVersion = ref(0)
+const selection = ref<unknown[]>([])
+const selectAllCalls = ref<unknown[][]>([])
+
+function handleSelectAll(rows: unknown[]) {
+  selectAllCalls.value.push(rows)
+}
 const rows = Array.from({ length: 100 }, (_, id) => ({ id, name: `Item ${id}`, group: `Group ${id % 8}`, value: id + 1 }))
 const tableRows = empty ? [] : rows
 const columns = ['name', 'group', 'value'].map(field => new TableColumn({
@@ -76,16 +83,31 @@ onMounted(() => ready.value = true)
       Toggle tables
     </button>
     <div v-if="wrapperMounted">
+      <button
+        v-if="route.query.updates"
+        data-example-control
+        @click="configVersion++"
+      >
+        Replace configurations
+      </button>
+      <output
+        v-if="route.query.updates"
+        data-testid="select-all-calls"
+      >{{ JSON.stringify(selectAllCalls) }}</output>
       <div data-testid="table">
         <Table
           v-if="mounted"
           ref="table"
+          v-model:selection="selection"
           :columns
           :rows="tableRows"
           :totals
           :storage-key="null"
           :features
-          :pagination-config="controls ? { enabled: true, pageSize: 10, options: [10, 25] } : undefined"
+          :pagination-config="controls ? { enabled: true, pageSize: configVersion % 2 ? 25 : 10, options: [10, 25] } : undefined"
+          :selection-config="route.query.updates
+            ? { enabled: true, multi: true, emitKey: route.query.emitKey === 'true', onSelectAll: handleSelectAll }
+            : undefined"
           :breakpoint="1"
           :split-rows="[]"
           :auto-fit="{ onInit: false }"
@@ -101,7 +123,14 @@ onMounted(() => ready.value = true)
         :items
         row-clickable
         cell-clickable
-        :ui="{ containerStyle: () => ({ width: '600px', height: '300px' }) }"
+        :ui="{
+          containerStyle: () => ({ width: '600px', height: '300px' }),
+          ...(route.query.updates
+            ? { contentStyle: configVersion % 2
+              ? () => ({ backgroundColor: 'rgb(210, 230, 250)' })
+              : () => ({ backgroundColor: 'rgb(250, 230, 210)' }) }
+            : {}),
+        }"
         @click:row="pivotRowClicks++"
         @click:cell="pivotCellClicks++"
       />

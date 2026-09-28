@@ -727,8 +727,9 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     Vapor: CrudBtnAdd, CrudBtnSave, CrudBtnArchive a CrudBtnDelete. Btn používá
     explicitní HTML větve pro button a anchor, nativní Vapor ripple a router
     navigaci se zachovaným replace, target, external a download chováním.
-    @nuxt/icon renderuje malý VDOM adaptér IconRenderer, který používá také Chip;
-    tím zůstává serverový a klientský SVG výstup shodný. Potvrzovací menu CRUD
+    Tehdejší VDOM adaptér IconRenderer později nahradilo nativní CSS
+    vykreslování. Plná podpora Nuxt Icon zůstává otevřená v I03 níže.
+    Potvrzovací menu CRUD
     komponent jsou sourozenci tlačítka s explicitním target/reference targetem,
     takže sloty nepřecházejí přes dynamický hydration cursor a menu stále kotví
     k reálnému DOM tlačítku. /vapor-button a rozšířený /vapor-action-primitives
@@ -1127,13 +1128,36 @@ Pro další synchronizace s 2.3 platí:
   (DatePicker `update:period`), musí číst props přes primitivní computed; jinak
   vznikne smyčka přes rodiče. Regrese: `/vdom-date-picker-events`.
 - IconRenderer mapuje kanonická Iconify jména (`lucide:check`) na UnoCSS třídu
-  `i-lucide:check`. Třída existuje jen pro ikony nalezené ve zdrojích nebo v
-  safelistu; dynamická kanonická jména bez `i-` zápisu se nevykreslí (dříve je
-  kreslil @nuxt/icon).
+  `i-lucide:check`. CSS existuje jen pro ikony nalezené ve zdrojích nebo v
+  safelistu; jména mimo sestavené CSS se nevykreslí. Plná podpora dynamických
+  jmen přes Nuxt Icon zůstává migračním problémem I03 níže.
 - VirtualScroller 2.3 je port této větve bez Vapor částí; při slučování ponechat
   Vapor viewport a měření a přebírat jen funkční změny.
 
-## Známá omezení interopu Vue
+### Funkční změny z 2.3-mono (2026-09-28)
+
+- Přeneseny jednosměrné `syncRefs` v List, Pivot, Table, Tree, TreeDms,
+  QueryBuilder a QueryBuilderInline; obousměrné modely nadále používají `syncRef`.
+  Pivot konfigurace a Table pagination používají getter refs, které sledují
+  nahrazení merged props. Regrese: `/vdom-prop-sync` (client mount a aktualizace
+  VDOM rodiče) a `/vapor-table-pivot-dom?controls=true&updates=true`.
+- Table podporuje `selectionConfig.onSelectAll` pro výběr/zrušení všech řádků
+  v hlavičce, včetně `emitKey` a částečného výběru.
+- Menu header slot nabízí `mousedown` a `pointerdown` callbacky pro vlastní
+  drag handle. Obě cesty používají Dragdoll a uvolňují gesture při Escape,
+  zavření a zániku vlastníka. Regrese: `/vapor-element-movement?header=mouse`
+  a `?header=pointer`.
+- Utilities směruje Lodash autoimporty přes vlastní runtime modul. Nepřeneseny
+  monorepo package/alias/lint konfigurace ani změny vzhledu Menu, Heading a
+  CrudBtnDelete. Zachován výchozí TRASH preset včetně jeho barvy.
+- Produkční build odhalil chybějící default export ve stávající fixture
+  TemporaryMeasurementContent; doplněn bez změny pojmenovaného measurement slotu.
+  Během přenosu prošel produkční build a cílené regrese props sync, Table
+  measurement a Menu drag headeru. Nuxt Icon experiment byl následně vrácen
+  (I03); jeho dřívější výsledky nepopisují aktuální vykreslování ikon.
+  Existující HY01 zůstává expected failure; typecheck má 42 výchozích diagnostik.
+
+## Známá omezení migrace a interopu
 
 - [ ] I01 — Vue 3.6.0-rc.7: odstranění nativního Vapor `div v-if` nevolá
   unmount hook vnořené VDOM komponenty. Reprodukováno na minimální komponentě
@@ -1160,6 +1184,20 @@ Pro další synchronizace s 2.3 platí:
   nativní Vapor, případně dříve po ověřené opravě runtime. Potom odstranit TODO
   v komponentě a znovu ověřit SSR/hydrataci, všechny tři layouty, marker a
   `#menu`, input regrese a Chromium/Firefox/WebKit. I02 blokuje uzavření migrace.
+
+- [ ] I03 — Nativní podpora Nuxt Icon (2026-09-29). Nainstalovaný `@nuxt/icon`
+  2.5.1 stále vykresluje přes VDOM. Přímé použití jeho komponenty z Vaporu ve
+  Vue 3.6.0-rc.7 navíc selhalo na zmrazeném slots objektu (`Cannot define
+  property _ctx, object is not extensible`). VDOM adaptér i vlastní náhrada
+  rendereru nad datovými helpery Nuxt Icon byly na žádost uživatele odstraněny;
+  tento problém zůstává otevřený a nemá se obcházet další vlastní implementací.
+  Aktuální IconRenderer je původní nativní Vapor span s UnoCSS třídou;
+  výchozí ikony Stepperu jsou opět v safelistu. Btn, Chip a Stepper touto cestou
+  nenačítají nové ikony za běhu, takže jména bez předem sestaveného CSS mohou
+  zůstat prázdná. Registrace modulu Nuxt Icon v aplikaci zůstává zachovaná.
+  Uzavřít až po dostupnosti nativní podpory upstream nebo po výslovné dohodě
+  o jiném řešení; ověřit jména neznámá při buildu, jejich změny, konfiguraci,
+  SSR/hydrataci a cleanup. I03 blokuje plnou funkční shodu migrace ikon.
 
 ### RAF audit drag-and-drop
 

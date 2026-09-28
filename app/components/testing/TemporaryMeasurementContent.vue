@@ -5,6 +5,8 @@ import { h } from 'vue'
 export function measurementSlot({ row }: { row: { width: number } }) {
   return h('div', { style: { width: `${row.width}px` } }, 'Measured content')
 }
+
+export default {}
 </script>
 
 <template>

@@ -21,6 +21,8 @@ type Example = {
   empty?: boolean
   feature?: 'filterChips'
   grouped?: boolean
+  header?: 'mouse' | 'pointer'
+  updates?: boolean
 }
 
 const groups: { label: string, examples: Example[] }[] = [
@@ -29,6 +31,7 @@ const groups: { label: string, examples: Example[] }[] = [
     examples: [
       { label: 'Hřiště komponent', path: '/' },
       { label: 'Vapor smoke test', path: '/vapor' },
+      { label: 'VDOM → Vapor · aktualizace props', path: '/vdom-prop-sync' },
       { label: 'Prezentační prvky · Vapor', path: '/vapor-presentation-primitives' },
       { label: 'Leaf prvky · Vapor', path: '/vapor-leaf-primitives' },
       { label: 'Stavové prvky · Vapor', path: '/vapor-status-primitives' },
@@ -87,6 +90,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Dialog · programatické API', path: '/vapor-programmatic-dialog' },
       { label: 'Stav tabulky', path: '/vapor-table-state' },
       { label: 'Table a Pivot · DOM', path: '/vapor-table-pivot-dom' },
+      { label: 'Table a Pivot · změny konfigurace', path: '/vapor-table-pivot-dom', controls: true, updates: true },
       { label: 'Table · migrované ovládání', path: '/vapor-table-pivot-dom', controls: true, feature: 'filterChips' },
       { label: 'Table · prázdný stav', path: '/vapor-table-pivot-dom', controls: true, feature: 'filterChips', empty: true },
       { label: 'Table · fetchMore', path: '/vapor-table-fetch-more' },
@@ -122,6 +126,8 @@ const groups: { label: string, examples: Example[] }[] = [
     label: 'Seznamy a scrollování',
     examples: [
       { label: 'Přesun a resize · Vapor', path: '/vapor-element-movement' },
+      { label: 'Menu · vlastní drag header', path: '/vapor-element-movement', header: 'mouse' },
+      { label: 'Menu · pointer header', path: '/vapor-element-movement', header: 'pointer' },
       { label: 'CornerResize · hodnoty hran', path: '/vapor-corner-resize' },
       { label: 'ScrollArea', path: '/vapor-scroll-area' },
       { label: 'Scrollery · osy a lifecycle', path: '/vapor-scrollers' },
@@ -159,6 +165,8 @@ function isActive(example: Example) {
     && route.query.mode === example.mode
     && route.query.feature === example.feature
     && (route.query.grouped === 'true') === !!example.grouped
+    && route.query.header === example.header
+    && (route.query.updates === 'true') === !!example.updates
 }
 
 const activeExample = computed(() => {
@@ -240,6 +248,8 @@ watch(() => route.fullPath, () => navigationOpen.value = false)
                   loading: example.loading ? 'true' : undefined,
                   warning: example.warning ? 'true' : undefined,
                   grouped: example.grouped ? 'true' : undefined,
+                  header: example.header,
+                  updates: example.updates ? 'true' : undefined,
                 },
               })"
               size="sm"

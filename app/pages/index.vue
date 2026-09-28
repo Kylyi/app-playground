@@ -72,5 +72,23 @@ onMounted(() => {
         </Btn>
       </Dialog>
     </Btn>
+
+    <TextInput
+      label="John"
+      :label-hint="{
+        label: 'Test',
+        props: {
+          content: {
+            title: 'Test',
+            description: 'Test description',
+          },
+        },
+      }"
+    />
+
+    <Btn
+      icon="i-heroicons-arrow-right"
+      :tooltip="{ label: 'Test' }"
+    />
   </div>
 </template>

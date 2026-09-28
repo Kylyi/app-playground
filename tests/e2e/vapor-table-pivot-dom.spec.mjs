@@ -1,5 +1,47 @@
 import { expect, test } from '@playwright/test'
 
+test('Table and Pivot follow replaced configuration objects', async ({ page }) => {
+  const problems = []
+  page.on('pageerror', error => problems.push(error.message))
+  await page.goto('/cs-CZ/vapor-table-pivot-dom?controls=true&updates=true')
+  await expect(page.locator('.pivot-loading')).toHaveCount(0)
+  const pagination = page.getByTestId('table').locator('.table-pagination')
+  for (let index = 0; index < 3; index++) {
+    await expect(page.locator('.pivot-content')).toHaveCSS('background-color', 'rgb(250, 230, 210)')
+    await pagination.locator('button').last().click()
+    await expect(pagination.locator('.is-active')).toHaveText('10')
+    await page.getByRole('button', { name: 'Replace configurations' }).click()
+    await expect(page.locator('.pivot-content')).toHaveCSS('background-color', 'rgb(210, 230, 250)')
+    await expect(pagination.getByRole('button', { name: '4', exact: true })).toBeVisible()
+    // The previous last page is clamped to the new last page.
+    await expect(pagination.locator('.is-active')).toHaveText('4')
+    await page.getByRole('button', { name: 'Replace configurations' }).click()
+  }
+  await expect(page.getByRole('link', { name: 'Table a Pivot · změny konfigurace', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-table-pivot-dom?controls=true&updates=true')
+  expect(problems).toEqual([])
+})
+
+for (const emitKey of [false, true]) {
+  test(`Table header selection callback follows select, clear and partial selection (emitKey=${emitKey})`, async ({ page }) => {
+    await page.goto(`/cs-CZ/vapor-table-pivot-dom?updates=true&emitKey=${emitKey}`)
+    const table = page.getByTestId('table')
+    const header = table.locator('.th[data-column="_selectable"] .checkbox')
+    const calls = () => page.getByTestId('select-all-calls').evaluate(el => JSON.parse(el.textContent))
+    await header.click()
+    await expect.poll(async () => (await calls()).length).toBe(1)
+    const first = (await calls())[0]
+    expect(first).toHaveLength(100)
+    expect(first[0]).toEqual(emitKey ? 0 : { id: 0, name: 'Item 0', group: 'Group 0', value: 1 })
+    await header.click()
+    expect((await calls())[1]).toEqual([])
+    await table.locator('.tr .checkbox').first().click()
+    await header.click()
+    await expect.poll(async () => (await calls()).length).toBe(3)
+    expect((await calls())[2]).toEqual(first)
+  })
+}
+
 test('Table and Pivot synchronize native scrollers and resize columns after hydration and remount', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))

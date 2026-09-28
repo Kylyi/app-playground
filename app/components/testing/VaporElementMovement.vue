@@ -1,8 +1,10 @@
 <script setup lang="ts" vapor>
+const route = useRoute()
 const menuOpen = ref(false)
 const menuDimensions = ref({ x: 680, y: 220, w: 240, h: 160 })
 const visible = ref(true)
 const ready = ref(false)
+const movable = ref(true)
 const dimensions = ref({ x: 360, y: 220, w: 240, h: 160 })
 onMounted(() => ready.value = true)
 </script>
@@ -32,10 +34,29 @@ onMounted(() => ready.value = true)
       no-transition
       no-overlay
       no-uplift
-      :virtual-config="{ enabled: true, movable: true }"
+      :virtual-config="{ enabled: true, movable }"
     >
+      <template
+        v-if="route.query.header"
+        #header="{ mousedown, pointerdown }"
+      >
+        <div
+          data-testid="custom-menu-header"
+          class="p-4 cursor-move touch-none"
+          @mousedown="route.query.header === 'mouse' && mousedown($event)"
+          @pointerdown="route.query.header === 'pointer' && pointerdown($event)"
+        >
+          Custom movable header
+        </div>
+      </template>
       Drag the menu header.
     </Menu>
+    <button
+      data-example-control
+      @click="movable = !movable"
+    >
+      Toggle movable
+    </button>
     <output
       data-example-output
       aria-label="Menu dimensions"

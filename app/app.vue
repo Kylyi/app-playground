@@ -4,7 +4,19 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router'
 // Reinitialize examples that read their variant once during setup.
 // Table filters and other component-owned query state must not remount the page.
 function examplePageKey(route: RouteLocationNormalizedLoaded) {
-  const variants = ['virtual', 'mode', 'small', 'short', 'fullscreen', 'slow', 'loading', 'warning', 'controls']
+  const variants = [
+    'virtual',
+    'mode',
+    'small',
+    'short',
+    'fullscreen',
+    'slow',
+    'loading',
+    'warning',
+    'controls',
+    'header',
+    'updates',
+  ]
 
   return JSON.stringify([route.path, ...variants.map(key => route.query[key] ?? null)])
 }

@@ -86,3 +86,49 @@ test('movable Menu registers its header after opening and cancels on Escape', as
   expect(await page.getByTestId('menu-dimensions').textContent()).toBe(cancelled)
   expect(await page.locator('body').evaluate(el => el.style.getPropertyValue('user-select'))).toBe('')
 })
+
+for (const header of ['mouse', 'pointer']) {
+  test(`custom Menu header supports ${header} dragging, cancellation and reopening`, async ({ page }) => {
+    const problems = []
+    page.on('pageerror', error => problems.push(error.message))
+    await page.goto(`/cs-CZ/vapor-element-movement?header=${header}`)
+    await expect(page.getByTestId('element-movement')).toHaveAttribute('data-ready', 'true')
+    const dimensions = () => page.getByTestId('menu-dimensions').evaluate(el => JSON.parse(el.textContent))
+    for (const close of ['escape', 'hide']) {
+      await page.getByRole('button', { name: 'Toggle movable menu', exact: true }).click()
+      const handle = page.getByTestId('custom-menu-header')
+      await expect(handle).toBeVisible()
+      const box = await handle.boundingBox()
+      const before = await dimensions()
+      await page.mouse.move(box.x + 20, box.y + 15)
+      await page.mouse.down()
+      await page.mouse.move(box.x + 80, box.y + 45, { steps: 5 })
+      await expect.poll(async () => (await dimensions()).x).toBeGreaterThan(before.x + 40)
+      if (close === 'escape') {
+        await page.keyboard.press('Escape')
+      } else {
+        await page.getByRole('button', { name: 'Toggle movable menu', exact: true }).evaluate(el => el.click())
+      }
+      await expect(handle).toHaveCount(0)
+      const cancelled = await dimensions()
+      await page.mouse.move(100, 100)
+      await page.mouse.up()
+      expect(await dimensions()).toEqual(cancelled)
+      expect(await page.locator('body').evaluate(el => el.style.userSelect)).toBe('')
+    }
+    await page.getByRole('button', { name: 'Toggle movable', exact: true }).click()
+    await page.getByRole('button', { name: 'Toggle movable menu', exact: true }).click()
+    const before = await dimensions()
+    const box = await page.getByTestId('custom-menu-header').boundingBox()
+    await page.mouse.move(box.x + 20, box.y + 15)
+    await page.mouse.down()
+    await page.mouse.move(box.x + 80, box.y + 45, { steps: 5 })
+    await page.mouse.up()
+    expect(await dimensions()).toEqual(before)
+    await expect(page.getByRole('link', {
+      name: header === 'mouse' ? 'Menu · vlastní drag header' : 'Menu · pointer header',
+      exact: true,
+    })).toHaveAttribute('href', `/cs-CZ/vapor-element-movement?header=${header}`)
+    expect(problems).toEqual([])
+  })
+}
