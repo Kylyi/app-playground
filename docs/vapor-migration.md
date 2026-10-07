@@ -1,6 +1,6 @@
 # Migrace UI a Utilities na Vapor
 
-Pracovní checklist, stav k 2026-09-05. Hlavní místo pro průběžné odškrtávání.
+Pracovní checklist, aktualizováno 2026-09-29; starší záznamy níže popisují jednotlivé etapy. Hlavní místo pro průběžné odškrtávání.
 Podklady: audit zdrojů UI/Utilities, [Nuxt pilot](research/nuxt-vapor.md),
 [Selector a initRef](research/selector-vapor.md), [testování](testing.md).
 
@@ -26,7 +26,9 @@ nativní cesty.
 
 ## A. Hotový základ
 
-- [x] A01 — Nuxt preview podle Daniel Roe demo, Vue 3.6.0-rc.7, aktivní Vapor compiler a interop.
+- [x] A01 — Nuxt preview podle Daniel Roe demo, Vue 3.6.0-rc.9, aktivní Vapor compiler a interop.
+  Upgrade from rc.7 on 2026-09-29 fixes native fallback-slot disposal (I04).
+  The root dependency, all Vue overrides and lockfile stay on the same release.
 - [x] A02 — SSR zapnuté; pilot ověřuje server HTML bez JavaScriptu i následnou hydrataci.
 - [x] A03 — Sjednocené verze a Vite deduplikace Vue balíčků; opraven konflikt sdílených sentinelů.
 - [x] A04 — Playwright, unit testy, axe a ESLint guardrail pro Vapor; projektové code standards.
@@ -386,9 +388,9 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     Ověření: E2E /vapor-table-pivot-dom — scroll sync, resize/justify po hydrataci
     a remountu, SSR bez JS, jediný obsah po hydrataci, zrušení resize a Run anyway.
     C07b uzavírá explicitní DOM reference, nikoli převod všech komponent do Vaporu.
-    Dočasné omezení smíšeného renderování eviduje I01 níže; neblokuje další
-    převod UI komponent do nativního Vaporu. Produkční build ani typecheck
-    nebyly spuštěny.
+    Omezení smíšeného renderování zachycené při C07b je samostatně ověřené
+    na rc.9 v I01 níže. Při původním C07b nebyly produkční build ani typecheck
+    spuštěny.
   - [x] C07c — TreeDms, MenuConfirmation, ElementMovement a zbývající DOM vstupy;
     odlišit nativní refs od komponentových, ověřit lifecycle a SSR.
     - [x] ElementMove a ElementResize jsou nativní Vapor komponenty.
@@ -464,7 +466,8 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   deklarativní slot hostu. Host i Dialog zůstávají VDOM interop hranice.
   /vapor-programmatic-dialog ověřuje reactive inject, default/named scoped sloty,
   více dialogů, close guard, onHide jednou, Escape, disposal/remount, SSR a navigaci.
-- [x] D03 — `ui.store.ts`: `setTempComponent` ponechán jako explicitní VDOM
+- [x] D03 — Historická mezifáze, nahrazena D07 (2026-09-29):
+  `ui.store.ts/setTempComponent` byl ponechán jako explicitní VDOM
   interop hranice. Jediným interním volajícím je `useRenderTemporaryTableCell`
   pro autofit sloupců. Přijímá VDOM komponenty/render funkce; slotRenderFnc
   musí vracet VNodes, nativní Vapor sloty nejsou podporované. Odpojený root
@@ -904,18 +907,33 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     Lint je čistý a typecheck zůstává na stejné sadě 181 diagnostik jako D05ah.
 - [ ] D06 — Typy a API přijímající komponenty (`component-map`, rowComponent, dynamické editory):
   ověřit Vapor typy, props, sloty a expose refy. Samotný import typu VNode není runtime blocker.
-- [ ] D07 — Nativní Vapor měření Table: přepsat `useRenderTemporaryTableCell`
-  a jeho použití `ui.store.ts/setTempComponent`, aby autofit buněk i hlaviček
-  fungoval s nativními Vapor komponentami a scoped sloty bez povinného VDOM
-  rendereru, VNodes a interopu. Lze provést na konci migrace spolu s převodem
-  Table, ale je to podmínka uzavření H05. Samotná náhrada globálního
-  `#tempComponent` za vlastní DOM ref tento úkol neplní.
-  Zachovat kontext vlastníka včetně lokálního provide/inject a ověřit text,
-  checkbox, hlavičky i vlastní Vapor slot, změny obsahu, souběžná měření,
-  cleanup při chybě a unmountu, SSR a hydrataci. Doložit skutečný autofit Table
-  v nativním scénáři; VDOM slot pod Vapor vlastníkem není dostatečné ověření.
-  Nepotřebnou VDOM cestu odstranit; případnou podporovanou kompatibilní cestu
-  oddělit tak, aby ji nativní použití UI nevyžadovalo.
+- [x] D07 — Native Table measurement (2026-09-29). `TableMeasurement.vue`
+  renders hidden, inert native Vapor cells inside the owning Table; requests
+  are scoped to that owner and slots are forwarded declaratively. Local
+  provide/inject, inherited styles and the row/column/value/index/customData
+  slot contract remain available. UI class/style callbacks receive their
+  normal row/column arguments. Text, checkbox, header and display-component
+  fallbacks use native templates.
+  `useRenderTemporaryTableCell` queues independent requests, measures their
+  explicit DOM refs after rendering and removes them in `finally`. Disposal
+  cancels pending work without changing column widths; stretch redistribution
+  and deferred scroller updates stop when the Table is removed. SSR performs no DOM work.
+  `TableColumn.autoFit` receives explicit measurement callbacks captured in
+  setup. Toolbar/exposed fitColumns, forced initial autofit and resize-handle
+  double-click use that same path. The detached VDOM renderer and
+  `ui.store.setTempComponent` were removed, with no compatibility renderer left.
+  The native-only unit fixture mounts with `createVaporApp` without the interop
+  plugin (2 tests). Production Chromium passed 22 functional checks across
+  measurement and Table/Pivot DOM suites; I04 was a separate expected
+  failure at this checkpoint and is now resolved below. Firefox passed all 4
+  measurement checks. WebKit passed all functional assertions, but 2 of its 4
+  tests failed the final error check on the existing
+  `ResizeObserver loop completed with undelivered notifications` diagnostic.
+  Coverage includes changed slot content, concurrent widths, error cleanup,
+  cancellation/remount, SSR, hydration and both localized navigation links.
+  Consumer migration: use the exposed `Table.fitColumns` API; direct callers
+  of `TableColumn.autoFit` must supply `measurements` rather than `slotRenderFnc`.
+  Full UI bundle independence remains H05; visible row-slot lifecycle is covered by I04.
 
 ## E. Lifecycle, direktivy a události
 
@@ -988,8 +1006,9 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   jinak překrývá. Audit UI/Utilities nenašel další registrované/importované direktivy
   třetích stran; lokální VDOM vRoot v Btn; měření virtualizovaných řádků vlastní TanStack
   mají samostatné DOM lifecycle kontrakty.
-  Obecný cleanup vnořeného VDOM potomka při odstranění Vapor wrapperu zůstává
-  I01; původní Table resize repro po převodu TableHeader na Vapor prochází.
+  Cleanup vnořeného VDOM potomka při odstranění Vapor wrapperu má samostatnou
+  rc.9 regresi I01; původní Table resize repro po převodu TableHeader na Vapor
+  prochází jako nativní kontrola.
 - [ ] E05 — Audit delegovaných událostí a `.stop`/`stopPropagation`:
   Checkbox, Radio, Toggle, clear/remove tlačítka, DatePicker, QueryBuilder, DnD, Tree.
   Ověřit, že zastavení na předkovi neodřízne handler potomka; přímé listenery jen tam,
@@ -1012,8 +1031,8 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   i owneru a přímý callback na odpojeném elementu. Unit/SSR testy pokrývají
   neúplné patterny, izolaci sdílených masek, typed refs a scope cleanup.
   Ověřeny také VDOM NumberInput/CurrencyInput/DateInput a input/textarea DOM regrese.
-  Celá rodina Inputs tím není převedená. Širší useInputUtils.spec.ts je po opravě
-  testovacího prostředí F06 opět spuštěný a prochází.
+  Celá rodina Inputs tím není převedená. Širší useInputUtils.spec.ts v tomto
+  kroku po opravě prostředí F06 procházel; aktuální stav po převodu SFC řeší F09.
 - [ ] F03 — Floating UI a scroll knihovny (`@floating-ui/vue`, TanStack virtual,
   perfect-scrollbar): ověřit element refs, resize, Teleport, scroll, cleanup a SSR.
 - [ ] F04 — DnD závislosti (sortablejs, dragdoll, eventti, mezr): ověřit použité integrační
@@ -1027,7 +1046,7 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   přes createVaporApp a ověřuje model/scoped slot přes VDOM test-utils owner.
   Delegované události vyžadují připojení do document; VTU owner má DOM kořen,
   protože jeho VNode traversal neumí přímo kořenovou Vapor instanci.
-  Kompletní Vitest sada: 28 souborů / 138 testů prošlo. Bez patchů závislostí
+  V tomto kroku kompletní Vitest sada: 28 souborů / 138 testů prošlo. Bez patchů závislostí
   a změny jejich verzí; layout, hydrataci a interakce dál ověřuje Playwright.
 - [ ] F07 — Při přechodu z preview znovu ověřit Vue/Nuxt/compiler verze, deduplikaci a
   test-utils workaround. Aktualizace verzí není předpokladem každé dílčí migrace.
@@ -1038,6 +1057,26 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   /vapor-viewport ověřuje SSR prioritu hints/cookies, aktualizaci rozměrů po
   hydrataci, resize cookies, reload a absenci lifecycle/hydration varování.
   width/height zůstávají odhadem pro inicializaci layoutu, ne živým resize API.
+
+- [x] F09 — Native input component unit mounts (2026-09-29).
+  The 24 older component tests have moved from `useInputUtils.spec.ts` to
+  `input-components.spec.ts`. They mount through `createVaporApp`, a compiled
+  native host and native versions of the original layout/button/day-cell stubs,
+  without an interop plugin. The prior VDOM test-utils mounts failed on both
+  rc.7 and rc.9 before reaching their component assertions.
+  The 25 native cases cover local and controlled models, numeric paste,
+  currency beforeinput, textarea emissions, localized date editing and calendar
+  navigation/disabled dates. One added case checks that accepting a numeric
+  edit does not emit again. Uncontrolled tests install no model listener; their
+  one-way ownership contract is tested separately from controlled emissions.
+  Calendar assertions wait for actual native leave transitions to remove old
+  grids. The 23 shared-helper tests remain in `useInputUtils.spec.ts`; they use
+  plain VDOM hosts to verify that reusable helper's existing VDOM contract,
+  without mounting native components through test-utils. The full suite passes:
+  51 files / 302 tests with `--maxWorkers=2` (the unrestricted run hit Nuxt
+  setup-hook timeouts). Affected lint passes; typecheck retains the same 42
+  baseline diagnostics. Full validation is recorded under native input component
+  unit tests in `docs/testing.md`.
 
 ## G. Převod komponent a regresní ověření
 
@@ -1159,31 +1198,52 @@ Pro další synchronizace s 2.3 platí:
 
 ## Známá omezení migrace a interopu
 
-- [ ] I01 — Vue 3.6.0-rc.7: odstranění nativního Vapor `div v-if` nevolá
-  unmount hook vnořené VDOM komponenty. Reprodukováno na minimální komponentě
-  se spanem a onBeforeUnmount. Původní Table resize repro v
-  `tests/e2e/vapor-table-pivot-dom.spec.mjs` (`?wrapper=true`) po převodu
-  TableHeader na Vapor prochází a už není expected failure.
-  Stejné omezení potvrzeno při E04 pro ripple listener vnořeného VDOM Btn;
-  přímé v-if na Btn i nativní Vapor ripple/Chip cleanup prošly.
-  Jde o hranici Vapor → VDOM, nikoli prokázanou chybu čistého Vapor stromu.
-  Lokální patch Vue byl odstraněn; migrace nesmí spoléhat na upravený runtime.
-  Při upgradu Vue nebo převodu potomků na Vapor test znovu ověřit a odstranit
-  expected failure až po ověření cleanupu. Oprava nebyla odeslána upstream.
+- [x] I01 — VDOM child cleanup under a Vapor wrapper: verified on the matched
+      Vue 3.6.0-rc.9 packages (2026-09-29). On rc.7, removing a native Vapor
+      `div v-if` skipped a nested VDOM component's unmount hooks, including the
+      old VDOM Btn ripple cleanup. Direct component removal was the control.
+      `tests/fixtures/interop-lifecycle` now preserves that exact boundary with
+      an intentionally VDOM leaf under a native Vapor owner. This is a runtime
+      diagnostic, not an adapter for UI components. Its unit suite checks both
+      direct and wrapped removal, all three cleanup hooks, a real listener,
+      repeated remounts and whole-app unmount. Both variants pass on rc.9;
+      the four separate native fallback-slot controls also pass.
+      The browser suite `tests/e2e/vapor-interop-lifecycle.spec.mjs` verifies
+      the mixed tree after SSR/hydration and client remount, deterministic
+      JavaScript-disabled SSR and localized query variants. It uses ordinary
+      passing assertions, with no expected failure or local runtime patch.
+      The original Table `?wrapper=true` case also passes, but now uses native
+      descendants and is kept as a consumer regression rather than proof of
+      interop cleanup. Other UI consumers need a matched Vue release containing
+      the fix; this result does not certify rc.7 or resolve I02/I03.
+      Validation: 6 focused unit tests and 24 production browser checks pass
+      across Chromium/Firefox/WebKit, including Table and ripple regressions.
+      Build and affected-code lint pass; typecheck retains the same 42 baseline
+      diagnostics. See [test coverage](testing.md#vdom-child-cleanup-under-a-vapor-wrapper).
 
-- [ ] I02 — Vrátit `wrapperStyleVariables` v InputWrapper z dynamického
-  `.wrapper__body` na původní kořen `.wrapper`; `contentStyle` musí zůstat na
-  `.wrapper__body`. Současné umístění je pouze dočasný workaround pro dev
-  hydration checker ve Vue 3.6.0-rc.7: `resolveCssVars` prochází effective-root
-  řetězec z Vapor komponenty do VDOM rodiče a předá VDOM instanci Vapor funkci
-  `normalizeBlock`. Workaround mění dosah CSS custom properties: marker,
-  `#menu` a externí consumer rootu je už nedědí. Repozitář na tomto širším
-  dosahu nyní nezávisí a porovnání regular/inline/label-inside nepotvrdilo změnu
-  geometrie ani computed styles, ale nejde o žádoucí finální kontrakt.
-  Obnovit původní binding, jakmile všechny owner řetězce InputWrapper budou
-  nativní Vapor, případně dříve po ověřené opravě runtime. Potom odstranit TODO
-  v komponentě a znovu ověřit SSR/hydrataci, všechny tři layouty, marker a
-  `#menu`, input regrese a Chromium/Firefox/WebKit. I02 blokuje uzavření migrace.
+- [ ] I02 — InputWrapper root CSS variables: still blocked on Vue rc.9
+      (rechecked 2026-09-29). Restore `wrapperStyleVariables` from the dynamic
+      `.wrapper__body` to the original `.wrapper` root, while keeping `contentStyle`
+      on the body. A trial restoration still crashes development hydration:
+      `resolveCssVars` follows the effective-root chain into a VDOM parent and
+      passes that instance to Vapor's `normalizeBlock`, which reads undefined
+      `nodes`. The existing VDOM `InputPrependPreview` exposes this through its
+      native TextInput → InputWrapper chain: all three prepend regressions fail
+      to reach their mounted readiness signal. Both native input-layout tests pass,
+      so native-only checks would miss the consumer regression. The trial binding
+      was reverted; no runtime patch or renderer adapter was added.
+      rc.9 is the latest published 3.6 RC at this check, and the same unguarded
+      traversal remains in Vue's `minor` branch. See the
+      [reproduction and retest procedure](research/input-wrapper-root-style.md).
+      The retained workaround narrows CSS custom-property inheritance: root-level
+      marker and `#menu` content, and external consumers of the root, no longer
+      inherit these variables. Existing regular/inline/label-inside checks have
+      not shown geometry or computed-style changes, but this is not the final
+      contract. Removing the workaround requires a verified upstream fix for
+      supported mixed owners; merely migrating this playground's VDOM owner would
+      hide the problem for other UI consumers. Then remove the component TODO and
+      verify SSR/hydration, all three layouts, marker and `#menu` inheritance,
+      input regressions and Chromium/Firefox/WebKit. I02 still blocks closure.
 
 - [ ] I03 — Nativní podpora Nuxt Icon (2026-09-29). Nainstalovaný `@nuxt/icon`
   2.5.1 stále vykresluje přes VDOM. Přímé použití jeho komponenty z Vaporu ve
@@ -1198,6 +1258,72 @@ Pro další synchronizace s 2.3 platí:
   Uzavřít až po dostupnosti nativní podpory upstream nebo po výslovné dohodě
   o jiném řešení; ověřit jména neznámá při buildu, jejich změny, konfiguraci,
   SSR/hydrataci a cleanup. I03 blokuje plnou funkční shodu migrace ikon.
+
+
+- [x] I04 — Native fallback-slot lifecycle (2026-09-29). Vue rc.7 creates a
+  detached fallback effect scope without tying its disposal to the outlet
+  owner. Forwarding an empty slot into an outlet with fallback content then
+  removes the DOM but skips child `onBeforeUnmount`, `onScopeDispose` and
+  `onUnmounted`, leaving listeners active. Table's empty forwarded `row` slot
+  exposes this bug in its default TableRow; it predates D07 (`fe0cab1c`).
+  The minimal `tests/fixtures/slot-lifecycle` reproduction contains only native
+  Vapor components and fails under `createVaporApp` without any interop.
+  SSR/hydration is not required to trigger it.
+  Upgrading the matched Vue packages to rc.9 applies the published owner-scope
+  cleanup from [Vue #15524](https://github.com/vuejs/core/pull/15524), specifically
+  [the SlotFragment disposal change](https://github.com/vuejs/core/commit/922a7dddb20838a124750834ebee64978880ffaf).
+  No Table slot workaround, renderer adapter or local runtime patch is needed.
+  Other UI consumers must also use a matched Vue runtime/compiler release
+  containing that fix; updating the UI layer alone cannot repair rc.7's runtime.
+  Four native-only unit cases cover static, direct fallback, supplied content
+  and empty forwarded fallback, including repeated removal, app unmount and
+  listener disposal. The forwarded-fallback case fails on rc.7 and passes on rc.9.
+  `/cs-CZ/vapor-slot-lifecycle` shares that reproduction; `?mode=provided` is its
+  control case. Both localized navigation links and no-JavaScript SSR are checked.
+  `tests/e2e/vapor-table-measurement.spec.mjs` now requires visible child counts
+  to return to zero after removal and cancelled autofit, with no expected-failure
+  marker. All 10 focused checks pass in development and production Chromium
+  and production Firefox. WebKit passes all 5 minimal lifecycle checks and the
+  actual Table-removal regression; 2 measurement tests still fail only their
+  final error assertion on the previously recorded ResizeObserver diagnostic.
+  Production build and affected lint pass. Typecheck retains the same 42 baseline
+  diagnostics. At this checkpoint, the full unit run had 276 passes and 24
+  input-test failures also reproduced on rc.7; the upgrade removed only the
+  additional fallback failure. F09 subsequently fixes those input test mounts.
+  The broader 60-case production Chromium run has 56 functional passes, the
+  existing HY01 expected failure and 3 DatePicker failures also reproduced on
+  rc.7 (I05). The aggregate reporter's 57 passes includes HY01.
+  H05/H06 still require the broader native bundle and workaround audit.
+
+- [x] I05 — Picker focus/click interaction (2026-09-29). Clicking an unfocused
+  DateInput, TimeInput or ColorInput opened its menu on focus, then the same
+  gesture's click toggled it closed. The leave transition explained the unstable
+  or detached picker and underlying hint intercepting pointer events; popup
+  positioning was not the cause. `useInputUtils` tracked this gesture only in
+  `handlePointerDown`, while these three inputs intentionally bind
+  `handleMouseDown` to preserve WebKit touch clicks (D05ae). Both handlers now
+  share the same press bookkeeping. Later clicks on an already focused input
+  still toggle the menu; touch opens on click without editable focus.
+  Cross-browser verification also found that WebKit reports a touch-generated
+  click as `PointerEvent(pointerType="mouse")`. The existing pointer branch
+  returned early, bypassing its intended touch-history fallback and manually
+  focusing the input. All six touch cases reproduced on the unchanged rc.9 build.
+  Click events now reach that fallback; a real mouse pointerdown still uses its
+  own pointer type, and keyboard activation ignores stale touch history.
+  No timer, positioning workaround or renderer adapter was added.
+  Three new browser regressions fail on the unchanged production build and
+  verify ordinary clicks, a held press through popup opening, subsequent toggles
+  and real selections after the fix. The shared-helper unit test also covers
+  both event bindings. The two localized date/time tests additionally had an
+  invalid extra input click after public `select()` had already focused the input
+  and opened its picker; they now assert that state and click the day directly.
+  The original failures reproduced on rc.7 and rc.9 and were separate from I04.
+  Production Chromium passes 39 affected browser checks; Firefox and WebKit
+  each pass all 15 applicable picker checks (one Chromium-only scroll check
+  skipped in each). Both focused unit cases, build and lint pass; typecheck
+  retains the same 42 baseline diagnostics. Details are in `docs/testing.md`,
+  under picker focus and click lifecycle. All interactions use ordinary clicks,
+  with no forced actions or expected-failure marker for I05.
 
 ### RAF audit drag-and-drop
 
@@ -1214,7 +1340,8 @@ Pro další synchronizace s 2.3 platí:
   nejvýše jeden pending frame, poslední hodnota vyhrává, flush při commitu,
   cancel při ukončení scope nebo zrušení resize.
 - CornerResize/useCornerAdjustment nyní také používá Dragdoll s native DOM refem.
-  TreeDms externí dragover také používá useRafTask; nativní souborový drop zůstává HTML DnD. I01 je nadále evidované omezení Vue interopu bez runtime patche.
+  TreeDms externí dragover také používá useRafTask; nativní souborový drop zůstává HTML DnD.
+  Samostatná regrese I01 ověřuje cleanup Vue interopu na rc.9 bez runtime patche.
 
 ### QueryBuilder hierarchy verification
 
@@ -1229,10 +1356,20 @@ QueryBuilder components; it is not a claim of completing their native Vapor migr
 
 ### Zbývající ověření hydratace
 
-- [ ] HY01 — Hydratace Tree/TreeDms. VDOM Tree inicializuje data asynchronně
-  po začátku renderu; SSR a klient mohou mít odlišný počáteční obsah a výšku.
-  Tree používá synchronní setup + onServerPrefetch. Jeho drag/drop, následující
-  sourozenec a remount mají funkční testy, absence warnings je samostatný expected
-  failure `HY01: Tree hydrates without mismatch` v tests/e2e/vapor-tree-drag.spec.mjs.
-  Odebrat expected failure až po opravě počátečních dat stromu. Nativní TanStack
-  Grid má vlastní testy SSR a hydratace tabulky bez warnings; E01 je hotový.
+- [ ] HY01 — Tree/TreeDms hydration, rechecked on rc.9 (2026-09-29). Tree is
+      already native Vapor, but SSR waits for asynchronous flatten/search while
+      synchronous client setup initially sees no nodes. A trial hydration await
+      removed the height, initial-row and empty-state mismatches, but exposed a
+      separate native slot-boundary mismatch. The trial was reverted; introducing
+      async setup would also require checking consumers without Suspense.
+      `vapor-tree-hydration-probe` now reproduces the remaining defect with two
+      small native SFCs and synchronous setup, without Tree or a virtualizer.
+      Empty forwarded content makes rc.9 trim a following slot's SSR markers;
+      the non-empty `?mode=provided` control passes. Both variants have localized
+      navigation and SSR tests. The original Tree warning assertion and minimal
+      empty-slot warning assertion remain explicit expected failures. Functional
+      drag/drop, selection, collapse, sibling and remount checks remain ordinary
+      passing tests. See the [reproduction and removal criteria](research/tree-hydration.md).
+      Resolve the runtime defect and initial-data contract before removing both
+      expected failures and closing HY01. The separate native TanStack Grid SSR
+      coverage does not prove Tree hydration; E01 remains complete.

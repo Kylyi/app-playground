@@ -152,7 +152,7 @@ test('HY01: Tree hydrates without mismatch', async ({ page }) => {
   await page.getByRole('button', { name: 'Tree sibling', exact: true }).click()
   await expect(page.getByTestId('tree-sibling-clicks')).toHaveText('1')
   expect(errors).toEqual([])
-  // Track hydration warnings separately from functional drag and lifecycle checks.
-  test.fail(true, 'Tree SSR and initial client layout differ; see HY01.')
+  // Initial data and the independent empty-slot reproduction remain tracked in HY01.
+  test.fail(true, 'Tree initialization and empty forwarded-slot hydration differ; see HY01.')
   expect(warnings).toEqual([])
 })

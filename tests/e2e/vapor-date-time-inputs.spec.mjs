@@ -19,7 +19,8 @@ for (const locale of ['cs-CZ', 'en-US']) {
     await page.getByRole('button', { name: 'Select date', exact: true }).click()
     expect(await date.evaluate(el => [el.selectionStart, el.selectionEnd])).toEqual([0, 10])
     await expect(page.getByTestId('date-value')).toHaveText('2026-06-21')
-    await date.click()
+    await expect(date).toBeFocused()
+    await expect(page.locator('.menu')).toHaveAttribute('data-open', 'true')
     await page.locator('.menu .dp-day').filter({ has: page.locator('.dayNo').getByText('16', { exact: true }) }).click()
     await expect(page.getByTestId('date-value')).toHaveText('2026-06-16')
     await expect(page.locator('.menu')).toHaveCount(0)
@@ -74,8 +75,13 @@ test('date and time render localized values and navigation in SSR', async ({ bro
   }
 })
 
-test('time picker edits hours and minutes in the mobile dialog', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
+test('time picker edits hours and minutes in the mobile dialog', async ({ browser, browserName, baseURL }) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    ...(browserName !== 'firefox' && { isMobile: true }),
+  })
   try {
     const page = await context.newPage()
     const problems = []

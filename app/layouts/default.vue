@@ -8,7 +8,8 @@ type Example = {
   label: string
   path: string
   virtual?: boolean
-  mode?: 'parent' | 'plain' | 'filtered' | 'basic' | 'tw' | 'inline' | 'label-inside' | 'inside'
+  mode?: 'parent' | 'plain' | 'filtered' | 'basic' | 'tw' | 'inline'
+    | 'label-inside' | 'inside' | 'autofit' | 'provided' | 'direct'
   warning?: boolean
   loading?: boolean
   small?: boolean
@@ -86,6 +87,10 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Tabs · bez cache', path: '/vapor-tabs', mode: 'plain' },
       { label: 'Tabs · filtry cache', path: '/vapor-tabs', mode: 'filtered' },
       { label: 'Scopes a lifecycle', path: '/vapor-scopes' },
+      { label: 'Sloty · lifecycle fallbacku', path: '/vapor-slot-lifecycle' },
+      { label: 'Sloty · předaný obsah', path: '/vapor-slot-lifecycle', mode: 'provided' },
+      { label: 'Lifecycle · VDOM uvnitř Vapor wrapperu', path: '/vapor-interop-lifecycle' },
+      { label: 'Lifecycle · přímé odebrání VDOM', path: '/vapor-interop-lifecycle', mode: 'direct' },
       { label: 'Viewport · SSR a hydratace', path: '/vapor-viewport' },
       { label: 'Dialog · programatické API', path: '/vapor-programmatic-dialog' },
       { label: 'Stav tabulky', path: '/vapor-table-state' },
@@ -97,6 +102,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Table · Markdown v buňce', path: '/vapor-table-markdown' },
       { label: 'Table a Pivot · focus editorů', path: '/vapor-table-focus' },
       { label: 'Table · měření buněk', path: '/vapor-table-measurement' },
+      { label: 'Table · autofit při načtení', path: '/vapor-table-measurement', mode: 'autofit' },
       { label: 'Table · editace buněk', path: '/vapor-table-edit' },
       { label: 'Table · editace 1 000 řádků', path: '/vapor-table-edit', virtual: true },
       { label: 'Table · responzivní grid', path: '/vapor-table-grid' },
@@ -145,6 +151,8 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Tree · řazení', path: '/vapor-tree-drag' },
       { label: 'Tree · přesun pod rodiče', path: '/vapor-tree-drag', mode: 'parent' },
       { label: 'Tree · hledání, akce a výběr', path: '/vapor-tree-drag', controls: true },
+      { label: 'Tree · hydratace prázdného slotu', path: '/vapor-tree-hydration-probe' },
+      { label: 'Tree · hydratace předaného obsahu', path: '/vapor-tree-hydration-probe', mode: 'provided' },
     ],
   },
 ]

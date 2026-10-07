@@ -1,12 +1,14 @@
 # Inventář komponent pro Vapor
 
-Stav k 2026-09-28 (po sloučení UI/Utilities 2.3). Navazuje na [hlavní checklist](vapor-migration.md).
+Stav k 2026-09-29 (po D07, nativní měření Table). Navazuje na [hlavní checklist](vapor-migration.md).
 
 Checkbox znamená dokončenou migraci a ověření vlastních SFC celé rodiny;
 neznamená převod všech jejích externích závislostí. InputLabel a InputWrapper
 jsou potvrzené. Poslední rendererový batch D05ai doplnil Vapor marker do všech
 zbývajících SFC komponentového stromu; případné VDOM kompatibilní adaptéry jsou
 u dotčených rodin uvedené zvlášť.
+
+Aktuální inventář má 241 UI SFC, všechny s Vapor markerem; další SFC přidal D07.
 
 U každé rodiny doplnit při práci konkrétní SFC, testy a případné interop výjimky.
 Počty zahrnují všechny aktuální `.vue` soubory, i případné starší varianty.
@@ -61,12 +63,12 @@ Nepoužívané varianty nejprve doložit jako nepoužívané; neignorovat je aut
 - [x] [Selector](../packages/UI/app/components/Selector) — všechny 4 SFC jsou nativní Vapor (D05v/D05ag). Model, hledání, výběr, chip, focus, krátké menu, remount a SSR ověřuje /selector-vapor v Chromiu, Firefoxu a WebKitu; WebKit dev runtime při ResizeObserver měření hlásí nedoručenou notifikaci jako pageerror.
 - [x] [Separator](../packages/UI/app/components/Separator) — 1 nativní Vapor SFC (D05t); horizontal/vertical, spaced/inset, obsah, SSR a remount ověřeny.
 - [x] [Skeleton](../packages/UI/app/components/Skeleton) — 1 nativní Vapor SFC (D05t); wave/pulse/blink, rychlost, vlastní styl, SSR a remount ověřeny.
-- [x] [Table](../packages/UI/app/components/Table) — všech 38 SFC je nativní Vapor (D05v–D05ai); TableCell 2.3 odstranila. Řádky dál předávají sloty deklarativně; renderSlot outlet z 2.3 řešil jen VDOM překreslování. Poslední batch převedl kořen, content, row, výběr sloupců, filtrování a oba layoutové dialogy. Persistence, pagination, fetch-more, fullscreen, resize, virtualizaci, filtry, QueryBuilder, focus editorů, layouty, toolbar, SSR, hydrataci a remount pokrývají `/vapor-table-*` regrese.
+- [x] [Table](../packages/UI/app/components/Table) — všech 39 SFC je nativní Vapor (D05v–D05ai, D07); TableCell 2.3 odstranila. Řádky dál předávají sloty deklarativně; renderSlot outlet z 2.3 řešil jen VDOM překreslování. Poslední batch převedl kořen, content, row, výběr sloupců, filtrování a oba layoutové dialogy. Persistence, pagination, fetch-more, fullscreen, resize, virtualizaci, filtry, QueryBuilder, focus editorů, layouty, toolbar, SSR, hydrataci a remount pokrývají `/vapor-table-*` regrese. D07 odstranil VDOM měření autofitu; nativní sloty měří TableMeasurement uvnitř vlastníka. I04 opravil upgrade na Vue rc.9; cleanup viditelných hydratovaných cell slotů má povinnou regresi.
 - [x] [Stepper](../packages/UI/app/components/Stepper) — všechny 3 SFC z 2.3 jsou nativní Vapor. Ikony kreslí nativní IconRenderer (kanonická jména mapuje na UnoCSS třídu, výchozí ikony jsou v safelistu); číslo kroku je v elementu kvůli hydrataci. Lineární navigaci, model, ikony, SSR a hydrataci ověřuje /vapor-stepper.
 - [ ] [Tabs](../packages/UI/app/components/Tabs) — 4 nativní Vapor SFC (Tabs, Tab, TabPanel, TabsNavigation). Vnořené deklarace přes provide/inject, nativní cache včetně filtrů/LRU/lifecycle, dynamické pořadí a SSR ověřeny v /vapor-tabs (D01/D01a). Navigace používá nativní Btn od D05x.
 - [x] [Toggle](../packages/UI/app/components/Toggle) — 1 nativní Vapor SFC (D05z); tristate i string model, scoped sloty, keyboard, focus API, readonly, SSR a remount ověřuje /vapor-control-primitives.
 - [x] [Tooltip](../packages/UI/app/components/Tooltip) — oba SFC jsou nativní Vapor (D05ai). Anchor, retarget, směr, předání bubliny, slot kontext, časování a cleanup ověřují shared-tooltip regrese. Viz [sdílený Tooltip](research/shared-tooltip.md).
-- [ ] [Tree](../packages/UI/app/components/Tree) — všech 9 SFC je nativních Vapor (D05aa/D05ab/D05ah). Explicitní DOM API, SSR, virtualizace 1 000 uzlů, oba drag režimy, unmount/cancel cleanup, hledání, collapse/expand all a checkboxový výběr ověřuje /vapor-tree-drag. Rodina zůstává otevřená pouze kvůli počáteční hydration odchylce HY01.
+- [ ] [Tree](../packages/UI/app/components/Tree) — všech 9 SFC je nativních Vapor (D05aa/D05ab/D05ah). Explicitní DOM API, SSR, virtualizace 1 000 uzlů, oba drag režimy, unmount/cancel cleanup, hledání, collapse/expand all a checkboxový výběr ověřuje /vapor-tree-drag. Rodina zůstává otevřená kvůli HY01: rozdílná počáteční data SSR/klienta a samostatná chyba hydratace prázdného předaného slotu ve Vue rc.9. Viz [minimální reprodukce](research/tree-hydration.md).
 - [x] [TreeDms](../packages/UI/app/components/TreeDms) — všech 6 SFC je nativní Vapor (D05ai); strom, search, kontextové menu, soubor/složka, drop, SSR a hydrataci ověřuje /vapor-tree-dms-drop.
 - [x] [Typography](../packages/UI/app/components/Typography) — Heading je 1 nativní Vapor SFC (D05t); slot, highlighted, UI styl, SSR a remount ověřeny.
 - [x] [ValueFormatter](../packages/UI/app/components/ValueFormatter) — 1 nativní Vapor SFC (D05t); default/previous scoped sloty, vlastní formatter, attrs, SSR a Field/Table konzumenti ověřeni.

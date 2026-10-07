@@ -60,7 +60,7 @@ the required environment helpers. Recheck/remove this alias when upgrading Nuxt
 Test Utils. This preserves the existing Vitest version; it is not a general claim
 of complete compatibility with all Nuxt Test Utils APIs.
 
-Vue 3.6.0-rc.7's Node/CJS entry does not export Vapor APIs. The config resolves
+Vue 3.6.0-rc.9's Node/CJS entry does not export Vapor APIs. The config resolves
 Vue, its renderers/reactivity and test-utils to their ESM builds and inlines
 Vue consumers to preserve one runtime graph. It also sets NODE_ENV=test in
 Vite's client environment: happy-dom uses that environment, and Nuxt's inherited
@@ -101,6 +101,11 @@ is not a promise of a warning-free development console.
 after the prepend, floats to the field's left edge on focus or content, and returns
 after clearing/blurring. It also changes prepend width, hides/restores it and reloads.
 The stacked-label test alone does not cover these two distinct horizontal positions.
+The preview deliberately still has a VDOM owner around native TextInput and
+InputWrapper components. Its mounted readiness check also catches I02's
+development hydration crash when InputWrapper's CSS variables are moved back
+to its root. Run it alongside the native layout suite; the native suite alone
+passes with that regression. See the [I02 retest procedure](research/input-wrapper-root-style.md).
 
 `tests/e2e/vapor-input-dom.spec.mjs` exercises `useInputUtils` with native Vapor
 input/textarea elements: focus, select, blur, clear, model updates and SSR values.
@@ -287,12 +292,10 @@ SSR without JavaScript, a single hydrated Pivot content subtree, pointercancel
 and direct component unmount during resize. `?warning=true` lowers the transform
 warning threshold and checks that Run anyway can resume initial rendering.
 
-The `?wrapper=true` regression is an expected failure tracking interop issue I01
-in `docs/vapor-migration.md`. In Vue 3.6.0-rc.7, removing a native Vapor parent
-div does not dispose its nested VDOM Table, leaving document resize state active.
-The local runtime patch has been removed. This mixed-renderer limitation does not
-block migration to native Vapor; recheck the test after upgrading Vue or converting
-the descendants, then remove the expected-failure marker once cleanup works.
+The `?wrapper=true` regression now passes after the Table descendants were
+converted to native Vapor. It no longer reproduces the original mixed-renderer
+issue I01. The separate `vapor-interop-lifecycle` fixture keeps a real VDOM child
+under a Vapor wrapper and verifies that boundary on rc.9.
 
 The navigation example `?loading=true` delays the initial Pivot fetch to show its
 full-area XL loader. Tests cover deferred fetching and client remount with
@@ -319,8 +322,9 @@ release in the same JavaScript task, before RAF can execute. Movement additional
 checks a virtual Menu header mounted after opening and Escape cancellation.
 List/Tree retain Dragdoll's built-in RAF sampling and have release-position handling;
 their drag, virtualization and cancellation suites remain the regression coverage.
-Table/Pivot resize uses the same flush/cancel contract. The known I01 wrapper test
-remains an expected failure; it is not evidence of working interop cleanup.
+Table/Pivot resize uses the same flush/cancel contract. Its native wrapper test
+passes; mixed-renderer cleanup is covered separately by
+`tests/e2e/vapor-interop-lifecycle.spec.mjs`.
 
 QueryBuilder's “Toggle scroll viewport” control constrains the example in both
 axes. Its autoscroll regression holds the pointer near the viewport corner,
@@ -374,6 +378,21 @@ an isolated FileSystemEntry adapter because Chromium does not attach OS entries
 to synthetic transfers. The SSR test checks folder content and the localized link;
 it does not certify hydration warning-free virtual scroller layout (min-height
 36px vs 0px was observed and remains tracked in the migration checklist).
+
+### Tree hydration diagnosis (HY01)
+
+`tests/e2e/vapor-tree-hydration-probe.spec.mjs` isolates the native Vapor
+empty forwarded-slot hydration defect from Tree initialization. The default
+variant retains an expected failure only for its final no-warning assertion;
+child content, following-sibling interaction and browser exceptions are checked
+first. The `?mode=provided` control must hydrate without warnings. Both localized
+navigation links and server-rendered variants are checked without JavaScript.
+The console matcher targets Vue diagnostics so browser messages that merely
+contain the route's word `hydration` do not count as hydration failures.
+
+Tree's original HY01 warning assertion remains an expected failure. This
+reproduction does not resolve Tree's separate async initial-data mismatch.
+See the [diagnosis and retest criteria](research/tree-hydration.md).
 
 ### MenuConfirmation focus
 
@@ -429,7 +448,8 @@ cannot undo a simultaneous vertical movement. Card layout receives all fields.
 recycling, separate instances, append/empty/remount, small-list behavior and SSR.
 The existing List and Tree suites cover dragging and cleanup with the new engine.
 Sticky VirtualScrollerVertical in Pivot retains its existing implementation.
-Known I01 wrapper-disposal and HY01 Tree-initialization diagnostics remain separate.
+The historical I01 wrapper-disposal and HY01 Tree-initialization diagnostics are
+separate from the scroller conversion; see their current migration status.
 
 Validation (2026-09-06): the eight affected Playwright suites completed with
 32 functional passes and the two tracked expected failures (I01 and HY01).
@@ -580,3 +600,164 @@ ověřují nepřítomné/podmíněné prepend/append sloty, scoped clear/focus, 
 string → number, model, veřejné focus/select, remount a SSR atributů bez
 hydration mismatch. `vapor-table-focus.spec.mjs` kontroluje editory Table/Pivot.
 D05a nepřevádí samotné TextInput/NumberInput ani všechny wrappery z D05.
+
+
+## Native Table measurement
+
+`bun run test:run tests/unit/vapor-table-measurement.spec.ts` mounts the real
+measurement SFC with `createVaporApp` and no `vaporInteropPlugin`. It checks
+local injection, concurrent native slots, disposal and cancellation. DOM width
+is supplied by a geometry spy because happy-dom has no layout engine; real
+geometry is checked by `tests/e2e/vapor-table-measurement.spec.mjs`.
+
+The browser example `/cs-CZ/vapor-table-measurement` exercises actual Table
+cells and double-click autofit; `?mode=autofit` also covers initialization after
+hydration. The suite checks SSR without JavaScript, localized navigation,
+reactive slot content, error cleanup and removal during autofit. Visible row-slot
+children must also dispose on removal and remount correctly. I04's expected-failure
+marker was removed after upgrading Vue to rc.9 and verifying that cleanup.
+
+At the D07 checkpoint on rc.7, production Chromium passed 22 functional tests
+across this suite and `vapor-table-pivot-dom.spec.mjs`, plus the I04 expected
+failure. Firefox passed all 4 measurement tests. WebKit met the same functional
+assertions but 2 tests failed on the existing ResizeObserver loop diagnostic;
+it is not filtered out.
+These results prove the measurement path, not native-only operation or bundle
+independence of the entire UI library.
+
+## VDOM child cleanup under a Vapor wrapper
+
+`tests/fixtures/interop-lifecycle` preserves I01's original renderer boundary:
+a native Vapor `div v-if` contains an intentionally VDOM child. The `direct`
+variant removes the component itself and acts as the control. These diagnostic
+components do not adapt any UI component or change its renderer.
+
+`tests/unit/vapor-interop-lifecycle.spec.ts` uses Vue's interop plugin explicitly.
+Both variants check `onBeforeUnmount`, `onScopeDispose` and `onUnmounted`, a real
+window listener, repeated hide/show cycles and whole-app unmount with a live
+child. Both pass on the matched rc.9 packages. Keep the native slot suite below
+separate so its no-interop guarantee remains intact.
+
+`tests/e2e/vapor-interop-lifecycle.spec.mjs` exercises the same boundary after
+SSR/hydration and a subsequent client remount. Event sequences prove that each
+child is disposed exactly once and a removed listener cannot fire. The SSR
+case verifies empty initial event logs without JavaScript, plus both localized
+navigation links: `/cs-CZ/vapor-interop-lifecycle` and `?mode=direct`.
+Client navigation checks both variants too; `app.vue` intentionally remounts
+examples when `mode` changes, so each navigation starts a fresh event log.
+The existing Table wrapper-removal, resize-cancellation and ripple tests cover
+the real UI consumers alongside this minimal runtime diagnostic.
+
+Validation (2026-09-29, rc.9): all 6 focused unit tests passed (2 interop and
+4 native slot controls). The production build and affected-code lint passed.
+All 24 production browser checks passed: 4 interop, 2 Table and 2 ripple cases
+in each of Chromium, Firefox and WebKit. Development Chromium also passed the
+removal/remount, SSR, ripple and Table checks; the first cold Table load exceeded
+the test timeout and both Table cases passed after the server was warm.
+Typecheck retains exactly the same 42 diagnostic lines as the F09 baseline.
+I01 is closed; I02's style hydration issue and I03's native icon support remain
+separate blockers.
+
+## Native fallback-slot lifecycle
+
+`tests/unit/vapor-slot-lifecycle.spec.ts` mounts a small tree with `createVaporApp`
+and no interop plugin. It checks four slot arrangements across repeated hide/show
+cycles and whole-app unmount, including lifecycle hooks and a real window listener.
+Only the empty forwarded fallback fails on rc.7; all four pass on rc.9, which
+includes [Vue's owner-scope disposal fix](https://github.com/vuejs/core/pull/15524).
+
+`tests/e2e/vapor-slot-lifecycle.spec.mjs` runs the same tree after SSR/hydration and
+checks deterministic server HTML without JavaScript. The default route reproduces
+the empty forwarded slot; `?mode=provided` supplies content. Both are in localized
+navigation. `?mode=static` and `?mode=direct-fallback` provide additional controls.
+Run it together with `vapor-table-measurement.spec.mjs` to cover the real Table.
+
+On rc.9, those 10 focused checks pass in development and production Chromium
+and production Firefox. Production WebKit passes all 5 minimal lifecycle checks
+and the real Table-removal regression. Its two measurement failures are still
+only the existing ResizeObserver diagnostic at the final error assertion; their
+cleanup, cancellation, widths and remount assertions pass.
+
+At the I04 checkpoint, the rc.9 full unit run had 276 passing tests and the same
+24 input-component
+failures reproduced on rc.7. Those older `useInputUtils.spec.ts` tests use a VDOM
+test-utils mount without installing Vapor interop. The rc.7 comparison has one
+additional failure: the new fallback regression. This unit-harness backlog was
+separate from the successful native-only cases; F09 resolves it below.
+
+At the I04 checkpoint, the broader rc.9 production Chromium run covered 60 cases
+across these two suites,
+Table/Pivot DOM, Tabs, scopes, input layouts, overlays, virtual scrolling, Tree,
+TextInput and date/time inputs. It has 56 functional passes, the existing HY01
+expected failure, and 3 DatePicker interaction failures. The aggregate reporter
+counts HY01 among its 57 passes. All 3 date-picker failures reproduce on an rc.7
+production build with the same application code; see I05. Production build and
+affected lint pass, and typecheck retains the same 42 baseline diagnostics.
+
+## Picker focus and click lifecycle
+
+`tests/e2e/picker-touch-focus.spec.mjs` covers DateInput, TimeInput and ColorInput
+with both desktop mouse and touch input. Each desktop case checks that the first
+click focuses the input and leaves its popup open and hit-testable, later clicks
+toggle it, and holding the mouse down until the popup opens does not make the
+release dismiss it. A real picker selection must update the model. All three
+desktop cases fail against the production build before I05's shared-handler fix.
+
+The existing touch cases check input/label/accessory activation without editable
+focus at 390px and 1100px, keyboard focus, programmatic focus and mobile time
+editing. Chromium also checks that scrolling from an input does not open it;
+that case uses CDP touch events and is explicitly skipped in Firefox and WebKit.
+Firefox uses a touch-enabled narrow viewport without unsupported `isMobile`.
+WebKit's six touch-focus cases also fail before I05: its touch-generated click
+reports `pointerType="mouse"`, which previously bypassed the helper's touch
+history and restored editable focus. They remain ordinary tap/focus assertions
+and exercise the corrected click classification.
+
+Run this suite alongside `tests/e2e/vapor-date-time-inputs.spec.mjs`. The latter
+checks localized masks, public selection, slots/remount, no-JavaScript SSR,
+mobile time editing, month/year grids and day selection. Its public-select flow
+asserts that selection has focused the input and opened the menu before clicking
+a day; an extra input click at that point would intentionally close the popup.
+`useInputUtils.spec.ts` also checks the shared focus/click contract for both
+`pointerdown` and `mousedown` bindings in its `input menu interactions` group.
+
+At the completed I05 checkpoint on rc.9, production Chromium passes all 39 cases
+across these two suites and the value, icon, file, dynamic input, DOM API,
+anchor, layout, mask and DatePicker-event regressions. Production Firefox and
+WebKit each pass all 15 applicable cases in the two picker suites, with one
+Chromium-only scroll case skipped per browser (30 passes, 2 skips combined).
+The two focused shared-helper unit cases, affected lint and production build
+pass. Typecheck reports the same 42 diagnostics as I04, compared verbatim.
+The previously recorded 24 legacy input-component unit failures remained a
+separate harness backlog at that checkpoint; the full unit suite was not rerun
+for I05. F09 resolves that backlog below.
+
+## Native input component unit tests
+
+`bun run test:run packages/UI/app/components/Inputs/functions/input-components.spec.ts`
+runs 25 cases through `createVaporApp`, without `vaporInteropPlugin` or a VDOM
+test-utils mount. The compiled fixtures live in `packages/UI/tests/fixtures`.
+They preserve the original unit isolation with native InputWrapper, button and
+day-cell stubs; real layout, overlays, button and calendar-cell behavior remains
+covered by browser tests. No application component or runtime patch is required.
+
+The 24 migrated cases retain local/one-way input editing, external prop updates,
+numeric paste, currency beforeinput, textarea emissions, locale changes during
+partial date editing, typed/pasted compact dates, Delete/Backspace behavior and
+calendar month/year/disabled-date checks. A new controlled numeric case verifies
+one emission for a typed edit and no additional emission when the parent accepts
+or replaces it. Uncontrolled tests deliberately have no update listener, because
+adding one alongside a model prop would change the ownership being tested.
+Calendar checks retain native transitions and wait for the leaving grid to go.
+
+The 23 passing shared-helper cases stay in `useInputUtils.spec.ts`, including
+VDOM SSR/hydration and both pointer/mouse menu handlers. These plain VDOM hosts
+test the reusable helper's compatibility; they do not wrap native UI components.
+The explicit consumer-interop test remains in `tests/unit/vapor-runtime.spec.ts`.
+
+The full suite passes with `bun run test:run --maxWorkers=2`: 51 files and
+302 tests, with no skipped or expected-failure cases. The initial unrestricted
+run passed 256 tests but nine Nuxt suites hit their 10-second setup-hook timeout
+before running 46 tests. Limiting workers to two resolved that startup contention
+without changing timeouts, tests or application behavior. Affected lint passes.
+Typecheck reports the same 42 baseline diagnostics as I05, compared verbatim.

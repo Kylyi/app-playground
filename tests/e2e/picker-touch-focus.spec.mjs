@@ -6,6 +6,58 @@ const pickers = [
   { name: 'color', path: 'vapor-color-inputs', ready: 'color-inputs-example', field: 'color-input-field', accessory: '[data-cy="color-picker-preview"]' },
 ]
 
+for (const picker of pickers) {
+  test(`${picker.name} keeps the popup open after the mouse gesture that focuses it`, async ({ page }) => {
+    const problems = []
+    page.on('pageerror', error => problems.push(error.message))
+    await page.goto(`/cs-CZ/${picker.path}`)
+    await expect(page.getByTestId(picker.ready)).toHaveAttribute('data-ready', 'true')
+    const input = page.getByTestId(picker.field).locator('input').first()
+    const menu = page.locator('.menu')
+
+    await expect(input).not.toBeFocused()
+    await input.click()
+    await expect(input).toBeFocused()
+    // A leaving popup can still be visible: assert its state and hit testing.
+    await expect(menu).toHaveAttribute('data-open', 'true')
+    await expect(menu).toHaveCSS('pointer-events', 'auto')
+
+    // A later click on the already focused input still toggles the picker.
+    await input.click()
+    await expect(menu).toHaveCount(0)
+    await input.click()
+    await expect(menu).toHaveAttribute('data-open', 'true')
+    await page.keyboard.press('Escape')
+    await expect(menu).toHaveCount(0)
+    await input.evaluate(el => el.blur())
+
+    // Hold the press until focus has opened and positioned the popup. The
+    // release must not be mistaken for a second request to toggle it closed.
+    await input.hover()
+    const bounds = await input.boundingBox()
+    await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2)
+    await page.mouse.down()
+    await expect(menu).toHaveAttribute('data-open', 'true')
+    await expect(menu).toHaveCSS('pointer-events', 'auto')
+    await page.mouse.up()
+    await expect(menu).toHaveAttribute('data-open', 'true')
+
+    if (picker.name === 'date') {
+      await menu.locator('.dp-day').filter({ has: page.locator('.dayNo').getByText('16', { exact: true }) }).click()
+      await expect(page.getByTestId('date-value')).toHaveText('2026-06-16')
+    } else if (picker.name === 'time') {
+      await menu.getByText('Morning', { exact: true }).click()
+      await expect(page.getByTestId('time-value')).toHaveText('09:15')
+      await page.keyboard.press('Escape')
+    } else {
+      await menu.locator('[data-color="white"]').click()
+      await expect(page.getByTestId('color-input-value')).toHaveText('rgba(255, 255, 255, 1)')
+    }
+    await expect(menu).toHaveCount(0)
+    expect(problems).toEqual([])
+  })
+}
+
 for (const width of [390, 1100]) {
   for (const picker of pickers) {
     test(`${picker.name} separates touch activation from editable focus (${width}px)`, async ({ browser, browserName, baseURL }) => {

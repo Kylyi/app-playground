@@ -48,7 +48,7 @@
     "sortablejs": "1.15.7",
     "tikki": "3.0.2",
     "uuid": "14.0.2",
-    "vue": "3.6.0-rc.7",
+    "vue": "3.6.0-rc.9",
     "vue-imask": "7.6.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zod": "4.5.4"
@@ -93,17 +93,17 @@
     "vue-tsc": "3.3.11"
   },
   "overrides": {
-    "vue": "3.6.0-rc.7",
-    "@vue/shared": "3.6.0-rc.7",
-    "@vue/reactivity": "3.6.0-rc.7",
-    "@vue/runtime-core": "3.6.0-rc.7",
-    "@vue/runtime-dom": "3.6.0-rc.7",
-    "@vue/runtime-vapor": "3.6.0-rc.7",
-    "@vue/compiler-core": "3.6.0-rc.7",
-    "@vue/compiler-dom": "3.6.0-rc.7",
-    "@vue/compiler-sfc": "3.6.0-rc.7",
-    "@vue/compiler-ssr": "3.6.0-rc.7",
-    "@vue/compiler-vapor": "3.6.0-rc.7",
-    "@vue/server-renderer": "3.6.0-rc.7"
+    "@vue/compiler-core": "3.6.0-rc.9",
+    "@vue/compiler-dom": "3.6.0-rc.9",
+    "@vue/compiler-sfc": "3.6.0-rc.9",
+    "@vue/compiler-ssr": "3.6.0-rc.9",
+    "@vue/compiler-vapor": "3.6.0-rc.9",
+    "@vue/reactivity": "3.6.0-rc.9",
+    "@vue/runtime-core": "3.6.0-rc.9",
+    "@vue/runtime-dom": "3.6.0-rc.9",
+    "@vue/runtime-vapor": "3.6.0-rc.9",
+    "@vue/server-renderer": "3.6.0-rc.9",
+    "@vue/shared": "3.6.0-rc.9",
+    "vue": "3.6.0-rc.9"
   }
 }
