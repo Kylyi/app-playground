@@ -1,10 +1,9 @@
-import { join } from 'pathe'
-import { cwd } from 'node:process'
-import { existsSync, readFileSync } from 'node:fs'
-import { connectLibs } from './connect-libs'
+import { existsSync } from 'node:fs'
+import { env as processEnv } from 'node:process'
+import { connectLibs } from './connect-libs.ts'
 import { createResolver } from 'nuxt/kit'
 
-const isMonorepo = import.meta.env.VITE_MONOREPO === 'true'
+const isMonorepo = processEnv.VITE_MONOREPO === 'true'
 const connectedLibs = connectLibs()
 
 const { resolve } = createResolver(import.meta.url)
@@ -37,8 +36,6 @@ export default defineNuxtConfig({
     ],
   },
 
-  // Daniel Roe's Nuxt 4.6 preview installs the VDOM/Vapor interop plugin.
-  // https://github.com/danielroe/nuxt-vapor-demo
   vue: {
     vapor: true,
   },
@@ -110,22 +107,9 @@ export default defineNuxtConfig({
     },
   },
 
+  // UI icons are published by UnoCSS; avoid bundling every installed Iconify collection.
   icon: {
-    size: '1em',
-    mode: 'svg',
-    serverBundle: {
-      collections: (() => {
-        try {
-          const path = join(cwd(), 'generated', 'icon-collections.ts')
-          const content = readFileSync(path, 'utf8')
-          const m = content.match(/export const iconCollections = (\[[\s\S]*?\]) as const/)
-
-          return m?.[1] ? JSON.parse(m[1]) : []
-        } catch {
-          return []
-        }
-      })(),
-    },
+    serverBundle: { collections: [] },
   },
 
   unocss: {

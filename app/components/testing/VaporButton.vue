@@ -30,7 +30,7 @@ function focusControl() {
         ref="control"
         outlined
         data-testid="subject"
-        :to="linked ? { path: localePath('/vapor-button'), query: { visited: 'true' } } : undefined"
+        :to="linked ? { path: localePath({ path: '/vapor-button' }), query: { visited: 'true' } } : undefined"
         :disabled
         :loading
         :label="() => `Action ${clicks}`"
@@ -141,14 +141,14 @@ function focusControl() {
       outlined
       data-testid="target"
       label="Target"
-      :to="localePath('/vapor-button')"
+      :to="localePath({ path: '/vapor-button' })"
       :navigate-to-options="{ open: { target: 'button-preview' } }"
     />
     <Btn
       outlined
       data-testid="replace"
       label="Replace route"
-      :to="{ path: localePath('/vapor-button'), query: { replaced: 'true' } }"
+      :to="{ path: localePath({ path: '/vapor-button' }), query: { replaced: 'true' } }"
       replace
     />
   </section>

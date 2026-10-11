@@ -1,6 +1,7 @@
 <script setup lang="ts" vapor>
 const route = useRoute()
 const small = route.query.small === 'true'
+const mixed = route.query.mode === 'vdom'
 const rows = ref(Array.from({ length: small ? 6 : 100 }, (_, id) => ({ id, label: `Row ${id}` })))
 const primary = useTemplateRef('primary')
 const mounted = ref(true)
@@ -25,6 +26,11 @@ function appendRows() {
     data-testid="virtual-example"
     :data-ready="ready"
   >
+    <VirtualScrollerVdomOwner
+      v-if="mixed && mounted"
+      class="mixed-consumer"
+      aria-label="Mixed owner scroller"
+    />
     <VirtualScroller
       v-if="mounted"
       ref="primary"

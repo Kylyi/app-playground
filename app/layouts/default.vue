@@ -10,7 +10,7 @@ type Example = {
   virtual?: boolean
   mode?: 'parent' | 'plain' | 'filtered' | 'basic' | 'tw' | 'inline'
     | 'label-inside' | 'inside' | 'autofit' | 'provided' | 'direct'
-    | 'cell' | 'exact' | 'row-save' | 'restricted'
+    | 'cell' | 'exact' | 'row-save' | 'restricted' | 'vdom'
   warning?: boolean
   loading?: boolean
   small?: boolean
@@ -143,6 +143,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Scrollery · osy a lifecycle', path: '/vapor-scrollers' },
       { label: 'Scrollery · fade a vnitřní šipky', path: '/vapor-scrollers', mode: 'inside' },
       { label: 'VirtualScroller · měření řádků', path: '/vapor-virtual-scroller' },
+      { label: 'VirtualScroller · smíšený vlastník', path: '/vapor-virtual-scroller', mode: 'vdom' },
       { label: 'VirtualScroller · 1 000 × 80', path: '/vapor-virtual-grid' },
       { label: 'VirtualScroller · async Markdown', path: '/vapor-virtual-markdown' },
       { label: 'VirtualScroller · pomalý Markdown', path: '/vapor-virtual-markdown', slow: true },
@@ -163,7 +164,7 @@ const groups: { label: string, examples: Example[] }[] = [
 ]
 
 function isActive(example: Example) {
-  return route.path.replace(/\/$/, '') === localePath(example.path).replace(/\/$/, '')
+  return route.path.replace(/\/$/, '') === localePath({ path: example.path }).replace(/\/$/, '')
     && (route.query.virtual === 'true') === !!example.virtual
     && (route.query.small === 'true') === !!example.small
     && (route.query.short === 'true') === !!example.short
@@ -193,7 +194,7 @@ watch(() => route.fullPath, () => navigationOpen.value = false)
   <div class="playground-layout">
     <header class="playground-header">
       <NuxtLink
-        :to="localePath('/')"
+        :to="localePath({ path: '/' })"
         class="playground-brand"
       >
         Gentl UI <span>Playground</span>

@@ -1,4 +1,5 @@
 <script setup lang="ts" vapor>
+import { notify } from '#imports'
 import Tooltip from '../../packages/UI/app/components/Tooltip/Tooltip.vue'
 import TooltipSlotContext from '../components/testing/TooltipSlotContext.vue'
 

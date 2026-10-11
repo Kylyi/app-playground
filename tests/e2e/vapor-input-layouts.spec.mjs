@@ -11,12 +11,24 @@ test('input layouts retain label focus, styles, slots and state across renderer 
   await page.goto('/cs-CZ/vapor-input-layouts')
   await expect(page.getByTestId('input-layouts-example')).toHaveAttribute('data-ready', 'true')
   const field = page.getByTestId('layout-field')
+  const inheritance = page.getByTestId('layout-slot-wrapper')
   const input = field.locator('input')
   let wide = false
   for (const layout of ['regular', 'inline', 'label-inside', 'regular']) {
     await page.getByLabel('Layout', { exact: true }).selectOption(layout)
     await expect(field).toContainText('Layout hint')
     await expect(field.locator('.input-wrapper-border')).toHaveCSS('border-radius', '12px')
+    // Root siblings inherit the wrapper variables; contentStyle stays on the body.
+    for (const radius of ['18px', '12px']) {
+      await page.getByRole('button', { name: 'Resize radius', exact: true }).click()
+      await expect(field.locator('.input-wrapper-border')).toHaveCSS('border-radius', radius)
+      for (const target of [field, field.locator('.marker'), inheritance, inheritance.locator('.marker'), inheritance.getByTestId('layout-menu')]) {
+        await expect(target).toHaveCSS('--borderRadius', radius)
+        await expect(target).toHaveCSS('--layout-body-only', '')
+      }
+      await expect(field.locator('.wrapper__body')).toHaveCSS('--layout-body-only', 'body')
+      await expect(inheritance.locator('.wrapper__body')).toHaveCSS('--layout-body-only', 'body')
+    }
     await field.locator('label').click()
     await expect(input).toBeFocused()
     await expect(page.getByText('Layout tooltip', { exact: true })).toHaveCount(1)

@@ -12,9 +12,8 @@ defineExpose({ element })
       v-if="alternate"
       ref="element"
       data-example-control
-      class="floating-test-target"
+      class="floating-test-target floating-test-target--alternate"
       data-testid="target-b"
-      m="l-60"
     >
       Target B
     </button>
@@ -30,3 +29,9 @@ defineExpose({ element })
     </button>
   </div>
 </template>
+
+<style scoped>
+.floating-test-target--alternate {
+  @apply m-l-60;
+}
+</style>

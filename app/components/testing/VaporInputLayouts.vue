@@ -11,6 +11,7 @@ const layout = ref<'regular' | 'inline' | 'label-inside'>(
 const model = ref<string | undefined>('')
 const visible = ref(true)
 const wide = ref(false)
+const rounded = ref(false)
 const prepend = ref(true)
 const readonlyMode = ref(false)
 const disabledMode = ref(false)
@@ -48,6 +49,13 @@ onMounted(() => ready.value = true)
         @click="wide = !wide"
       >
         Resize prepend
+      </button>
+      <button
+        data-example-control
+        type="button"
+        @click="rounded = !rounded"
+      >
+        Resize radius
       </button>
       <button
         data-example-control
@@ -113,7 +121,13 @@ onMounted(() => ready.value = true)
       :disabled="disabledMode"
       :loading
       clearable
-      :ui="{ borderRadius: '12px', focusInputOnLabelClick: true, inputClass: () => 'font-mono' }"
+      :marker="{ text: 'Layout marker' }"
+      :ui="{
+        borderRadius: rounded ? '18px' : '12px',
+        focusInputOnLabelClick: true,
+        inputClass: () => 'font-mono',
+        contentStyle: () => ({ '--layout-body-only': 'body' }),
+      }"
     >
       <template
         v-if="prepend"
@@ -125,6 +139,23 @@ onMounted(() => ready.value = true)
         >Prefix</span>
       </template>
     </TextInput>
+    <InputWrapper
+      data-testid="layout-slot-wrapper"
+      :layout
+      :marker="{ text: 'Wrapper marker' }"
+      :ui="{
+        borderRadius: rounded ? '18px' : '12px',
+        contentStyle: () => ({ '--layout-body-only': 'body' }),
+      }"
+    >
+      <span>Wrapper slot inheritance</span>
+      <template #menu>
+        <span
+          data-testid="layout-menu"
+          hidden
+        >Layout menu</span>
+      </template>
+    </InputWrapper>
     <output
       data-example-output
       data-testid="layout-value"

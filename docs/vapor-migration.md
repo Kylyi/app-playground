@@ -4,6 +4,11 @@ Pracovní checklist, aktualizováno 2026-10-11; starší záznamy níže popisuj
 Podklady: audit zdrojů UI/Utilities, [Nuxt pilot](research/nuxt-vapor.md),
 [Selector a initRef](research/selector-vapor.md), [testování](testing.md).
 
+Aktuální runtime: Nuxt 4.6.1, matched Vue 3.6.0-rc.11 a Test Utils 4.3.3.
+Upgrade uzavírá F07 a I02; prázdný forwarded slot v HY01 je opraven upstreamem.
+HY01 dál čeká na shodu počátečních Tree dat. I03 (native ikony), zbývající
+rodinné kontrakty, H05 (bundle bez VDOM) a širší H06 audit zůstávají otevřené.
+
 ## Cíl a význam stavů
 
 Zachovat veřejné chování UI, `getComponentProps`, UI config a ergonomii store-owned
@@ -26,8 +31,9 @@ nativní cesty.
 
 ## A. Hotový základ
 
-- [x] A01 — Nuxt preview podle Daniel Roe demo, Vue 3.6.0-rc.9, aktivní Vapor compiler a interop.
-  Upgrade from rc.7 on 2026-09-29 fixes native fallback-slot disposal (I04).
+- [x] A01 — Released Nuxt 4.6.1, matched Vue 3.6.0-rc.11 runtime/compiler,
+  aktivní Vapor compiler a interop. Preview pilot je historicky v research/nuxt-vapor.md.
+  Historical rc.7 → rc.9 upgrade on 2026-09-29 fixed native fallback-slot disposal (I04).
   The root dependency, all Vue overrides and lockfile stay on the same release.
 - [x] A02 — SSR zapnuté; pilot ověřuje server HTML bez JavaScriptu i následnou hydrataci.
 - [x] A03 — Sjednocené verze a Vite deduplikace Vue balíčků; opraven konflikt sdílených sentinelů.
@@ -1049,8 +1055,21 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   protože jeho VNode traversal neumí přímo kořenovou Vapor instanci.
   V tomto kroku kompletní Vitest sada: 28 souborů / 138 testů prošlo. Bez patchů závislostí
   a změny jejich verzí; layout, hydrataci a interakce dál ověřuje Playwright.
-- [ ] F07 — Při přechodu z preview znovu ověřit Vue/Nuxt/compiler verze, deduplikaci a
-  test-utils workaround. Aktualizace verzí není předpokladem každé dílčí migrace.
+- [x] F07 — Released integration upgrade (2026-10-11): Nuxt 4.6.1 in the app,
+  UI and Utilities; matched Vue 3.6.0-rc.11 overrides and Test Utils 4.3.3.
+  Removed the preview URL, obsolete Vitest environment alias, redundant test.env,
+  unused vue-imask dependency and missing script/generator targets. Retained
+  ESM aliases, client test-mode define, inlined Vue consumers and deduplication
+  after regression trials showed they are still needed. Typed route targets use
+  `{ path }` for arbitrary localized paths and generic router types in reusable
+  UI. Template-only helper imports are explicit: the newer Vapor compiler emits
+  prop lookups that Nuxt's VDOM template autoimport addon does not recognize.
+  Validation: 306 unit tests; 250 functional production Chromium cases across
+  the broad sweep and targeted repairs, plus one existing Tree HY01 expected
+  failure; 57 functional development cases across three browser engines, plus
+  one HY01 expected failure per engine. Final build and both repaired suites
+  pass; affected lint passes and typecheck retains the same 39 baseline diagnostics.
+  See [runtime/cleanup record](research/nuxt-vapor.md).
 
 - [x] F08 — useViewport při inicializaci UI store z Nuxt pluginu používá
   onNuxtReady místo komponentového onMounted. Odhad z client hints/cookies/device
@@ -1126,12 +1145,12 @@ teprve po kontrole všech jejích SFC a závislostí; složitější rodiny rozd
   problém regresním testem. Přetrvávající omezení doložit minimální reprodukcí,
   konkrétní podmínkou odstranění a u chyby závislosti odkazem na upstream issue;
   samotné označení komponenty jako Vapor tento bod neuzavírá.
-  Explicitní příklad: pomocný `div.contents` (`display: contents`) v
-  [VirtualScroller.vue](../packages/UI/app/components/VirtualScroller/VirtualScroller.vue).
-  Ověřit variantu bez wrapperu v čistém Vapor i podporovaném smíšeném VDOM/Vapor
-  použití, včetně SSR/hydratace, předávání attrs, veřejného element refu a layoutu.
-  Jeho současná nezbytnost není doložena izolovanou reprodukcí; pokud testy bez něj
-  projdou, odstranit ho, jinak přesně evidovat zbývající blocker.
+  The temporary `div.contents` in VirtualScroller is removed on Nuxt 4.6.1 /
+  Vue RC.11. Native and VDOM-root consumers cover SSR/hydration, attributes,
+  public element/focus/scroll APIs, layout and remounting. Row measurement now
+  uses TanStack's animation-frame ResizeObserver delivery to avoid a reproduced
+  WebKit growth/shrink loop; restoring the old wrapper did not fix that loop.
+  This specific cleanup is complete; the broader lifecycle/adapter audit remains.
 
 ## Doporučené pořadí
 
@@ -1274,29 +1293,16 @@ Pro další synchronizace s 2.3 platí:
       Build and affected-code lint pass; typecheck retains the same 42 baseline
       diagnostics. See [test coverage](testing.md#vdom-child-cleanup-under-a-vapor-wrapper).
 
-- [ ] I02 — InputWrapper root CSS variables: still blocked on Vue rc.9
-      (rechecked 2026-09-29). Restore `wrapperStyleVariables` from the dynamic
-      `.wrapper__body` to the original `.wrapper` root, while keeping `contentStyle`
-      on the body. A trial restoration still crashes development hydration:
-      `resolveCssVars` follows the effective-root chain into a VDOM parent and
-      passes that instance to Vapor's `normalizeBlock`, which reads undefined
-      `nodes`. The existing VDOM `InputPrependPreview` exposes this through its
-      native TextInput → InputWrapper chain: all three prepend regressions fail
-      to reach their mounted readiness signal. Both native input-layout tests pass,
-      so native-only checks would miss the consumer regression. The trial binding
-      was reverted; no runtime patch or renderer adapter was added.
-      rc.9 is the latest published 3.6 RC at this check, and the same unguarded
-      traversal remains in Vue's `minor` branch. See the
-      [reproduction and retest procedure](research/input-wrapper-root-style.md).
-      The retained workaround narrows CSS custom-property inheritance: root-level
-      marker and `#menu` content, and external consumers of the root, no longer
-      inherit these variables. Existing regular/inline/label-inside checks have
-      not shown geometry or computed-style changes, but this is not the final
-      contract. Removing the workaround requires a verified upstream fix for
-      supported mixed owners; merely migrating this playground's VDOM owner would
-      hide the problem for other UI consumers. Then remove the component TODO and
-      verify SSR/hydration, all three layouts, marker and `#menu` inheritance,
-      input regressions and Chromium/Firefox/WebKit. I02 still blocks closure.
+- [x] I02 — InputWrapper root CSS variables restored (2026-10-11). Vue RC.11
+      includes the RC.10 mixed-parent `resolveCssVars` fix
+      [#15721](https://github.com/vuejs/core/pull/15721). Variables bind to the
+      original `.wrapper` root again; `contentStyle` remains on `.wrapper__body`.
+      Removed the TODO and body-binding workaround. The original VDOM prepend
+      owner is retained so mixed consumers remain covered. Native regular,
+      inline and label-inside layouts also test live radius updates, marker and
+      non-teleported menu inheritance, and body-only styles. SSR/navigation,
+      focus, readonly/disabled/loading and remount checks remain in the suite.
+      See the [root-style record](research/input-wrapper-root-style.md).
 
 - [ ] I03 — Nativní podpora Nuxt Icon (2026-09-29). Nainstalovaný `@nuxt/icon`
   2.5.1 stále vykresluje přes VDOM. Přímé použití jeho komponenty z Vaporu ve
@@ -1409,20 +1415,22 @@ QueryBuilder components; it is not a claim of completing their native Vapor migr
 
 ### Zbývající ověření hydratace
 
-- [ ] HY01 — Tree/TreeDms hydration, rechecked on rc.9 (2026-09-29). Tree is
+- [ ] HY01 — Tree/TreeDms initial-data hydration, rechecked on rc.11 (2026-10-11). Tree is
       already native Vapor, but SSR waits for asynchronous flatten/search while
       synchronous client setup initially sees no nodes. A trial hydration await
       removed the height, initial-row and empty-state mismatches, but exposed a
       separate native slot-boundary mismatch. The trial was reverted; introducing
       async setup would also require checking consumers without Suspense.
-      `vapor-tree-hydration-probe` now reproduces the remaining defect with two
+      `vapor-tree-hydration-probe` isolated the separate runtime defect with two
       small native SFCs and synchronous setup, without Tree or a virtualizer.
       Empty forwarded content makes rc.9 trim a following slot's SSR markers;
       the non-empty `?mode=provided` control passes. Both variants have localized
-      navigation and SSR tests. The original Tree warning assertion and minimal
-      empty-slot warning assertion remain explicit expected failures. Functional
+      navigation and SSR tests. Vue RC.11 includes the RC.10 empty-slot fix;
+      both minimal variants now pass as ordinary tests and their expected-failure
+      annotation is removed. Only the original Tree initial-data warning assertion
+      remains an explicit expected failure. Functional
       drag/drop, selection, collapse, sibling and remount checks remain ordinary
       passing tests. See the [reproduction and removal criteria](research/tree-hydration.md).
-      Resolve the runtime defect and initial-data contract before removing both
-      expected failures and closing HY01. The separate native TanStack Grid SSR
+      Resolve the initial-data contract before removing Tree's remaining
+      expected failure and closing HY01. The separate native TanStack Grid SSR
       coverage does not prove Tree hydration; E01 remains complete.

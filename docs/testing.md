@@ -52,22 +52,21 @@ Code standards: [skill](../.agents/skills/code-standards/SKILL.md).
 
 ## Vitest compatibility
 
-The current app already uses Vitest 5. Nuxt Test Utils 4.2 probes the new
-`vitest/runtime` export but also contains a fallback import of `vitest/environments`.
-Vite attempts to resolve that removed export even when the fallback is unused.
-The test-only alias in `vitest.config.ts` maps it to `vitest/runtime`, which exports
-the required environment helpers. Recheck/remove this alias when upgrading Nuxt
-Test Utils. This preserves the existing Vitest version; it is not a general claim
-of complete compatibility with all Nuxt Test Utils APIs.
+The app uses Vitest 5 with Nuxt Test Utils 4.3.3. The older Test Utils 4.2
+environment-export compatibility alias is removed; the upgraded package supports
+Vitest 5 directly. The redundant `test.env.NODE_ENV` setting is also removed.
 
-Vue 3.6.0-rc.9's Node/CJS entry does not export Vapor APIs. The config resolves
+Vue 3.6.0-rc.11's Node/CJS entry does not export Vapor APIs. The config resolves
 Vue, its renderers/reactivity and test-utils to their ESM builds and inlines
 Vue consumers to preserve one runtime graph. It also sets NODE_ENV=test in
 Vite's client environment: happy-dom uses that environment, and Nuxt's inherited
 production define otherwise disables setup-ref unwrapping and VDOM stubbing
 while the SFC compiler emits development templates. Node dependencies use the
-same test mode. Keep the alias map as an object so Nuxt's own aliases survive
-configuration merging. Recheck these preview workarounds when upgrading.
+same test mode. Removing the client environment settings and inlined consumers
+caused 72 real test failures; retaining the client define without consumer
+inlining still broke input models. Keep the alias map as an object so Nuxt's
+own aliases survive configuration merging. Recheck these settings on later Vue
+and Test Utils releases rather than removing them without regression evidence.
 
 `tests/unit/vapor-runtime.spec.ts` mounts an actual compiled Vapor SFC via
 `createVaporApp`, checks events/state/DOM cleanup, and verifies models and scoped
@@ -76,10 +75,40 @@ document for delegated events. Give the test-utils owner a native DOM root;
 its root-node traversal does not support a raw Vapor component instance.
 This does not replace browser layout or hydration tests.
 
-The complete Vitest suite passes 138 tests across 28 files after F06. The input
+The complete Vitest suite passes 306 tests across 52 files on the upgraded
+runtime. Two menu-interaction fixtures now declare the props and model update
+event owned by their `useModel` call. The input
 fixtures now flush only their pending timers and assert the current 24-year
 picker page. Pivot disposal uses a real effect scope; configuration tests check
 configuration events separately from Tree's derived metadata updates.
+
+## Nuxt 4.6 upgrade validation — 2026-10-11
+
+Nuxt 4.6.1, matched Vue 3.6.0-rc.11 and Test Utils 4.3.3 replace the integration
+preview. Root `build` works directly; the orphaned UI Playwright harness and its
+missing fixture-directory scripts are removed. Browser tooling runs here.
+Template-only native helper imports are explicit because the current Nuxt
+autoimport addon handles VDOM `_ctx` lookups rather than Vapor prop lookups.
+
+Frozen-lockfile installation, production builds, affected lint and all 306 unit
+tests pass. Typecheck retains exactly the same 39 baseline file/error-code
+diagnostics; the existing AsyncMarkdownRow serialization error's wording changes
+with the upgraded Nuxt types. It is not a clean typecheck.
+
+The complete production Chromium suite contains 251 cases. Across the broad
+sweep and final targeted rebuild, all 250 functional cases pass; Tree's
+initial-data hydration assertion remains one expected failure. The broad sweep
+exposed a floating-target fixture offset overridden by the generic control
+margin reset and a QueryBuilder assertion counting the autofocus selector as a
+second editor. Scoped fixture styling and an editor-specific count preserve the
+position/cleanup assertions. Both repaired suites pass all eight cases after
+the final build.
+
+Development cleanup checks pass across Chromium, Firefox and WebKit: 57 ordinary
+passes plus three expected Tree HY01 failures (one per engine). InputWrapper
+root variables, empty forwarded-slot hydration and VirtualScroller without its
+temporary wrapper pass for native and supported mixed consumers. See the
+[upgrade record](research/nuxt-vapor.md) for cleanup and remaining runtime settings.
 
 ## Selector migration
 
@@ -102,10 +131,13 @@ after the prepend, floats to the field's left edge on focus or content, and retu
 after clearing/blurring. It also changes prepend width, hides/restores it and reloads.
 The stacked-label test alone does not cover these two distinct horizontal positions.
 The preview deliberately still has a VDOM owner around native TextInput and
-InputWrapper components. Its mounted readiness check also catches I02's
-development hydration crash when InputWrapper's CSS variables are moved back
-to its root. Run it alongside the native layout suite; the native suite alone
-passes with that regression. See the [I02 retest procedure](research/input-wrapper-root-style.md).
+InputWrapper components. Its mounted readiness check caught I02's historical
+mixed-owner development hydration crash. Vue RC.11 fixes that path, and the
+variables have returned to the wrapper root. Run it alongside the native layout
+suite, which also verifies marker/menu inheritance, live radius updates and
+body-only content styles. Prepend width is measured after slot updates as well
+as by ResizeObserver so WebKit's deferred observer delivery cannot shift a filled
+label for one painted frame. See the [I02 record](research/input-wrapper-root-style.md).
 
 `tests/e2e/vapor-input-dom.spec.mjs` exercises `useInputUtils` with native Vapor
 input/textarea elements: focus, select, blur, clear, model updates and SSR values.
@@ -382,10 +414,10 @@ it does not certify hydration warning-free virtual scroller layout (min-height
 ### Tree hydration diagnosis (HY01)
 
 `tests/e2e/vapor-tree-hydration-probe.spec.mjs` isolates the native Vapor
-empty forwarded-slot hydration defect from Tree initialization. The default
-variant retains an expected failure only for its final no-warning assertion;
-child content, following-sibling interaction and browser exceptions are checked
-first. The `?mode=provided` control must hydrate without warnings. Both localized
+empty forwarded-slot hydration defect from Tree initialization. Vue RC.11
+includes the upstream fix: both the empty variant and `?mode=provided` control
+must now hydrate without warnings. Child content, following-sibling interaction
+and browser exceptions remain checked. Both localized
 navigation links and server-rendered variants are checked without JavaScript.
 The console matcher targets Vue diagnostics so browser messages that merely
 contain the route's word `hydration` do not count as hydration failures.
@@ -420,9 +452,19 @@ rows (small nonvirtual lists still render all rows), and an estimated 1280px wid
 bounds the initial columns. Browser dimensions replace those estimates on mount.
 The SSR tests disable JavaScript; hydration tests capture errors and warnings.
 Vapor function refs are measured after DOM insertion, avoiding zero-height
-measurements and resulting scroll compensation. A static display:contents root
-keeps hydration style checks inside the native block while forwarding attributes
-and the public element ref to the actual viewport.
+measurements and resulting scroll compensation. The actual viewport is now the
+component root; the temporary `display: contents` wrapper is removed. A dedicated
+VDOM root consumer verifies attributes, layout, focus, scroll events, the public
+element ref and remounting, alongside native-owner and JavaScript-disabled SSR
+checks. Its localized `?mode=vdom` navigation entry is tested too.
+
+Row measurements use TanStack's
+[animation-frame ResizeObserver delivery](https://tanstack.com/virtual/latest/docs/api/virtualizer#useanimationframewithresizeobserver)
+because growth/shrink updates otherwise produce a WebKit observer loop. The
+failure also reproduced with the old wrapper restored. This deliberately defers
+measurement by one frame; it is a targeted loop fix, not a general performance
+optimization. Existing growth/shrink/clear/remount checks retain their browser
+error assertions.
 
 `/vapor-table-fetch-more` exercises the real Table loading pipeline with a delayed
 in-memory loadData callback: pages 25/25/25/8, cursor/skip values, fetch veto,
@@ -655,8 +697,8 @@ in each of Chromium, Firefox and WebKit. Development Chromium also passed the
 removal/remount, SSR, ripple and Table checks; the first cold Table load exceeded
 the test timeout and both Table cases passed after the server was warm.
 Typecheck retains exactly the same 42 diagnostic lines as the F09 baseline.
-I01 is closed; I02's style hydration issue and I03's native icon support remain
-separate blockers.
+At that checkpoint I01 was closed, while I02 and I03 remained separate blockers.
+The Nuxt 4.6 / RC.11 upgrade closes I02; native icon support remains open.
 
 ## Native fallback-slot lifecycle
 

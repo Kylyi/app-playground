@@ -1,8 +1,9 @@
 # Tree hydration — HY01
 
-Rechecked on 2026-09-29 with matched Vue 3.6.0-rc.9 packages. HY01 remains open:
-the initial-data mismatch and a separate native Vapor slot defect both need
-resolution. Tree is already a native Vapor component.
+Rechecked on 2026-10-11 with Nuxt 4.6.1 and matched Vue 3.6.0-rc.11
+packages. HY01 remains open for Tree's initial-data mismatch. The separate native
+empty-slot runtime defect is fixed upstream; its expected-failure annotation is
+removed. Tree is already a native Vapor component.
 
 ## Initial data
 
@@ -21,7 +22,7 @@ component requiring a Suspense ancestor. The eventual data fix must account for
 consumers outside NuxtPage's Suspense boundary rather than silently changing
 that contract.
 
-## Independent native slot defect
+## Independent native slot defect — resolved
 
 The permanent reproduction uses only these two native Vapor SFCs:
 
@@ -47,20 +48,24 @@ The same empty-content failure was reproduced with an awaited promise in setup
 and after removing that await, so Tree's asynchronous initialization is not
 required to trigger it.
 
+Vue RC.10 fixed the empty forwarded-slot SSR range in
+[commit 24b4e99](https://github.com/vuejs/core/commit/24b4e99be925a76b8bcd3e32978e9e02547ef855).
+RC.11 includes that fix. Both variants now hydrate without warnings in Chromium,
+Firefox and WebKit; the empty-slot expected-failure annotation is removed.
+
 ## Regression and retest
 
 `tests/e2e/vapor-tree-hydration-probe.spec.mjs` checks both variants after
-hydration, the following button, and JavaScript-disabled SSR/navigation. Only
-the final no-warning assertion for empty content is an expected failure. A
+hydration, the following button, and JavaScript-disabled SSR/navigation. Both
+variants are ordinary passing tests, including their no-warning assertions. A
 missing child, broken sibling, browser exception or unrelated warning fails
-normally. Once Vue fixes the defect, the unexpected pass signals that the
-expected-failure annotation should be removed.
+normally.
 
 The original `HY01: Tree hydrates without mismatch` assertion also remains an
 expected failure. A reporter summary counting these cases as passed does not
 mean warning-free hydration.
 
-Development validation on 2026-09-29:
+Historical development validation on 2026-09-29 (RC.9):
 
 - Chromium: all nine existing Tree/TreeDms functional checks passed. The new
   non-empty control and SSR/navigation check passed; Tree HY01 and the empty
@@ -84,8 +89,8 @@ E2E_BASE_URL=http://127.0.0.1:3020 bun run test:e2e \
   tests/e2e/vapor-tree-dms-drop.spec.mjs
 ```
 
-Retest the minimal reproduction when upgrading Vue. Once it passes, align
-Tree's server and initial client data while preserving synchronous consumer
+Keep the minimal reproduction when upgrading Vue. The remaining work is to
+align Tree's server and initial client data while preserving synchronous consumer
 compatibility, then cover sorted/filtered input, asynchronous custom search,
 empty trees, TreeDms, remounting and unmounting during initialization. Keep
 virtualization, both drag modes, selection, collapse/expand and sibling behavior

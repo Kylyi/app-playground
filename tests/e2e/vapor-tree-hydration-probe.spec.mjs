@@ -18,11 +18,6 @@ for (const provided of [false, true]) {
     await probe.getByRole('button', { name: 'Following sibling', exact: true }).click()
     await expect(page.getByTestId('hydration-probe-clicks')).toHaveText('1')
     expect(errors).toEqual([])
-    if (!provided) {
-      // Only the identified mismatch is expected; earlier functional failures stay red.
-      expect(warnings.filter(message => !/Hydration children mismatch|Hydration completed/i.test(message))).toEqual([])
-      test.fail(true, 'HY01: Vue rc.9 trims a sibling slot boundary after an empty forwarded slot.')
-    }
     expect(warnings).toEqual([])
   })
 }

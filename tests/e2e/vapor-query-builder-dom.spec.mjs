@@ -65,7 +65,9 @@ test('inline first condition opens its editor and touch cancellation clears a dr
   await expect(page.getByTestId('query-builder-dom')).toHaveAttribute('data-ready', 'true')
   await page.getByTestId('inline-builder').getByRole('button').last().click()
   await expect(page.getByTestId('inline-builder').locator('.qb-item')).toHaveCount(1)
-  await expect(page.locator('.menu:visible')).toHaveCount(1)
+  // Editor autofocus may also open its field selector's nested menu.
+  const editor = page.locator('.menu:visible').filter({ has: page.locator('.qb-item-editor') })
+  await expect(editor).toHaveCount(1)
   await page.getByRole('button', { name: 'Toggle inline builder' }).evaluate(element => element.click())
   await expect(page.locator('.menu:visible')).toHaveCount(0)
 

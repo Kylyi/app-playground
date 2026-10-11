@@ -190,7 +190,7 @@ test('HY01: Tree hydrates without mismatch', async ({ page }) => {
   await page.getByRole('button', { name: 'Tree sibling', exact: true }).click()
   await expect(page.getByTestId('tree-sibling-clicks')).toHaveText('1')
   expect(errors).toEqual([])
-  // Initial data and the independent empty-slot reproduction remain tracked in HY01.
-  test.fail(true, 'Tree initialization and empty forwarded-slot hydration differ; see HY01.')
+  // SSR waits for initialization, while synchronous client setup starts with empty nodes.
+  test.fail(true, 'HY01: Tree initial data differs between SSR and client setup.')
   expect(warnings).toEqual([])
 })

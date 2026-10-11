@@ -25,6 +25,11 @@ the behavior under test. Product screens continue following the UI/i18n rules.
 Node scripts and browser test modules use explicit imports; Nuxt autoimports
 apply only in code transformed by Nuxt.
 
+On Nuxt 4.6 / Vue 3.6 RC.11, import helpers used only in Vapor templates
+explicitly. The compiler treats unknown template names as props, while Nuxt's
+template autoimport addon recognizes VDOM `_ctx` lookups. Script autoimports
+still work; retain them for symbols referenced in script setup.
+
 Axe checks complement explicit keyboard/focus tests; they do not certify full
 accessibility. Compare visual baselines only in a pinned browser/OS/font
 environment. Do not automatically accept changed snapshots as a fix.

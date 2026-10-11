@@ -1,5 +1,35 @@
 import { expect, test } from '@playwright/test'
 
+test('a VDOM root owner receives the Vapor viewport attrs, DOM ref and scroll API', async ({ page }) => {
+  const problems = []
+  page.on('pageerror', error => problems.push(error.message))
+  page.on('console', message => {
+    if (/hydration|no active component/i.test(message.text())) {
+      problems.push(message.text())
+    }
+  })
+  await page.goto('/cs-CZ/vapor-virtual-scroller?mode=vdom')
+  const viewport = page.getByTestId('mixed-scroller')
+  await expect(viewport).toHaveAttribute('data-ready', 'true')
+  await expect(viewport).toHaveAttribute('data-element-matches', 'true')
+  await expect(viewport).toHaveAttribute('aria-label', 'Mixed owner scroller')
+  await expect(viewport).toHaveClass(/mixed-consumer/)
+  await expect(viewport).toHaveCSS('height', '220px')
+  await expect(viewport).toHaveCSS('width', '320px')
+  expect(await viewport.evaluate(el => el.parentElement.dataset.testid)).toBe('virtual-example')
+  await viewport.getByRole('button', { name: 'Mixed row 0', exact: true }).click()
+  await expect(viewport).toBeFocused()
+  await expect(viewport.getByRole('button', { name: 'Mixed row 60', exact: true })).toBeVisible()
+  await expect.poll(async () => Number(await viewport.getAttribute('data-start-index'))).toBeGreaterThan(55)
+  await viewport.getByRole('button', { name: 'Mixed row 60', exact: true }).click()
+  await expect(viewport.getByRole('button', { name: 'Mixed row 0', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Toggle virtual owner', exact: true }).click()
+  await expect(viewport).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle virtual owner', exact: true }).click()
+  await expect(viewport).toHaveAttribute('data-element-matches', 'true')
+  expect(problems).toEqual([])
+})
+
 test('virtual rows measure growth and shrink without affecting another scroller', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
@@ -69,6 +99,14 @@ test('virtual scroller SSR and small-list fallback preserve slots and navigation
     await expect(page.getByTestId('primary-scroller').locator('.virtual-scroll__row')).toHaveCount(8)
     await expect(page.getByRole('link', { name: 'VirtualScroller · měření řádků', exact: true }))
       .toHaveAttribute('href', '/cs-CZ/vapor-virtual-scroller')
+    const link = page.getByRole('link', { name: 'VirtualScroller · smíšený vlastník', exact: true })
+    await expect(link).toHaveAttribute('href', '/cs-CZ/vapor-virtual-scroller?mode=vdom')
+    await link.click()
+    const mixed = page.getByTestId('mixed-scroller')
+    await expect(mixed.locator('.virtual-scroll__row')).toHaveCount(8)
+    await expect(mixed).toHaveAttribute('data-ready', 'false')
+    await expect(mixed).toHaveClass(/mixed-consumer/)
+    await expect(mixed).toHaveCSS('height', '220px')
   } finally {
     await context.close()
   }
