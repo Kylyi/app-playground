@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('cell editors focus and select again across VDOM and Vapor mounts', async ({ page }) => {
+test('cell editors focus with the cursor at the end across VDOM and Vapor mounts', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
   await page.goto('/cs-CZ/vapor-table-focus')
@@ -9,9 +9,13 @@ test('cell editors focus and select again across VDOM and Vapor mounts', async (
   for (const [id, field, text] of [[1, 'name', 'Alpha'], [1, 'custom', 'Bravo'], [2, 'name', 'Charlie'], [1, 'custom', 'Bravo']]) {
     const cell = page.locator(`.td[data-key="${id}"][data-field="${field}"]`)
     await cell.click()
+    await expect(cell.locator('input')).toHaveCount(0)
+    await cell.dblclick()
     const input = cell.locator('input')
     await expect(input).toBeFocused()
     await expect(input).toHaveValue(text)
+    await expect.poll(() => input.evaluate(el => [el.selectionStart, el.selectionEnd])).toEqual([text.length, text.length])
+    await input.press('ControlOrMeta+A')
     await expect.poll(() => input.evaluate(el => [el.selectionStart, el.selectionEnd])).toEqual([0, text.length])
     await page.keyboard.press('Escape')
     await expect(input).toHaveCount(0)

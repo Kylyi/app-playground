@@ -1,5 +1,66 @@
 import { expect, test } from '@playwright/test'
 
+test('XS cells defer edits, discard drafts and commit once on Enter then blur', async ({ page }) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/cs-CZ/vapor-number-input?mode=cell')
+  await expect(page.getByTestId('number-input-example')).toHaveAttribute('data-ready', 'true')
+  const field = page.getByTestId('number-input-field')
+  const input = field.locator('input')
+  const value = page.getByTestId('number-input-value')
+  await expect(field).toHaveClass(/is-cell/)
+  await expect(field.locator('.number-input__step')).toHaveCount(0)
+  await input.fill('25,75')
+  await expect(value).toHaveText('12.5')
+  await input.press('Escape')
+  await expect(input).toHaveValue('12,5')
+  await input.fill('25,75')
+  await input.press('Enter')
+  await expect(value).toHaveText('25.75')
+  await page.getByRole('button', { name: 'Blur input', exact: true }).click()
+  await expect(page.getByTestId('number-input-updates')).toHaveText('1')
+  await expect(page.getByRole('link', { name: 'NumberInput · buňka XS', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-number-input?mode=cell')
+  expect(errors).toEqual([])
+})
+
+test('exact numbers preserve tiny and large values across typing, paste and remount', async ({ page }) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/cs-CZ/vapor-number-input?mode=exact')
+  await expect(page.getByTestId('number-input-example')).toHaveAttribute('data-ready', 'true')
+  const input = page.getByTestId('number-input-field').locator('input')
+  await expect(input).toHaveValue('1e-21')
+  await input.fill('1e+21')
+  await expect(page.getByTestId('number-input-value')).toHaveText('1e+21')
+  await input.evaluate(el => {
+    const clipboardData = new DataTransfer()
+    clipboardData.setData('text', '0,0000000000000000000025')
+    el.dispatchEvent(new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }))
+  })
+  await expect(page.getByTestId('number-input-value')).toHaveText('2.5e-21')
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await expect(input).toHaveValue('2.5e-21')
+  await expect(page.getByRole('link', { name: 'NumberInput · přesná čísla', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-number-input?mode=exact')
+  expect(errors).toEqual([])
+})
+
+test('exact numbers and the cell variant render during SSR', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  try {
+    const page = await context.newPage()
+    await page.goto('/cs-CZ/vapor-number-input?mode=exact')
+    await expect(page.getByTestId('number-input-field').locator('input')).toHaveValue('1e-21')
+    await page.goto('/cs-CZ/vapor-number-input?mode=cell')
+    await expect(page.getByTestId('number-input-field')).toHaveClass(/is-cell/)
+    await expect(page.getByTestId('number-input-field').locator('.number-input__step')).toHaveCount(0)
+  } finally {
+    await context.close()
+  }
+})
+
 test('NumberInput preserves masking, step controls, scoped slots and public methods', async ({ page }) => {
   const problems = []
   page.on('pageerror', error => problems.push(error.message))

@@ -2,7 +2,11 @@
 import type { INumberInputExpose } from '#layers/ui/app/components/Inputs/NumberInput/types/number-input-expose.type'
 
 const ready = ref(false)
-const model = ref<number | null>(12.5)
+const route = useRoute()
+const isCell = route.query.mode === 'cell'
+const isExact = route.query.mode === 'exact'
+const model = ref<number | null>(isExact ? 1e-21 : 12.5)
+const updates = ref(0)
 const slotsVisible = ref(false)
 const visible = ref(true)
 const readonlyMode = ref(false)
@@ -75,6 +79,9 @@ onMounted(() => ready.value = true)
       v-model="model"
       data-testid="number-input-field"
       :readonly="readonlyMode"
+      :variant="isCell ? 'cell' : 'regular'"
+      :size="isCell ? 'xs' : 'md'"
+      :exact="isExact"
       :empty-value="null"
       :step="0.5"
       :fraction-digits="2"
@@ -84,6 +91,7 @@ onMounted(() => ready.value = true)
       label="Number"
       placeholder="Number value"
       layout="regular"
+      @update:model-value="updates++"
     >
       <template
         v-if="slotsVisible"
@@ -131,5 +139,6 @@ onMounted(() => ready.value = true)
       data-example-output
       data-testid="number-input-value"
     >{{ model ?? 'empty' }}</output>
+    <output data-testid="number-input-updates">{{ updates }}</output>
   </section>
 </template>

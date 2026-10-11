@@ -1,5 +1,24 @@
 import { expect, test } from '@playwright/test'
 
+test('scrollers remeasure changed content without a scroll or viewport resize', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-scrollers')
+  await expect(page.getByTestId('scrollers-example')).toHaveAttribute('data-ready', 'true')
+  await page.getByRole('button', { name: 'Scroll to start', exact: true }).click()
+  for (const axis of ['horizontal', 'vertical']) {
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('0')
+    await expect(page.getByTestId(axis)).toHaveClass(/is-overflown/)
+  }
+  await page.getByRole('button', { name: 'Toggle content size', exact: true }).click()
+  for (const axis of ['horizontal', 'vertical']) {
+    await expect(page.getByTestId(axis)).not.toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('0')
+  }
+  await page.getByRole('button', { name: 'Toggle content size', exact: true }).click()
+  for (const axis of ['horizontal', 'vertical']) {
+    await expect(page.getByTestId(axis)).toHaveClass(/is-overflown/)
+  }
+})
+
 test('native scrollers synchronize both axes, wheel, resize and held-arrow cleanup', async ({ page }) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
@@ -24,17 +43,20 @@ test('native scrollers synchronize both axes, wheel, resize and held-arrow clean
     await expect(page.getByTestId(`${axis}-position`)).toHaveText('165')
     const events = Number(await page.getByTestId(`${axis}-events`).textContent())
     const surface = page.getByTestId(axis).locator('.content')
-    await surface.dispatchEvent('wheel', { deltaY: 50 })
-    await expect(page.getByTestId(`${axis}-position`)).toHaveText('190')
-    await surface.dispatchEvent('wheel', { deltaY: 50 })
+    // Horizontal translates the actual wheel distance; vertical keeps native scrolling.
+    await surface.hover()
+    await page.mouse.wheel(0, 50)
     await expect(page.getByTestId(`${axis}-position`)).toHaveText('215')
+    await page.mouse.wheel(0, 50)
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('265')
     expect(Number(await page.getByTestId(`${axis}-events`).textContent())).toBeGreaterThan(events)
   }
   for (const axis of ['horizontal', 'vertical']) {
     const arrow = page.getByTestId(axis).locator(`[name="scroll-${axis === 'horizontal' ? 'right' : 'bottom'}"]`)
     const position = page.getByTestId(`${axis}-position`)
+    const beforeHold = Number(await position.textContent())
     await arrow.dispatchEvent('pointerdown', { pointerId: 1, button: 0 })
-    await expect.poll(async () => Number(await position.textContent())).toBeGreaterThan(230)
+    await expect.poll(async () => Number(await position.textContent())).toBeGreaterThan(beforeHold + 15)
     const stopped = await page.getByTestId(axis).locator('.content').evaluate((el, axis) => {
       window.dispatchEvent(new PointerEvent('pointercancel'))
 
@@ -67,7 +89,7 @@ test('native scrollers synchronize both axes, wheel, resize and held-arrow clean
   await expect(page.getByTestId('horizontal')).toBeVisible()
   await page.getByRole('button', { name: 'Set positions', exact: true }).click()
   await page.getByTestId('horizontal').locator('.content').dispatchEvent('wheel', { deltaY: 50 })
-  await expect(page.getByTestId('horizontal-position')).toHaveText('165')
+  await expect(page.getByTestId('horizontal-position')).toHaveText('190')
   expect(errors).toEqual([])
 })
 

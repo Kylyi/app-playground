@@ -1,6 +1,7 @@
 # Inventář komponent pro Vapor
 
-Stav k 2026-09-29 (po D07, nativní měření Table). Navazuje na [hlavní checklist](vapor-migration.md).
+Stav k 2026-10-11 (synchronizace UI/Utilities `2.3`, po D07 a rc.9).
+Navazuje na [hlavní checklist](vapor-migration.md).
 
 Checkbox znamená dokončenou migraci a ověření vlastních SFC celé rodiny;
 neznamená převod všech jejích externích závislostí. InputLabel a InputWrapper
@@ -9,6 +10,10 @@ zbývajících SFC komponentového stromu; případné VDOM kompatibilní adapt�
 u dotčených rodin uvedené zvlášť.
 
 Aktuální inventář má 241 UI SFC, všechny s Vapor markerem; další SFC přidal D07.
+Při synchronizaci je odškrtnutých 56 z 61 rodin. Zbývají ElementMovement,
+MenuConfirmation, Scroller, Tabs a Tree; otevřené integrační blokátory a povinné
+ověření bundle bez VDOM/interop jsou v hlavním checklistu. Marker sám
+nepotvrzuje ověření celé rodiny ani uzavření migrace.
 
 U každé rodiny doplnit při práci konkrétní SFC, testy a případné interop výjimky.
 Počty zahrnují všechny aktuální `.vue` soubory, i případné starší varianty.

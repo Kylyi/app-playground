@@ -1,6 +1,6 @@
 # Migrace UI a Utilities na Vapor
 
-Pracovní checklist, aktualizováno 2026-09-29; starší záznamy níže popisují jednotlivé etapy. Hlavní místo pro průběžné odškrtávání.
+Pracovní checklist, aktualizováno 2026-10-11; starší záznamy níže popisují jednotlivé etapy. Hlavní místo pro průběžné odškrtávání.
 Podklady: audit zdrojů UI/Utilities, [Nuxt pilot](research/nuxt-vapor.md),
 [Selector a initRef](research/selector-vapor.md), [testování](testing.md).
 
@@ -983,14 +983,15 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     odpojení listeneru po unmount, remount, SSR a hydratace.
 - [x] E03 — TableRow, TableHeaderColumnFiltering a PivotFilterMenu používají
   explicitní ref/focus API místo @vue:mounted a čtení VNode instance.
-  Editor buňky volá select(), případně focus(), po aktualizaci DOM; DynamicInput
+  Editor buňky zaměří vlastní DOM control po aktualizaci DOM a umístí kurzor na
+  konec textu; funguje i nativní input jako root vlastního editoru. DynamicInput
   předává select() svému vstupu. Filtry mají registry refů podle stabilního ID,
   zaměřují nově přidanou podmínku i jedinou existující podmínku po otevření.
   Pivot už nepoužívá index jako klíč filtru. Odložený focus se při unmount ruší.
   TableContent vyhodnocuje klávesy podle event.target uvnitř vlastní tabulky;
   sdílený activeElement po autofocusu mohl zůstat neaktuální a ignorovat Escape.
   /vapor-table-focus ověřuje opakovanou editaci přes VDOM TextInput i native Vapor
-  editor, výběr textu, Escape, skutečná menu Table/Pivot, přidání druhé podmínky,
+  editor přes dvojklik, pozici kurzoru, výběr textu, Escape, skutečná menu Table/Pivot, přidání druhé podmínky,
   opětovné otevření, SSR bez JS a lokalizovanou navigaci.
   Jde o odstranění lifecycle blokátorů; DynamicInput je od D05a nativní Vapor,
   zatímco TableRow a filtry zůstávají VDOM komponentami pod testovaným Vapor
@@ -1154,6 +1155,58 @@ Ve Vapor fixture lokální ref pojmenovaný `size` kolidoval s autoimportem loda
 `size`: klientský transform vytvořil při přiřazení v šabloně neplatnou levou
 stranu (`condition ? local : imported = $event`). Fixture používá `contentSize`.
 Tuto kolizi je potřeba došetřit v F05; přejmenování není obecná oprava transformu.
+
+### Synchronizace 2.3 (2026-10-11)
+
+UI `2.3` do `a8c76e10` a Utilities `2.3` do `0fae53d` jsou začleněné
+do větví `2.3-vapor`. Playground nemá samostatnou větev `2.3`.
+Převzaté funkční změny:
+
+- Input `variant="cell"`, velikost XS, commit při blur/Enter a zrušení draftu
+  přes Escape; přesná čísla v NumberInput, ARIA popisy chyb a hintů, předané
+  chyby a opravy formátování. Explicitní emit, touch/focus kontrakt a podmíněné
+  sloty z Vapor větve zůstávají zachované.
+- Asynchronní uložení celého řádku Table, pending/error stav a opakování
+  odmítnutého uložení; výběr sloupců, zarovnání a bezpečné měření názvů polí.
+  Sloty dál proudí deklarativně; `renderSlot`, `createReusableTemplate` ani
+  VNode mounted hooky z VDOM větve se nevracejí.
+- Tree znovu používá nezměněné uzly a metadata. Hledání má vlastní collapse
+  stav a nemění uložené nastavení. `canBeDragged` a umístění v `canBeDropped`
+  zachovávají zákaz přesunu i při virtualizaci; Vapor DOM API a zrušení aktivního
+  dragu při dispose zůstávají zachované. Viditelnost je cached computed s reuse
+  shodných výsledků: queued watcher z `2.3` nechával při SSR prázdné řádky.
+- Scroller měří změny obsahu, horizontální wheel respektuje skutečnou vzdálenost
+  a vnořené svislé scrollování, VerticalScroller používá nativní wheel.
+  Osy, explicitní callbacky a RAF cleanup zůstávají zachované.
+- PageDrawer, preview URL podle `filesHost`, Escape handler overlayů a společná
+  poloha myši v klientských souřadnicích.
+
+Regrese jsou zachované i tam, kde je `2.3` odstranila. Nové lokalizované
+varianty jsou `/vapor-number-input?mode=cell`, `?mode=exact`,
+`/vapor-table-edit?mode=row-save` a `/vapor-tree-drag?mode=restricted`.
+Sdílený helper má navíc test commit Enter → blur bez dvojího emit a test Escape.
+Table focus regrese teď ověřuje aktuální dvojklik a kurzor na konci textu;
+DOM focus pokrývá i vlastní editor s nativním inputem jako root. Scroll callback
+fixture explicitně ověřuje obě osy. List měří drop indicator mimo auto-scroll
+zónu celého ghostu. Tooltip odděluje změnu fixture od outside pointer pressu,
+který má bublinu zavřít; samostatná regrese ověřuje běžný klik a opětovné otevření.
+Celkem prošlo 304 unit testů v 52 souborech: první běh s dvěma workery měl
+čtyři Nuxt setup timeouty; všech 20 dotčených testů prošlo s jedním workerem.
+Affected source lint prochází s 16 warningy; typecheck má 39 výchozích diagnostik
+oproti 42 před synchronizací (opraveny dva typy ve Tree fixture a explicitní
+osa scroll callbacku ve fixture).
+Samostatný lint UI manifestu má 21 původních chyb pořadí klíčů a duplicitní
+`sortablejs`; nový dependency řádek nepřidává další chybu.
+37 dotčených production Chromium suites pokrývá 143 případů: 141 funkčních
+prošlo v širokém běhu a cílených opravách, 2 jsou původní HY01 expected failures.
+Poslední rebuild prošel všemi 33 cílenými případy (31 funkčních + 2 HY01).
+Ověřeny jsou i lokalizované odkazy nových variant a SSR bez JavaScriptu.
+
+Inventář ověřený ze zdrojů: 241/241 UI SFC má Vapor marker; 56/61 rodin je
+v inventáři odškrtnutých. To není uzavření migrace: zbývají I02 (root CSS
+variables), I03 (dynamické ikony), HY01 (Tree/empty-slot hydratace), otevřené
+rodiny a audity závislostí/kontraktů. H05 stále vyžaduje samostatné ověření
+čistě Vapor scénáře a bundle bez VDOM runtime/interop.
 
 ### Sloučení 2.3 (2026-09-28)
 

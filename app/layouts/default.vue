@@ -10,6 +10,7 @@ type Example = {
   virtual?: boolean
   mode?: 'parent' | 'plain' | 'filtered' | 'basic' | 'tw' | 'inline'
     | 'label-inside' | 'inside' | 'autofit' | 'provided' | 'direct'
+    | 'cell' | 'exact' | 'row-save' | 'restricted'
   warning?: boolean
   loading?: boolean
   small?: boolean
@@ -62,6 +63,8 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'TextArea · pevné řádky', path: '/vapor-text-area', autogrow: false },
       { label: 'TextInput · sloty, heslo a focus', path: '/vapor-text-input' },
       { label: 'NumberInput · maska a krokování', path: '/vapor-number-input' },
+      { label: 'NumberInput · buňka XS', path: '/vapor-number-input', mode: 'cell' },
+      { label: 'NumberInput · přesná čísla', path: '/vapor-number-input', mode: 'exact' },
       { label: 'SearchInput · model a sloty', path: '/vapor-search-input' },
       { label: 'IconPicker · hledání a sloty', path: '/vapor-icon-picker' },
       { label: 'IconInput · picker a focus', path: '/vapor-icon-input' },
@@ -104,6 +107,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'Table · měření buněk', path: '/vapor-table-measurement' },
       { label: 'Table · autofit při načtení', path: '/vapor-table-measurement', mode: 'autofit' },
       { label: 'Table · editace buněk', path: '/vapor-table-edit' },
+      { label: 'Table · asynchronní uložení řádku', path: '/vapor-table-edit', mode: 'row-save' },
       { label: 'Table · editace 1 000 řádků', path: '/vapor-table-edit', virtual: true },
       { label: 'Table · responzivní grid', path: '/vapor-table-grid' },
       { label: 'Table · grid v úzkém panelu', path: '/vapor-table-grid', small: true },
@@ -149,6 +153,7 @@ const groups: { label: string, examples: Example[] }[] = [
       { label: 'List · 1 000 položek', path: '/vapor-list-drag', virtual: true },
       { label: 'TreeDms · externí soubory', path: '/vapor-tree-dms-drop' },
       { label: 'Tree · řazení', path: '/vapor-tree-drag' },
+      { label: 'Tree · omezení drag a drop', path: '/vapor-tree-drag', mode: 'restricted' },
       { label: 'Tree · přesun pod rodiče', path: '/vapor-tree-drag', mode: 'parent' },
       { label: 'Tree · hledání, akce a výběr', path: '/vapor-tree-drag', controls: true },
       { label: 'Tree · hydratace prázdného slotu', path: '/vapor-tree-hydration-probe' },

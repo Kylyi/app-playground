@@ -761,3 +761,31 @@ run passed 256 tests but nine Nuxt suites hit their 10-second setup-hook timeout
 before running 46 tests. Limiting workers to two resolved that startup contention
 without changing timeouts, tests or application behavior. Affected lint passes.
 Typecheck reports the same 42 baseline diagnostics as I05, compared verbatim.
+
+## 2.3 synchronization (2026-10-11)
+
+The merge of UI `a8c76e10` and Utilities `0fae53d` preserves the native Vapor
+regressions removed on `2.3`. New cases cover XS cell drafts (Enter, blur,
+Escape and one commit), exact tiny/large numbers, async row-save rejection and
+retry, Tree search collapse state, drag permissions and scroller content resize.
+The query variants in localized navigation are checked alongside no-JavaScript
+SSR.
+
+The 37 affected production Chromium suites contain 143 cases. Across the broad
+run and focused repairs, all 141 functional cases pass; two existing HY01
+hydration assertions remain expected failures. The final build and focused run
+pass 33 cases (31 functional, 2 HY01). The merge initially left Tree/TreeDms SSR
+rows empty because their new visibility watcher did not run during async server
+initialization; a cached computed value preserves node reuse and SSR content.
+Editor focus also handles a custom native input root. Fixture actions now match
+double-click editing, the required scroll axis, Tooltip outside-click dismissal,
+and the drag ghost's auto-scroll edge zones.
+
+All 304 unit cases in 52 files pass. Four Nuxt setup hooks timed out in the
+two-worker run; all 20 affected cases passed when those four files ran alone
+with one worker. Affected source lint has no errors and 16 warnings. The UI
+manifest retains 21 pre-existing key-order/duplicate-key lint errors; the new
+dependency does not add another. Typecheck retains 39 baseline
+diagnostics, down from 42 after three fixture fixes, with no new file/error-code
+diagnostics. These checks do not close the remaining migration gates in the
+[checklist](vapor-migration.md).

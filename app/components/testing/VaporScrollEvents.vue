@@ -2,9 +2,11 @@
 import { useScrollerScroll } from '../../../packages/UI/app/components/Scroller/composables/useScrollerScroll'
 
 const emitted = ref(0)
+const verticalEmitted = ref(0)
 const ready = ref(false)
 onMounted(() => ready.value = true)
-const { scrollEl } = useScrollerScroll(position => emitted.value = position)
+const { scrollEl } = useScrollerScroll(position => emitted.value = position, 'x')
+const { scrollEl: verticalScrollEl } = useScrollerScroll(position => verticalEmitted.value = position, 'y')
 </script>
 
 <template>
@@ -22,6 +24,20 @@ const { scrollEl } = useScrollerScroll(position => emitted.value = position)
     >
       <div class="scroll-content">
         Scroll content
+      </div>
+    </div>
+    <output
+      data-example-output
+      aria-label="Vertical scroll position"
+      data-testid="vertical-scroll-position"
+    >{{ verticalEmitted }}</output>
+    <div
+      ref="verticalScrollEl"
+      data-testid="vertical-scroll-target"
+      class="scroll-target"
+    >
+      <div class="scroll-content">
+        Vertical scroll content
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ const horizontal = useTemplateRef('horizontal')
 const vertical = useTemplateRef('vertical')
 const mounted = ref(true)
 const expandedViewport = ref(false)
+const itemCount = ref(20)
 const x = ref(60)
 const y = ref(60)
 const horizontalEvents = ref(0)
@@ -29,7 +30,7 @@ onMounted(() => ready.value = true)
     >
       <div class="horizontal-items">
         <span
-          v-for="n in 20"
+          v-for="n in itemCount"
           :key="n"
         >Item {{ n }}</span>
       </div>
@@ -45,7 +46,7 @@ onMounted(() => ready.value = true)
     >
       <div class="vertical-items">
         <span
-          v-for="n in 20"
+          v-for="n in itemCount"
           :key="n"
         >Row {{ n }}</span>
       </div>
@@ -79,6 +80,12 @@ onMounted(() => ready.value = true)
       @click="expandedViewport = !expandedViewport"
     >
       Toggle overflow
+    </button>
+    <button
+      data-example-control
+      @click="itemCount = itemCount === 20 ? 2 : 20"
+    >
+      Toggle content size
     </button>
     <button
       data-example-control

@@ -77,8 +77,8 @@ test('virtual drop indicator aligns with row boundaries before and after scrolli
   await page.goto('/vapor-list-drag?virtual=true')
   await expect(page.getByTestId('list-drag')).toHaveAttribute('data-ready', 'true')
   const scroller = page.locator('.list-content')
-  // Keep both targets away from the auto-scroll edge zones while measuring alignment.
-  for (const scrollTop of [0, 330]) {
+  // Keep the whole drag ghost outside auto-scroll edge zones, not just the pointer.
+  for (const scrollTop of [0, 366]) {
     await scroller.evaluate((element, top) => element.scrollTop = top, scrollTop)
     await expect.poll(() => scroller.evaluate(element => element.scrollTop)).toBe(scrollTop)
     const source = scrollTop ? 'Item 12' : 'Alpha'

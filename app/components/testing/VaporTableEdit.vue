@@ -1,8 +1,28 @@
 <script setup lang="ts" vapor>
 import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
+import type { ITableRowEdit } from '#layers/ui/app/components/Table/types/table-row-edit.type'
 
 const props = defineProps<{ responsive?: boolean }>()
 const route = useRoute()
+const rowMode = route.query.mode === 'row-save'
+const saveState = ref('idle')
+const failSave = ref(false)
+let pendingSave: (() => void) | undefined
+const rowEdit: ITableRowEdit = {
+  onSave: async ({ row }) => {
+    saveState.value = 'pending'
+    await new Promise<void>(resolve => pendingSave = resolve)
+    pendingSave = undefined
+    if (failSave.value) {
+      saveState.value = 'failed'
+      throw new Error('Save rejected')
+    }
+
+    saveState.value = 'saved'
+
+    return row
+  },
+}
 const ready = ref(false)
 const generation = ref(0)
 const count = computed(() => route.query.virtual === 'true' ? 1000 : 5)
@@ -38,8 +58,12 @@ onMounted(() => ready.value = true)
     :data-ready="ready"
     flex="~ col gap-4"
   >
-    <p>
-      Kliknutím otevřete editor buňky. Enter uloží změnu a přejde dál, Ctrl/Cmd + Enter uloží a zavře editor.
+    <p v-if="rowMode">
+      Edit row otevře draft celého řádku. Save row zahájí uložení; Resolve save dokončí čekající požadavek.
+      Toggle save rejection zapne odmítnutí uložení pro ověření chyby a opakování.
+    </p>
+    <p v-else>
+      Dvojklikem otevřete editor buňky. Enter uloží změnu a přejde dál, Ctrl/Cmd + Enter uloží a zavře editor.
       Escape změnu zruší. Data jsou pouze v paměti této ukázky.
     </p>
     <p v-if="props.responsive">
@@ -53,12 +77,28 @@ onMounted(() => ready.value = true)
         @click="reset"
       />
       <span>{{ count }} řádků</span>
+      <template v-if="rowMode">
+        <button
+          data-example-control
+          @click="pendingSave?.()"
+        >
+          Resolve save
+        </button>
+        <button
+          data-example-control
+          @click="failSave = !failSave"
+        >
+          Toggle save rejection
+        </button>
+        <output data-testid="row-save-state">{{ saveState }}</output>
+      </template>
     </div>
     <Table
       :key="generation"
       v-model:rows="rows"
       :columns
-      editable
+      :editable="rowMode ? { mode: 'row' } : true"
+      :row-edit="rowMode ? rowEdit : undefined"
       :storage-key="null"
       :features="[]"
       :breakpoint="props.responsive ? 960 : 1"
@@ -72,7 +112,39 @@ onMounted(() => ready.value = true)
           props.responsive && route.query.small === 'true' ? 'max-w-390px' : 'max-w-1000px',
         ],
       }"
-    />
+    >
+      <template
+        v-if="rowMode"
+        #row-actions="actions"
+      >
+        <button
+          v-if="!actions.isEditing"
+          data-example-control
+          :data-row-edit="actions.row.id"
+          :disabled="actions.disabled"
+          @click="actions.edit()"
+        >
+          Edit row {{ actions.row.id }}
+        </button>
+        <template v-else>
+          <button
+            data-example-control
+            :disabled="actions.isSaving"
+            @click="actions.save()"
+          >
+            Save row
+          </button>
+          <button
+            data-example-control
+            :disabled="actions.isSaving"
+            @click="actions.cancel()"
+          >
+            Cancel row
+          </button>
+          <output data-testid="row-save-error">{{ actions.error }}</output>
+        </template>
+      </template>
+    </Table>
     <details>
       <summary>Aktuální data · prvních 5 řádků</summary>
       <pre

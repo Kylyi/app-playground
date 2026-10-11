@@ -125,9 +125,12 @@ test('Tree search, actions, and checkbox selection work through Vapor components
   await expect(page.getByTestId('tree-drag')).toHaveAttribute('data-ready', 'true')
   await expect(page.locator('.tree-node')).toHaveCount(2)
   await page.locator('[data-tree-search] input').fill('Child')
+  await expect(page.locator('.tree-node')).toHaveCount(2)
+  await expect(page.locator('.tree-node__content')).toHaveText(['Parent', 'Child'])
+  await page.locator('.tree-node').first().locator('.tree-collapse-btn').click()
   await expect(page.locator('.tree-node')).toHaveCount(1)
-  await expect(page.locator('.tree-node__content')).toHaveText('Parent')
   await page.locator('[data-tree-search] input').fill('')
+  await expect(page.locator('.tree-node')).toHaveCount(2)
   await page.locator('.tree-node').first().locator('.checkbox__container').click()
   await expect(page.getByTestId('tree-selection')).toHaveText('node-1,node-2')
   const actionButtons = page.locator('.tree__actions button')
@@ -135,6 +138,41 @@ test('Tree search, actions, and checkbox selection work through Vapor components
   await expect(page.locator('.tree-node')).toHaveCount(3)
   await actionButtons.first().click()
   await expect(page.locator('.tree-node')).toHaveCount(2)
+})
+
+test('Tree rejects restricted sources and placements, then allows a valid drop', async ({ page }) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/cs-CZ/vapor-tree-drag?mode=restricted')
+  await expect(page.getByTestId('tree-drag')).toHaveAttribute('data-ready', 'true')
+  const node = id => page.locator(`.tree .tree-node[data-id="${id}"]`)
+  async function move(source, above = false) {
+    const from = await node(source).boundingBox()
+    const to = await node('node-3').boundingBox()
+    await page.mouse.move(from.x + 70, from.y + from.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(to.x + 100, to.y + (above ? 3 : to.height - 3), { steps: 12 })
+  }
+  await move('node-1')
+  await expect(page.locator('.ghost')).toHaveCount(0)
+  await page.mouse.up()
+  await expect(page.getByTestId('tree-moves')).toHaveText('0')
+
+  await move('node-2')
+  await expect(page.locator('.ghost')).toHaveCount(1)
+  await expect(page.locator('.tree-drop-indicator')).toHaveCount(0)
+  await page.mouse.up()
+  await expect(page.getByTestId('tree-moves')).toHaveText('0')
+  await expect(page.getByTestId('tree-order')).toHaveText('node-1,node-2,node-3')
+
+  await move('node-4', true)
+  await expect(page.locator('.tree-drop-indicator')).toBeVisible()
+  await page.mouse.up()
+  await expect(page.getByTestId('tree-moves')).toHaveText('1')
+  await expect(page.getByTestId('tree-order')).toHaveText('node-1,node-2,node-4')
+  await expect(page.getByRole('link', { name: 'Tree · omezení drag a drop', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-tree-drag?mode=restricted')
+  expect(errors).toEqual([])
 })
 
 test('HY01: Tree hydrates without mismatch', async ({ page }) => {

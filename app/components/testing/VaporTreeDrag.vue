@@ -1,9 +1,11 @@
 <script setup lang="ts" vapor>
 import VaporTreeNode from './VaporTreeNode.vue'
+import type { ITreeProps } from '#layers/ui/app/components/Tree/types/tree-props.type'
 
 type Node = { id: string, label: string, children?: Node[] }
 const route = useRoute()
-const mode = route.query.mode === 'parent' ? 'parent' : 'place'
+const mode: 'parent' | 'place' = route.query.mode === 'parent' ? 'parent' : 'place'
+const restricted = route.query.mode === 'restricted'
 const controls = route.query.controls === 'true'
 const nodes = ref<Node[]>(controls
   ? [
@@ -20,10 +22,12 @@ const ready = ref(false)
 const siblingClicks = ref(0)
 const moves = ref(0)
 const allowed = ref(true)
-const dndConfig = computed(() => ({
+const dndConfig = computed<ITreeProps<Node>['dndConfig']>(() => ({
   enabled: allowed.value,
   dropMode: mode,
   getParentNode: mode === 'place' ? () => null : undefined,
+  canBeDragged: ({ node }) => !restricted || node.id !== 'node-1',
+  canBeDropped: ({ targetNode, placement }) => !restricted || targetNode?.id !== 'node-3' || placement !== 'below',
   onMoved: () => {
     moves.value++
   },
@@ -70,10 +74,10 @@ onMounted(() => ready.value = true)
       :node-el="controls ? undefined : VaporTreeNode"
       :dnd-config="controls ? { enabled: false } : dndConfig"
       :sorting-config="{ enabled: false }"
-      :search-config="{ enabled: controls, includeInSearch: true }"
+      :search-config="{ enabled: controls, includeInSearch: true, keepParents: true }"
       :actions-config="{ enabled: controls }"
       :selection-config="{ enabled: controls, multi: true, emitKey: true }"
-      :scroller-config="{ threshold: 20, rowHeight: 36 }"
+      :scroller-config="{ rowHeight: 36 }"
       :ui="{
         containerStyle: () => ({ width: '400px', height: '240px' }),
         contentStyle: () => ({ height: '200px' }),
