@@ -1,4 +1,8 @@
 <script setup lang="ts" vapor>
+const route = useRoute()
+const segmented = route.query.variant === 'segmented'
+const groupDisabled = ref(false)
+const groupChanges = ref(0)
 const ready = ref(false)
 const visible = ref(true)
 const count = ref(2)
@@ -54,9 +58,13 @@ onMounted(() => ready.value = true)
       <div flex="~ items-center gap-4">
         <Badge
           :counter="count"
+          :ui="{ containerClass: ({ defaults }) => defaults.inline }"
           data-testid="leaf-badge"
         />
-        <Badge data-testid="leaf-badge-slot">
+        <Badge
+          :ui="{ containerClass: ({ defaults }) => defaults.inline }"
+          data-testid="leaf-badge-slot"
+        >
           custom badge
         </Badge>
         <Burger
@@ -72,8 +80,23 @@ onMounted(() => ready.value = true)
       <ButtonGroup
         v-model="groupValue"
         :buttons
+        :variant="segmented ? 'segmented' : 'pill'"
+        :disabled="groupDisabled"
         data-testid="leaf-button-group"
+        @update:model-value="groupChanges++"
       />
+      <template v-if="segmented">
+        <button
+          data-example-control
+          @click="groupDisabled = !groupDisabled"
+        >
+          Toggle group disabled
+        </button>
+        <output
+          data-example-output
+          data-testid="button-group-changes"
+        >{{ groupChanges }}</output>
+      </template>
       <output
         data-example-output
         data-testid="button-group-value"
@@ -122,6 +145,7 @@ onMounted(() => ready.value = true)
         />
         <RadioButton
           :checked="radioChecked"
+          class="h-6 w-6 shrink-0"
           data-testid="leaf-radio-icon"
         />
         <MovementElement data-testid="leaf-movement-element">

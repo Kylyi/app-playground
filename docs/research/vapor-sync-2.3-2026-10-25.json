@@ -1,0 +1,156 @@
+{
+  "date": "2026-10-25",
+  "recordedAt": "2026-10-24T22:58:42.077804+00:00",
+  "scope": "Latest UI/Utilities 2.3 merged into 2.3-vapor while preserving existing local migration work; affected production and full standalone native validation.",
+  "nuxtRootDeferred": true,
+  "checkouts": {
+    "UI": {
+      "head": "f8240fbfa5e2450ffa516bf6430389748613348d",
+      "upstream": "47fbf0c57eca7848e47a93908f98579540624842",
+      "upstreamIsAncestor": true,
+      "missingOriginalFiles": [],
+      "originalUntrackedRestoredIdentically": true,
+      "unchangedOutsideIncomingFilesExceptExpandedIconTest": true,
+      "incomingCommits": 26
+    },
+    "Utilities": {
+      "head": "99364d931be532d97b24c60a3450be48af28d068",
+      "upstream": "88ea6b3245b6cec703821865c0d2e6dae265c3c6",
+      "upstreamIsAncestor": true,
+      "missingOriginalFiles": [],
+      "originalUntrackedRestoredIdentically": true,
+      "unchangedOutsideIncomingFilesExceptExpandedIconTest": true,
+      "incomingCommits": 8
+    }
+  },
+  "sourceSnapshot": {
+    "files": 1295,
+    "sha256": "3c5ac688895df5c383872357435a1777946b8a330b8b585b39277c397a8e1da3"
+  },
+  "runtime": {
+    "nuxt": "4.6.1",
+    "vue": "3.6.0-rc.11",
+    "axios": "1.20.0"
+  },
+  "browserSuites": {
+    "native": {
+      "startTime": "2026-10-24T22:47:49.500Z",
+      "duration": 129257.401,
+      "expected": 102,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "affectedProduction": {
+      "startTime": "2026-10-24T22:49:00.873Z",
+      "duration": 574280.75,
+      "expected": 280,
+      "skipped": 2,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionFiles": [
+      "tests/e2e/picker-touch-focus.spec.mjs",
+      "tests/e2e/vapor-action-primitives.spec.mjs",
+      "tests/e2e/vapor-button.spec.mjs",
+      "tests/e2e/vapor-control-primitives.spec.mjs",
+      "tests/e2e/vapor-icon-input.spec.mjs",
+      "tests/e2e/vapor-leaf-primitives.spec.mjs",
+      "tests/e2e/vapor-pivot-initialization.spec.mjs",
+      "tests/e2e/vapor-pivot-worker.spec.mjs",
+      "tests/e2e/vapor-query-builder-dom.spec.mjs",
+      "tests/e2e/vapor-runtime-icons.spec.mjs",
+      "tests/e2e/vapor-table-fetch-more.spec.mjs",
+      "tests/e2e/vapor-table-measurement.spec.mjs",
+      "tests/e2e/vapor-table-pivot-dom.spec.mjs",
+      "tests/e2e/vapor-table-state.spec.mjs",
+      "tests/e2e/vapor-tree-drag.spec.mjs",
+      "tests/e2e/vapor-tree-initialization.spec.mjs"
+    ],
+    "existingCapabilitySkips": [
+      {
+        "file": "tests/e2e/picker-touch-focus.spec.mjs",
+        "title": "scrolling from a picker input does not open it",
+        "project": "firefox",
+        "annotations": [
+          {
+            "type": "skip",
+            "description": "Native touch movement uses Chromium CDP",
+            "location": {
+              "file": "/Users/jk/Projects/gentl/app-playground/tests/e2e/picker-touch-focus.spec.mjs",
+              "line": 176,
+              "column": 8
+            }
+          }
+        ]
+      },
+      {
+        "file": "tests/e2e/picker-touch-focus.spec.mjs",
+        "title": "scrolling from a picker input does not open it",
+        "project": "webkit",
+        "annotations": [
+          {
+            "type": "skip",
+            "description": "Native touch movement uses Chromium CDP",
+            "location": {
+              "file": "/Users/jk/Projects/gentl/app-playground/tests/e2e/picker-touch-focus.spec.mjs",
+              "line": 176,
+              "column": 8
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "unit": {
+    "files": 61,
+    "passed": 344,
+    "failed": 0
+  },
+  "typechecks": {
+    "application": "passed",
+    "native": "passed"
+  },
+  "affectedLint": {
+    "files": 81,
+    "errors": 0,
+    "existingStyleWarnings": 7
+  },
+  "whitespaceChecks": {
+    "application": "passed",
+    "UI": "passed",
+    "Utilities": "passed"
+  },
+  "nativeBundle": {
+    "stage": "final-public-assets",
+    "compiledUI": 242,
+    "uiVDOMRenderImports": [],
+    "javascriptFiles": 443,
+    "compiledChunks": 442,
+    "javascriptBytes": 7273127,
+    "retainedVDOM": [
+      "createVNode"
+    ],
+    "iconRendererModules": [],
+    "rawReportSha256": "2b2c6eaa59d217974437644e21e71b93d236a8f715b6b599a5f255ca80df772d"
+  },
+  "integrationRepairs": [
+    "Container-based button labels use native declarative slots on both roots instead of the upstream VDOM reusable-template helper.",
+    "External Tree callbacks use sensor coordinates and preserve generic ownership, cancellation and immediate cleanup.",
+    "Empty-table autofit uses the exposed native scroller element and retains viewport/measurement disposal guards.",
+    "The duplicate Menu header binding is removed.",
+    "Legacy runtime icon names take precedence over custom Uno class variants while retaining styling.",
+    "Numeric-string sorting uses a regex without ambiguous adjacent digit repetition.",
+    "Binary toggles expose switch semantics while mixed/tri-state values retain checkbox semantics and existing focus behavior."
+  ],
+  "regressions": [
+    "Container-sized button labels: real container resize, native button/anchor roots, custom slots, owner remount and no-JavaScript SSR.",
+    "Segmented ButtonGroup: SSR, selection, repeated active click, Enter activation, disabled state and remount.",
+    "Tree external move/return/drop/Escape/owner cancellation, viewport coordinates and unchanged source order; standalone native drop.",
+    "A new Table query completes while an old page is held and discards the late old result.",
+    "Custom Uno variants cannot be mistaken for the legacy icon collection."
+  ],
+  "performanceRerun": false,
+  "performanceCheckpoint": "vapor-performance-parent.json (2026-10-22 source snapshot)",
+  "artifacts": ".cache/sync-2.3-2026-10-25"
+}

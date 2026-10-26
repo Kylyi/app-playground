@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('Menu and Tooltip preserve declaration anchors and clean up retargeted listeners', async ({ page }) => {
   const errors = []
@@ -82,7 +85,7 @@ test('Menu and Tooltip preserve declaration anchors and clean up retargeted list
 })
 
 test('closed overlay anchors render on the server without exposing content', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false, baseURL })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-overlay-anchors')

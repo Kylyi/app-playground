@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const hints of [false, true]) {
   test(`viewport SSR uses ${hints ? 'client hints before cookies' : 'cookies before device guess'}`, async ({ browser, baseURL }) => {
-    const context = await browser.newContext({
+    const context = await createObservedContext(browser, {
       baseURL,
       javaScriptEnabled: false,
       extraHTTPHeaders: hints ? { 'sec-ch-viewport-width': '1100', 'sec-ch-viewport-height': '700' } : {},

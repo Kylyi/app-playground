@@ -1,5 +1,8 @@
 import { Buffer } from 'node:buffer'
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const multi of [false, true]) {
   test(`FileInput scoped chooser, removal and drop survive slot changes (multi=${multi})`, async ({ page }) => {
@@ -67,7 +70,7 @@ for (const multi of [false, true]) {
 }
 
 test('FileInput renders default empty content and both localized links in SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-file-input')

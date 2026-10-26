@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const mode of ['static', 'direct-fallback', 'provided', 'forwarded-fallback']) {
   test(`native ${mode} children dispose after hydration`, async ({ page }) => {
@@ -31,7 +34,7 @@ for (const mode of ['static', 'direct-fallback', 'provided', 'forwarded-fallback
 }
 
 test('slot lifecycle example has deterministic SSR and localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-slot-lifecycle')

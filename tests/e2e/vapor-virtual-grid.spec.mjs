@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('native grid recycles both axes, aligns headers and recalculates resized columns', async ({ page }) => {
   const errors = []
@@ -19,6 +22,14 @@ test('native grid recycles both axes, aligns headers and recalculates resized co
 
   await page.getByRole('button', { name: 'Go to row 500, column 60', exact: true }).click()
   await expect(cell(500, 60)).toHaveText('Row 500 · Col 60')
+  // scrollToCell reveals the column at the viewport's right edge, under the
+  // header's scroll arrow. Center it before grabbing its resize handle.
+  await scroller.evaluate(el => {
+    const column = el.querySelector('.td[data-key="500"][data-field="field_60"]')
+    const viewport = el.getBoundingClientRect()
+    const rect = column.getBoundingClientRect()
+    el.scrollLeft += rect.left - viewport.left - (el.clientWidth - rect.width) / 2
+  })
   await expect(cell(0, 0)).toHaveCount(0)
   await expect(scroller.locator('.td[data-field="field_0"]')).toHaveCount(0)
   await expect.poll(async () => Math.abs(
@@ -29,10 +40,12 @@ test('native grid recycles both axes, aligns headers and recalculates resized co
     .toBeLessThan(1)
 
   const splitter = page.locator('.table-header .splitter:not(.splitter--active)').nth(60)
+  await splitter.hover()
   const box = await splitter.boundingBox()
   const widthBefore = (await cell(500, 60).boundingBox()).width
   await page.mouse.move(box.x + box.width / 2, box.y + 8)
   await page.mouse.down()
+  await expect(page.locator('.splitter--active')).toBeVisible()
   await page.mouse.move(box.x + box.width / 2 + 50, box.y + 8, { steps: 8 })
   await page.mouse.up()
   await expect.poll(async () => (await cell(500, 60).boundingBox()).width).toBeGreaterThan(widthBefore + 40)
@@ -54,7 +67,7 @@ test('native grid recycles both axes, aligns headers and recalculates resized co
 })
 
 test('grid SSR renders a bounded initial rectangle without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-virtual-grid')

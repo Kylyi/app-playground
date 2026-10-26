@@ -5,11 +5,18 @@ import { TableColumn } from '../../../packages/UI/app/components/Table/models/ta
 import { PivotItem } from '../../../packages/UI/app/components/Pivot/models/pivot-item.model'
 import type { TableFeature } from '../../../packages/UI/app/components/Table/types/table-feature.type'
 import type { ITableTotal } from '../../../packages/UI/app/components/Table/types/table-total.type'
+import type { IPivotCellClickPayload } from '../../../packages/UI/app/components/Pivot/types/pivot-emits.type'
 
 const route = useRoute()
+const { currentLocaleCode } = useLocale()
 const controls = route.query.controls === 'true'
 const empty = route.query.empty === 'true'
 const grouped = route.query.grouped === 'true'
+const cellContracts = route.query.cells === 'true'
+const formatVersion = ref(0)
+const valuesOnRows = ref(false)
+const clickMode = ref(0)
+const lastCell = ref('')
 const controlFeature = typeof route.query.feature === 'string'
   ? route.query.feature as TableFeature
   : undefined
@@ -27,6 +34,7 @@ function handleSelectAll(rows: unknown[]) {
   selectAllCalls.value.push(rows)
 }
 const rows = Array.from({ length: 100 }, (_, id) => ({ id, name: `Item ${id}`, group: `Group ${id % 8}`, value: id + 1 }))
+const cellRows = ref(rows)
 const tableRows = empty ? [] : rows
 const columns = ['name', 'group', 'value'].map(field => new TableColumn({
   field,
@@ -51,6 +59,24 @@ const items = grouped
       new PivotItem({ field: 'group', usage: { column: { index: 0 } } }),
       new PivotItem({ field: 'value', dataType: 'number', usage: { value: [{ index: 0, summaryType: SummaryEnum.SUM }] } }),
     ]
+if (cellContracts) {
+  const value = items.find(item => item.field === 'value')!
+  value.format = (_row: unknown, aggregate?: unknown) => {
+    return `Format ${formatVersion.value % 2 ? 'B' : 'A'} ${currentLocaleCode.value}: ${aggregate}`
+  }
+  items.push(new PivotItem({
+    field: 'id',
+    label: 'ID value',
+    dataType: 'number',
+    usage: { value: [{ index: 1, summaryType: SummaryEnum.SUM }] },
+  }))
+}
+
+function handlePivotCellClick(payload: IPivotCellClickPayload) {
+  pivotCellClicks.value++
+  lastCell.value = `${payload.row.label}:${payload.cell.aggregated}:${payload.column.id === payload.cell.columnId}`
+}
+
 const loadData = route.query.loading
   ? {
       immediate: route.query.loading === 'immediate',
@@ -83,6 +109,36 @@ onMounted(() => ready.value = true)
       Toggle tables
     </button>
     <div v-if="wrapperMounted">
+      <template v-if="cellContracts">
+        <button
+          data-example-control
+          @click="formatVersion++"
+        >
+          Replace cell format
+        </button>
+        <button
+          data-example-control
+          @click="valuesOnRows = !valuesOnRows"
+        >
+          Toggle value orientation
+        </button>
+        <button
+          data-example-control
+          @click="clickMode = (clickMode + 1) % 3"
+        >
+          Cycle cell interaction
+        </button>
+        <button
+          data-example-control
+          @click="cellRows = cellRows.map(row => row.id ? row : { ...row, value: 0 })"
+        >
+          Use zero aggregate
+        </button>
+        <output
+          data-example-output
+          data-testid="pivot-last-cell"
+        >{{ lastCell }}</output>
+      </template>
       <button
         v-if="route.query.updates"
         data-example-control
@@ -92,6 +148,8 @@ onMounted(() => ready.value = true)
       </button>
       <output
         v-if="route.query.updates"
+        data-example-output
+        aria-label="Selection events"
         data-testid="select-all-calls"
       >{{ JSON.stringify(selectAllCalls) }}</output>
       <div data-testid="table">
@@ -118,11 +176,12 @@ onMounted(() => ready.value = true)
       <Pivot
         v-if="mounted"
         :performance="route.query.warning ? { sourceRowWarningThreshold: 1 } : undefined"
-        :data="loadData ? undefined : rows"
+        :data="loadData ? undefined : cellContracts ? cellRows : rows"
         :load-data
         :items
-        row-clickable
-        cell-clickable
+        :config="cellContracts ? { valuesOnRows } : undefined"
+        :row-clickable="!cellContracts || clickMode !== 2"
+        :cell-clickable="!cellContracts || clickMode === 0"
         :ui="{
           containerStyle: () => ({ width: '600px', height: '300px' }),
           ...(route.query.updates
@@ -132,8 +191,15 @@ onMounted(() => ready.value = true)
             : {}),
         }"
         @click:row="pivotRowClicks++"
-        @click:cell="pivotCellClicks++"
-      />
+        @click:cell="handlePivotCellClick"
+      >
+        <template
+          v-if="cellContracts"
+          #top
+        >
+          <PivotValueCellProbe />
+        </template>
+      </Pivot>
       <output
         data-example-output
         data-testid="pivot-clicks"

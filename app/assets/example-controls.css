@@ -4,6 +4,7 @@
   --example-border: #94a3b8;
   --example-ink: #1e293b;
   --example-accent: #1d4ed8;
+  --example-active-background: #eff6ff;
   --example-hover: #eff6ff;
   --example-button: #1d4ed8;
   --example-button-hover: #1e40af;
@@ -14,6 +15,7 @@
   --example-border: #64748b;
   --example-ink: #f1f5f9;
   --example-accent: #93c5fd;
+  --example-active-background: #1e293b;
   --example-hover: #334155;
   --example-button: #2563eb;
   --example-button-hover: #1d4ed8;

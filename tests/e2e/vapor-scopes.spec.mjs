@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('Vapor owners isolate files and validation registrations and clean up on remount', async ({ page }) => {
   const errors = []
@@ -34,7 +37,7 @@ test('Vapor owners isolate files and validation registrations and clean up on re
 })
 
 test('server renders scope owners without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto(new URL('/vapor-scopes', baseURL).href)

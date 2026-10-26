@@ -41,7 +41,7 @@ onMounted(() => {
         containerStyle: () => ({ width: wide ? '360px' : '240px', height: '180px' }),
         noDataStyle: () => ({ height: '48px' }),
       }"
-      @change:content-size="contentSize = $event"
+      @change:content-size="contentSize = { ...contentSize, ...$event }"
     >
       <template #item="{ row }">
         <button data-example-control>

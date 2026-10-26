@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 const pickers = [
   { name: 'date', path: 'vapor-date-time-inputs', ready: 'date-time-example', field: 'date-field', accessory: '.picker-icon' },
@@ -61,7 +64,7 @@ for (const picker of pickers) {
 for (const width of [390, 1100]) {
   for (const picker of pickers) {
     test(`${picker.name} separates touch activation from editable focus (${width}px)`, async ({ browser, browserName, baseURL }) => {
-      const context = await browser.newContext({
+      const context = await createObservedContext(browser, {
         baseURL,
         viewport: { width, height: 844 },
         hasTouch: true,
@@ -171,7 +174,7 @@ for (const width of [390, 1100]) {
 
 test('scrolling from a picker input does not open it', async ({ browser, browserName, baseURL }) => {
   test.skip(browserName !== 'chromium', 'Native touch movement uses Chromium CDP')
-  const context = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
+  const context = await createObservedContext(browser, { baseURL, viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-date-time-inputs')

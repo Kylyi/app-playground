@@ -1,4 +1,40 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+import { expectTextContrast } from './text-contrast.mjs'
+import { expectCircleFixtureLayout } from './presentation-geometry.mjs'
+
+assertRendererDiagnostics(test)
+
+test('ProgressBar default label remains readable over both filled and empty surfaces', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-presentation-primitives')
+  await expect(page.getByTestId('presentation-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const progress = page.getByTestId('presentation-progress')
+  for (const expected of ['Loaded 25%', 'Loaded 70%']) {
+    await expect(progress).toContainText(expected)
+    await expectTextContrast(progress, {
+      foreground: '.progress-bar__text',
+      backgrounds: ['.progress-bar__white', '.progress-bar__color'],
+    })
+    if (expected === 'Loaded 25%') {
+      await page.getByRole('button', { name: 'Change progress', exact: true }).click()
+    }
+  }
+})
+
+test('mobile breadcrumbs expose the current item without covering append content', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/cs-CZ/vapor-presentation-primitives')
+  await expect(page.getByTestId('presentation-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const breadcrumbs = page.getByTestId('presentation-breadcrumbs')
+  const current = breadcrumbs.getByRole('button', { name: 'Current page', exact: true })
+  await current.focus()
+  await current.scrollIntoViewIfNeeded()
+  const bounds = await current.boundingBox()
+  const appendBounds = await page.getByTestId('breadcrumbs-append').boundingBox()
+  expect(bounds.x + bounds.width).toBeLessThanOrEqual(appendBounds.x)
+  await expect(current).toHaveClass(/(?:^|\s)is-last(?:\s|$)/)
+  await expect(current).not.toHaveClass(/(?:^|\s)is-dimmed(?:\s|$)/)
+})
 
 test('presentation primitives update, switch variants and remount without renderer errors', async ({ page }) => {
   const problems = []
@@ -13,7 +49,7 @@ test('presentation primitives update, switch variants and remount without render
   const example = page.getByTestId('presentation-primitives-example')
   await expect(example).toHaveAttribute('data-ready', 'true')
 
-  await expect(page.getByTestId('presentation-navigation')).toHaveClass(/is-sticky/)
+  await expect(page.getByTestId('presentation-navigation')).toHaveClass(/(?:^|\s)is-sticky(?:\s|$)/)
   await expect(page.getByTestId('navigation-content')).toHaveText('Navigation content')
   await expect(page.getByTestId('presentation-main-bar')).toContainText('Presentation main bar')
   await expect(page.getByTestId('presentation-main-bar')).toContainText('Main bar subtitle')
@@ -31,6 +67,9 @@ test('presentation primitives update, switch variants and remount without render
   await expect(page.getByTestId('presentation-section')).toContainText('Presentation section')
   await expect(page.getByTestId('presentation-section')).toContainText('Section subtitle')
   await expect(page.getByTestId('section-content')).toHaveText('Section content')
+  await expect(page.getByTestId('presentation-section').locator('h6.section__title')).toHaveText('Presentation section')
+  await page.getByRole('button', { name: 'Toggle section heading tag', exact: true }).click()
+  await expect(page.getByTestId('presentation-section').locator('h2.section__title')).toHaveText('Presentation section')
   await expect(page.getByTestId('presentation-section').locator('.skeleton')).toHaveCount(0)
   await expect(page.getByTestId('presentation-page-title')).toContainText('BeforePresentation titleAfter')
   await expect(page.getByTestId('page-title-below')).toHaveText('Below')
@@ -45,11 +84,19 @@ test('presentation primitives update, switch variants and remount without render
   await expect(page.getByTestId('formatted-append')).toHaveText('append')
   await expect(page.getByTestId('formatted-current')).toHaveText('formatted:current')
   await expect(page.getByTestId('formatted-previous')).toHaveText('formatted:previous')
-  await expect(page.getByTestId('presentation-separator')).toHaveClass(/is-horizontal/)
+  await expect(page.getByTestId('formatter-empty-case')).toHaveText(['Empty', 'Empty', 'Empty', 'Empty', '0', 'false'])
+  await expect(page.getByTestId('formatter-empty-previous')).toHaveText('CurrentEmpty')
+  await expect(page.getByTestId('formatter-custom-empty')).toHaveText('Empty')
+  await expect(page.getByTestId('presentation-separator')).toHaveClass(/(?:^|\s)is-horizontal(?:\s|$)/)
   await expect(page.getByTestId('presentation-skeleton')).toHaveClass(/variant--wave/)
   await expect(page.getByTestId('presentation-loader')).toHaveAttribute('id', 'L7')
   await expect(page.getByTestId('presentation-loader-block')).toHaveClass(/h-6/)
   await expect(page.getByTestId('presentation-loader-inline')).toHaveClass(/h-6/)
+  await expect(page.getByTestId('presentation-progress')).toContainText('Loaded 25%')
+  await page.getByRole('button', { name: 'Toggle progress label', exact: true }).click()
+  await expect(page.getByTestId('presentation-progress').locator('.progress-bar__text')).toHaveCount(0)
+  await expect(page.getByTestId('presentation-progress')).toHaveText('')
+  await page.getByRole('button', { name: 'Toggle progress label', exact: true }).click()
   await expect(page.getByTestId('presentation-progress')).toContainText('Loaded 25%')
   const progressBar = page.getByTestId('presentation-progress')
   const progressFill = progressBar.locator('.progress-bar__black')
@@ -63,6 +110,7 @@ test('presentation primitives update, switch variants and remount without render
   await expect(page.getByTestId('presentation-circle').locator('.circle-progress__circle'))
     .toHaveAttribute('stroke-dasharray', '25, 100')
   await expect(page.getByTestId('circle-slot')).toHaveText('slot')
+  await expectCircleFixtureLayout(page.getByTestId('presentation-circle'))
 
   await page.getByRole('button', { name: 'Increment banner', exact: true }).click()
   await expect(page.getByTestId('presentation-banner').locator('.badge')).toHaveText('2')
@@ -75,9 +123,10 @@ test('presentation primitives update, switch variants and remount without render
   await page.getByRole('button', { name: 'Change progress', exact: true }).click()
   await expect(page.getByTestId('presentation-progress')).toContainText('Loaded 70%')
   await expect(page.getByTestId('presentation-circle')).toContainText('70%')
+  await expectCircleFixtureLayout(page.getByTestId('presentation-circle'))
 
   await page.getByRole('button', { name: 'Toggle separator', exact: true }).click()
-  await expect(page.getByTestId('presentation-separator')).toHaveClass(/is-vertical/)
+  await expect(page.getByTestId('presentation-separator')).toHaveClass(/(?:^|\s)is-vertical(?:\s|$)/)
   await page.getByLabel('Skeleton variant', { exact: true }).selectOption('blink')
   await expect(page.getByTestId('presentation-skeleton')).toHaveClass(/variant--blink/)
   await page.getByLabel('Loader variant', { exact: true }).selectOption('inline')
@@ -97,11 +146,11 @@ test('presentation primitives update, switch variants and remount without render
 })
 
 test('presentation primitives and localized navigation render during SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-presentation-primitives')
-    await expect(page.getByTestId('presentation-navigation')).toHaveClass(/is-sticky/)
+    await expect(page.getByTestId('presentation-navigation')).toHaveClass(/(?:^|\s)is-sticky(?:\s|$)/)
     await expect(page.getByTestId('navigation-content')).toHaveText('Navigation content')
     await expect(page.getByTestId('presentation-main-bar')).toContainText('Presentation main bar')
     await expect(page.getByTestId('main-bar-left')).toHaveText('Left')
@@ -112,12 +161,16 @@ test('presentation primitives and localized navigation render during SSR', async
     await expect(page.getByTestId('presentation-banner').locator('.badge')).toHaveText('1')
     await expect(page.getByTestId('presentation-section')).toContainText('Presentation section')
     await expect(page.getByTestId('section-content')).toHaveText('Section content')
+    await expect(page.getByTestId('presentation-section').locator('h6.section__title')).toHaveText('Presentation section')
     await expect(page.getByTestId('presentation-page-title')).toContainText('Presentation title')
     await expect(page.getByTestId('presentation-collapse')).toHaveAttribute('data-state', 'closed')
     await expect(page.getByTestId('collapse-content')).not.toBeVisible()
     await expect(page.getByTestId('presentation-heading')).toHaveText('Presentation primitives')
     await expect(page.getByTestId('formatted-field')).toContainText('field-value')
     await expect(page.getByTestId('formatted-current')).toHaveText('formatted:current')
+    await expect(page.getByTestId('formatter-empty-case')).toHaveText(['Empty', 'Empty', 'Empty', 'Empty', '0', 'false'])
+    await expect(page.getByTestId('formatter-empty-previous')).toHaveText('CurrentEmpty')
+    await expect(page.getByTestId('formatter-custom-empty')).toHaveText('Empty')
     await expect(page.getByTestId('presentation-progress')).toContainText('Loaded 25%')
     await expect(page.getByTestId('presentation-circle')).toContainText('25%')
     await expect(page.getByRole('link', { name: 'Prezentační prvky · Vapor', exact: true }))

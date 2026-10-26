@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('five inputs clear once after confirmation and keep values on cancellation', async ({ page }) => {
   const problems = []
@@ -56,7 +59,7 @@ test('hint fallback, function values and error transitions survive remount', asy
 })
 
 test('feedback example renders initial hint and localized link without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-input-feedback')

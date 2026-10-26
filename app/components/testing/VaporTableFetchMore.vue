@@ -10,6 +10,8 @@ const blocked = ref(false)
 const expanded = ref(false)
 const pending = ref(0)
 const maxPending = ref(0)
+const holdNextPage = ref(false)
+const releasePendingPage = shallowRef<() => void>()
 const requests = ref<{ skip: number, last: number | null, search: string }[]>([])
 const fullscreen = route.query.fullscreen === 'true'
 const pageSize = fullscreen ? 20 : route.query.short ? 3 : 25
@@ -31,6 +33,13 @@ const loadData = {
     requests.value.push({ skip, last: fetchMore?.lastRow?.id ?? null, search })
     pending.value++
     maxPending.value = Math.max(maxPending.value, pending.value)
+    if (holdNextPage.value && skip > 0) {
+      holdNextPage.value = false
+      // Keep an actual page request pending while testing scroll/measurement
+      // behavior, independently of how long browser assertions take.
+      await new Promise<void>(resolve => releasePendingPage.value = resolve)
+      releasePendingPage.value = undefined
+    }
     await new Promise(resolve => setTimeout(resolve, 250))
     pending.value--
     const count = search ? 12 : fullscreen ? 1000 : 83
@@ -52,6 +61,7 @@ function search() {
   }
 }
 onMounted(() => ready.value = true)
+onScopeDispose(() => releasePendingPage.value?.())
 </script>
 
 <template>
@@ -66,6 +76,19 @@ onMounted(() => ready.value = true)
         @click="blocked = !blocked"
       >
         Toggle fetch veto
+      </button>
+      <button
+        data-example-control
+        @click="holdNextPage = true"
+      >
+        Hold next page
+      </button>
+      <button
+        data-example-control
+        :disabled="!releasePendingPage"
+        @click="releasePendingPage?.()"
+      >
+        Release pending page
       </button>
       <button
         data-example-control

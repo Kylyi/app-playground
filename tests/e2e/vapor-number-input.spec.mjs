@@ -1,4 +1,19 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+function pasteText(input, text) {
+  return input.evaluate((element, text) => {
+    const clipboardData = new DataTransfer()
+    clipboardData.setData('text/plain', text)
+    const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true })
+    // Firefox creates an empty clipboard for a synthetic ClipboardEvent even
+    // when its constructor receives data. Supply the OS clipboard boundary.
+    Object.defineProperty(event, 'clipboardData', { value: clipboardData })
+    element.dispatchEvent(event)
+  }, text)
+}
 
 test('XS cells defer edits, discard drafts and commit once on Enter then blur', async ({ page }) => {
   const errors = []
@@ -8,7 +23,7 @@ test('XS cells defer edits, discard drafts and commit once on Enter then blur', 
   const field = page.getByTestId('number-input-field')
   const input = field.locator('input')
   const value = page.getByTestId('number-input-value')
-  await expect(field).toHaveClass(/is-cell/)
+  await expect(field).toHaveClass(/(?:^|\s)is-cell(?:\s|$)/)
   await expect(field.locator('.number-input__step')).toHaveCount(0)
   await input.fill('25,75')
   await expect(value).toHaveText('12.5')
@@ -33,11 +48,7 @@ test('exact numbers preserve tiny and large values across typing, paste and remo
   await expect(input).toHaveValue('1e-21')
   await input.fill('1e+21')
   await expect(page.getByTestId('number-input-value')).toHaveText('1e+21')
-  await input.evaluate(el => {
-    const clipboardData = new DataTransfer()
-    clipboardData.setData('text', '0,0000000000000000000025')
-    el.dispatchEvent(new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }))
-  })
+  await pasteText(input, '0,0000000000000000000025')
   await expect(page.getByTestId('number-input-value')).toHaveText('2.5e-21')
   await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
   await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
@@ -48,13 +59,13 @@ test('exact numbers preserve tiny and large values across typing, paste and remo
 })
 
 test('exact numbers and the cell variant render during SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-number-input?mode=exact')
     await expect(page.getByTestId('number-input-field').locator('input')).toHaveValue('1e-21')
     await page.goto('/cs-CZ/vapor-number-input?mode=cell')
-    await expect(page.getByTestId('number-input-field')).toHaveClass(/is-cell/)
+    await expect(page.getByTestId('number-input-field')).toHaveClass(/(?:^|\s)is-cell(?:\s|$)/)
     await expect(page.getByTestId('number-input-field').locator('.number-input__step')).toHaveCount(0)
   } finally {
     await context.close()
@@ -80,11 +91,7 @@ test('NumberInput preserves masking, step controls, scoped slots and public meth
   await expect(page.getByTestId('number-input-value')).toHaveText('12.5')
   await input.fill('25,75')
   await expect(page.getByTestId('number-input-value')).toHaveText('25.75')
-  await input.evaluate(el => {
-    const clipboardData = new DataTransfer()
-    clipboardData.setData('text', '42,25')
-    el.dispatchEvent(new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true }))
-  })
+  await pasteText(input, '42,25')
   await expect(input).toHaveValue('42,25')
   await expect(page.getByTestId('number-input-value')).toHaveText('42.25')
   await page.getByRole('button', { name: 'Select input', exact: true }).click()
@@ -118,7 +125,7 @@ test('NumberInput preserves masking, step controls, scoped slots and public meth
 })
 
 test('NumberInput renders localized numeric value and navigation during SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-number-input')
@@ -136,9 +143,12 @@ test('NumberInput renders localized numeric value and navigation during SSR', as
 test('NumberInputStep repeats while held and releases listeners when cancelled or unmounted', async ({ page }) => {
   const problems = []
   page.on('pageerror', error => problems.push(error.message))
+  const startedAt = new Date()
+  await page.clock.install({ time: startedAt })
   await page.goto('/cs-CZ/vapor-number-input')
   await expect(page.getByTestId('number-input-example')).toHaveAttribute('data-ready', 'true')
-  await page.clock.install()
+  // Stop wall-clock ticks between assertions; only runFor advances the hold.
+  await page.clock.pauseAt(new Date(startedAt.getTime() + 60 * 60 * 1000))
   // Track actual global subscriptions so a stopped timer cannot hide leaked listeners.
   await page.evaluate(() => {
     const add = window.addEventListener.bind(window)
@@ -199,5 +209,6 @@ test('NumberInputStep repeats while held and releases listeners when cancelled o
   await page.clock.runFor(600)
   await expect(value).toHaveText('13')
   expect(await page.evaluate(() => window.stepSubscriptionCount())).toBe(0)
+  await page.clock.resume()
   expect(problems).toEqual([])
 })

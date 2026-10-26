@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('scroll callbacks work in native Vapor and both List submit paths reach the owner once', async ({ page }) => {
   const errors = []

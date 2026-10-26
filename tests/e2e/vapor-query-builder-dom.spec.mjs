@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('QueryBuilder moves a condition and cancels an unmounted drag without changing order', async ({ page }) => {
   const errors = []
@@ -45,7 +48,7 @@ test('QueryBuilder moves a condition and cancels an unmounted drag without chang
 })
 
 test('QueryBuilder server HTML contains conditions without a drag clone', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-query-builder-dom?small=true')

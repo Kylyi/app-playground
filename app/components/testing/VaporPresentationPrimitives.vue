@@ -2,6 +2,7 @@
 const ready = ref(false)
 const visible = ref(true)
 const progress = ref(25)
+const progressLabelVisible = ref(true)
 const vertical = ref(false)
 const skeletonVariant = ref<'wave' | 'pulse' | 'blink'>('wave')
 const loaderVariant = ref<'inline' | 'block'>('block')
@@ -9,6 +10,7 @@ const collapseOpen = ref(false)
 const bannerVisible = ref(true)
 const bannerCounter = ref(1)
 const sectionLoading = ref(false)
+const sectionTitleElement = ref<string>()
 
 const breadcrumbs = [
   { label: 'Library', to: '/library' },
@@ -39,6 +41,13 @@ onMounted(() => ready.value = true)
         @click="progress = progress === 25 ? 70 : 25"
       >
         Change progress
+      </button>
+      <button
+        data-example-control
+        type="button"
+        @click="progressLabelVisible = !progressLabelVisible"
+      >
+        Toggle progress label
       </button>
       <button
         data-example-control
@@ -74,6 +83,13 @@ onMounted(() => ready.value = true)
         @click="sectionLoading = !sectionLoading"
       >
         Toggle section loading
+      </button>
+      <button
+        data-example-control
+        type="button"
+        @click="sectionTitleElement = sectionTitleElement ? undefined : 'h2'"
+      >
+        Toggle section heading tag
       </button>
       <select
         v-model="skeletonVariant"
@@ -127,7 +143,10 @@ onMounted(() => ready.value = true)
           <span data-testid="main-bar-left">Left</span>
         </template>
         <template #title-append>
-          <span data-testid="main-bar-title-append">Append</span>
+          <span
+            data-testid="main-bar-title-append"
+            m-l="2"
+          >Append</span>
         </template>
         <template #right>
           <span data-testid="main-bar-right">Right</span>
@@ -164,6 +183,7 @@ onMounted(() => ready.value = true)
         title="Presentation section"
         subtitle="Section subtitle"
         :loading="sectionLoading"
+        :title-element="sectionTitleElement"
         data-testid="presentation-section"
       >
         <span data-testid="section-content">Section content</span>
@@ -174,10 +194,16 @@ onMounted(() => ready.value = true)
         data-testid="presentation-page-title"
       >
         <template #prepend>
-          <span data-testid="page-title-prepend">Before</span>
+          <span
+            data-testid="page-title-prepend"
+            m-r="1"
+          >Before</span>
         </template>
         <template #append>
-          <span data-testid="page-title-append">After</span>
+          <span
+            data-testid="page-title-append"
+            m-l="1"
+          >After</span>
         </template>
         <template #below>
           <span data-testid="page-title-below">Below</span>
@@ -225,6 +251,35 @@ onMounted(() => ready.value = true)
         </template>
       </ValueFormatter>
 
+      <div data-testid="formatter-empty-values">
+        <div
+          v-for="(value, index) in [null, undefined, '', [], 0, false]"
+          :key="index"
+          data-testid="formatter-empty-case"
+        >
+          <ValueFormatter
+            :value
+            data-type="string"
+            empty-value-string="Empty"
+          />
+        </div>
+      </div>
+      <div data-testid="formatter-empty-previous">
+        <ValueFormatter
+          value="Current"
+          :previous-value="null"
+          data-type="string"
+          empty-value-string="Empty"
+        />
+      </div>
+      <div data-testid="formatter-custom-empty">
+        <ValueFormatter
+          value="Current"
+          :format="() => null"
+          empty-value-string="Empty"
+        />
+      </div>
+
       <div
         data-testid="separator-shell"
         :style="{ height: vertical ? '48px' : 'auto' }"
@@ -263,7 +318,7 @@ onMounted(() => ready.value = true)
 
       <ProgressBar
         :progress
-        :label="formatProgress"
+        :label="progressLabelVisible ? formatProgress : false"
         data-testid="presentation-progress"
       />
       <CircleProgress
@@ -271,7 +326,12 @@ onMounted(() => ready.value = true)
         :size="80"
         data-testid="presentation-circle"
       >
-        <span data-testid="circle-slot">slot</span>
+        <span
+          data-testid="circle-slot"
+          absolute
+          left="full"
+          m-l="2"
+        >slot</span>
       </CircleProgress>
     </div>
   </section>

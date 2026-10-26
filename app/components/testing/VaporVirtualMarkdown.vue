@@ -5,12 +5,13 @@ import AsyncMarkdownRow from './AsyncMarkdownRow.vue'
 const slow = useRoute().query.slow === 'true'
 const rows = ref(Array.from({ length: 200 }, (_, id) => ({
   id,
-  document: undefined as MarkdownDocument | undefined,
 })))
+// ASTs are immutable transport documents, not deeply reactive row fields.
+const documents = shallowReactive<Record<number, MarkdownDocument | undefined>>({})
 const scroller = useTemplateRef('scroller')
 const narrow = ref(false)
 const visibleStart = ref(0)
-const loadedCount = computed(() => rows.value.filter(row => row.document).length)
+const loadedCount = computed(() => Object.values(documents).filter(Boolean).length)
 </script>
 
 <template>
@@ -72,7 +73,7 @@ const loadedCount = computed(() => rows.value.filter(row => row.document).length
       <template #default="{ row }">
         <AsyncMarkdownRow
           :id="row.id"
-          v-model:document="row.document"
+          v-model:document="documents[row.id]"
           :slow
         />
       </template>

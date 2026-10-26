@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('input menus keep their wrapper anchors after remount', async ({ page }) => {
   const errors = []
@@ -38,7 +41,7 @@ test('input menus keep their wrapper anchors after remount', async ({ page }) =>
 })
 
 test('input anchor fixture renders on the server without open menus', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-input-anchors')

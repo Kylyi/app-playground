@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 function field(form, name) {
   return form.getByTestId(`${name}-field`)
@@ -95,7 +98,7 @@ for (const [engine, route] of [['ArkType', '/vapor-form'], ['Zod', '/vapor-form-
     })
 
     test('both Forms and nested fields render on the server without JavaScript', async ({ browser, baseURL }) => {
-      const context = await browser.newContext({ javaScriptEnabled: false })
+      const context = await createObservedContext(browser, { javaScriptEnabled: false })
       try {
         const page = await context.newPage()
         const response = await page.goto(new URL(route, baseURL).href)

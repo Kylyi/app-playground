@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const virtual of [false, true]) {
   test(`List mounts configured handles and cancels disposed drags (virtual=${virtual})`, async ({ page }) => {
@@ -60,7 +63,7 @@ for (const virtual of [false, true]) {
 }
 
 test('List drag handles render during SSR without creating ghosts', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-list-drag')

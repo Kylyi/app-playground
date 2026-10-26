@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 async function openTable(page, query = '') {
   const errors = []
@@ -26,24 +29,71 @@ function bottom(scroller) {
   })
 }
 
+test('a new Table query supersedes a held page and rejects its late result', async ({ page }) => {
+  const { scroller, errors } = await openTable(page)
+  await expect.poll(() => read(page, 'loaded-ids')).toHaveLength(25)
+  await page.getByRole('button', { name: 'Hold next page', exact: true }).click()
+  await bottom(scroller)
+  const release = page.getByRole('button', { name: 'Release pending page', exact: true })
+  await expect(release).toBeEnabled()
+  await expect(page.getByTestId('pending')).toHaveText('1')
+  await page.getByRole('button', { name: 'Filter data', exact: true }).click()
+  const filtered = Array.from({ length: 12 }, (_, id) => 1000 + id)
+  await expect.poll(() => read(page, 'loaded-ids')).toEqual(filtered)
+  await expect(release).toBeEnabled()
+  await expect(page.getByTestId('max-pending')).toHaveText('2')
+  await release.click()
+  await expect(page.getByTestId('pending')).toHaveText('0')
+  expect(await read(page, 'loaded-ids')).toEqual(filtered)
+  expect((await read(page, 'requests')).at(-1).search).toBe('filtered')
+  expect(errors).toEqual([])
+})
+
 test('Table fetchMore preserves pages, scroll position, row measurements and stops at total count', async ({ page }) => {
   const { scroller, errors } = await openTable(page)
   await expect.poll(() => read(page, 'loaded-ids')).toEqual(Array.from({ length: 25 }, (_, id) => id))
-  await expect(scroller).toHaveClass(/is-virtual/)
+  await expect(scroller).toHaveClass(/(?:^|\s)is-virtual(?:\s|$)/)
   await page.getByRole('button', { name: 'Toggle fetch veto' }).click()
   await bottom(scroller)
   await expect(scroller.locator('.virtual-scroll__row[data-key="24"]')).toBeVisible()
   // Let both the scroll callback and the delayed fetch window elapse.
   await page.waitForTimeout(400)
   expect(await read(page, 'requests')).toHaveLength(1)
+  await page.getByRole('button', { name: 'Hold next page', exact: true }).click()
   await page.getByRole('button', { name: 'Toggle fetch veto' }).click()
   await scroller.evaluate(el => el.scrollTop -= 32)
   await expect(page.getByTestId('pending')).toHaveText('1')
-  const topBefore = await scroller.evaluate(el => el.scrollTop)
+  await expect(page.getByRole('button', { name: 'Release pending page', exact: true })).toBeEnabled()
+  // Scrolling reveals a new overscan row. Its measured border height can
+  // correct the estimate without moving any visible row; record after that.
+  await expect.poll(() => scroller.locator('.virtual-scroll__row').evaluateAll(rows => {
+    return rows.length > 0 && rows.every(row => {
+      return Number(row.style.getPropertyValue('--rowHeight')) === row.offsetHeight
+    })
+  })).toBe(true)
+  expect(await read(page, 'loaded-ids')).toHaveLength(25)
+  const before = await scroller.evaluate(el => {
+    const viewport = el.getBoundingClientRect()
+    const anchor = [...el.querySelectorAll('.virtual-scroll__row')].find(row => {
+      const rect = row.getBoundingClientRect()
+
+      return rect.bottom > viewport.top && rect.top < viewport.top + el.clientHeight
+    })
+
+    return {
+      top: el.scrollTop,
+      key: anchor.dataset.key,
+      offset: anchor.getBoundingClientRect().top - viewport.top,
+    }
+  })
   await scroller.dispatchEvent('scroll')
   await scroller.dispatchEvent('scroll')
+  await page.getByRole('button', { name: 'Release pending page', exact: true }).click()
   await expect.poll(() => read(page, 'loaded-ids')).toHaveLength(50)
-  expect(await scroller.evaluate(el => el.scrollTop)).toBe(topBefore)
+  expect(await scroller.evaluate(el => el.scrollTop)).toBe(before.top)
+  expect(await scroller.locator(`.virtual-scroll__row[data-key="${before.key}"]`).evaluate(row => {
+    return row.getBoundingClientRect().top - row.closest('.virtual-scroll').getBoundingClientRect().top
+  })).toBe(before.offset)
   await expect(page.getByTestId('max-pending')).toHaveText('1')
 
   await page.getByRole('button', { name: 'Toggle row height' }).click()
@@ -106,7 +156,7 @@ test('Table fills an initially short viewport without user scrolling', async ({ 
   ])
   await bottom(scroller)
   await expect.poll(async () => (await read(page, 'loaded-ids')).length).toBeGreaterThan(9)
-  await expect(scroller).toHaveClass(/is-virtual/)
+  await expect(scroller).toHaveClass(/(?:^|\s)is-virtual(?:\s|$)/)
   await expect(page.getByTestId('max-pending')).toHaveText('1')
   await expect(page.getByRole('link', { name: 'Table · doplnění viewportu', exact: true }))
     .toHaveAttribute('href', '/cs-CZ/vapor-table-fetch-more?short=true')

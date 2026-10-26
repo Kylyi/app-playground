@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-22",
+  "historicalCheckpoint": true,
+  "followUp": "vapor-performance-verification.json",
+  "scope": "Final targeted production follow-up, full standalone native suite and affected visual matrix. Application runtime sources stayed frozen; later source changes affect only the native audit harness.",
+  "checkouts": {
+    "application": {
+      "branch": "2.3-vapor",
+      "head": "305c179fb8bf18baf6b1dee8acafc8c3ef8cf6c7"
+    },
+    "packages/UI": {
+      "branch": "2.3-vapor",
+      "head": "499b0dcb74052b800f33343314b610154674de34"
+    },
+    "packages/Utilities": {
+      "branch": "2.3-vapor",
+      "head": "9acaf4edb85dbf9dc0945c130bcdb93a2c167175"
+    }
+  },
+  "sourceSnapshot": {
+    "files": 1285,
+    "sha256": "4a9f678a4e6cd87fce101e455ed4d26e4a75bfed732e47be677d918a84dea87a",
+    "scope": "Tracked/nonignored .vue/.ts/.js/.mjs/.json/.scss/.css source and configuration outside docs, including both submodules.",
+    "runtimeUnchangedFromTimingAndProductionE2E": true,
+    "auditHarnessChangesAfterTiming": [
+      "playwright.native.config.mjs",
+      "tests/native-e2e/native-consumer.spec.mjs",
+      "tooling/native-consumer/nuxt.config.mjs",
+      "tooling/native-consumer/audit-bundle.mjs"
+    ]
+  },
+  "builds": {
+    "application": "passed",
+    "native": "passed",
+    "performanceVDOM": "passed",
+    "performanceVapor": "passed"
+  },
+  "typechecks": {
+    "application": {
+      "passed": true,
+      "diagnostics": 0
+    },
+    "native": {
+      "passed": true,
+      "diagnostics": 0
+    }
+  },
+  "unit": {
+    "files": 57,
+    "passed": 325,
+    "failed": 0
+  },
+  "tooling": {
+    "passed": 4,
+    "failed": 0
+  },
+  "affectedLint": {
+    "files": 324,
+    "errors": 0,
+    "warnings": 20
+  },
+  "whitespace": {
+    "application": "passed",
+    "UI": "passed",
+    "Utilities": "passed"
+  },
+  "browserSuites": {
+    "production": {
+      "startTime": "2026-10-22T00:17:13.820Z",
+      "duration": 593285.5419999999,
+      "expected": 295,
+      "skipped": 2,
+      "unexpected": 0,
+      "flaky": 0,
+      "workers": 1,
+      "retries": 0,
+      "files": [
+        "tests/e2e/picker-touch-focus.spec.mjs",
+        "tests/e2e/shared-tooltip.spec.mjs",
+        "tests/e2e/vapor-action-primitives.spec.mjs",
+        "tests/e2e/vapor-collapse-contracts.spec.mjs",
+        "tests/e2e/vapor-consumer-contracts.spec.mjs",
+        "tests/e2e/vapor-control-primitives.spec.mjs",
+        "tests/e2e/vapor-family-interaction.spec.mjs",
+        "tests/e2e/vapor-menu-proxy.spec.mjs",
+        "tests/e2e/vapor-overflow.spec.mjs",
+        "tests/e2e/vapor-pivot-filters.spec.mjs",
+        "tests/e2e/vapor-pivot-initialization.spec.mjs",
+        "tests/e2e/vapor-pivot-worker.spec.mjs",
+        "tests/e2e/vapor-pointer-contracts.spec.mjs",
+        "tests/e2e/vapor-query-builder-dom.spec.mjs",
+        "tests/e2e/vapor-query-builder-hierarchy.spec.mjs",
+        "tests/e2e/vapor-table-fetch-more.spec.mjs",
+        "tests/e2e/vapor-table-pivot-dom.spec.mjs",
+        "tests/e2e/vapor-tabs-accessibility.spec.mjs",
+        "tests/e2e/vapor-text-area.spec.mjs",
+        "tests/e2e/vapor-tree-dms-drop.spec.mjs"
+      ]
+    },
+    "native": {
+      "startTime": "2026-10-22T00:31:48.420Z",
+      "duration": 109130.77,
+      "expected": 96,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0,
+      "workers": 1,
+      "retries": 0,
+      "files": [
+        "tests/native-e2e/native-consumer.spec.mjs"
+      ]
+    },
+    "visual": {
+      "startTime": "2026-10-22T00:33:52.197Z",
+      "duration": 30797.982,
+      "expected": 24,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0,
+      "workers": 1,
+      "retries": 0,
+      "files": [
+        "tests/visual/final-consumer-contracts.spec.mjs"
+      ]
+    }
+  },
+  "visualReview": {
+    "matrixCases": 24,
+    "viewportComponentPairs": 24,
+    "matrixImages": 48,
+    "nativeSearchErrorPairs": 3,
+    "totalImagesReviewed": 54,
+    "method": "All paired captures reviewed in contact sheets, with selected full-resolution component checks.",
+    "findings": "No new overlap, missing control or theme defect observed; narrow focused inputs retain native horizontal scrolling."
+  },
+  "performance": {
+    "currentSSRHydrationPassed": 30,
+    "baselineClean": 21,
+    "baselineLimitations": 9,
+    "measuredSamples": 150,
+    "families": 5,
+    "remountCyclesPerFamilyRenderer": 30,
+    "currentDOMAndListenerRetentionGates": "passed",
+    "scrollRuns": 8,
+    "universalSpeedup": false,
+    "gzipAssetInventoryChangePercent": 6.0097199554083325
+  },
+  "nativeBundle": {
+    "stage": "final-public-assets",
+    "compiledUI": 242,
+    "families": 63,
+    "uiVDOMRenderImports": [],
+    "javascriptFiles": 443,
+    "compiledChunks": 442,
+    "javascriptBytes": 7265884,
+    "retainedVDOM": [
+      "createVNode"
+    ],
+    "iconRendererModules": [],
+    "rawReportSha256": "f92a4d0ba1130874164a2cdef412dc4a1d8c4b94d2a8e07ca1da14152e5875e6",
+    "httpVerification": {
+      "status": 200,
+      "contentLength": 54479,
+      "fileBytes": 54479,
+      "stage": "final-public-assets"
+    }
+  },
+  "consumerAudit": {
+    "projects": 36,
+    "sourceFiles": 23966,
+    "explicitLegacyCalls": 115,
+    "legacyProjects": 7,
+    "parseErrors": 0,
+    "unresolved": 0,
+    "externalCheckoutsModified": false,
+    "backendDependentExternalE2EClaimed": false
+  },
+  "remaining": [
+    "B08/H04: consumer adoption and removal of the still-used legacy adapter",
+    "H05: deferred Nuxt application root and remaining framework render helpers"
+  ],
+  "cleanup": {
+    "ownedServersStopped": true,
+    "disposableBaselineAndBenchmarkBuildsRemoved": true,
+    "largeDiagnosticHeapRemoved": true,
+    "staleBrowserArtifactsRemoved": true,
+    "reportsAndReviewedCapturesRetained": true
+  },
+  "localRawArtifacts": ".cache/vapor-final-validation-2026-10-22"
+}

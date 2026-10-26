@@ -5,7 +5,7 @@ const checkboxModel = ref<boolean | null>(false)
 const checkboxItems = ref<string[]>(['alpha'])
 const readonlyCheckbox = ref(false)
 const toggleModel = ref<boolean | null>(false)
-const stringToggleModel = ref('true')
+const stringToggleModel = ref<string | undefined>('true')
 const readonlyToggle = ref(false)
 const confirmationVisible = ref(false)
 const confirmationCloses = ref(0)
@@ -119,7 +119,17 @@ onMounted(() => ready.value = true)
             <span data-testid="toggle-prepend">toggle prepend</span>
           </template>
           <template #bullet>
-            <span data-testid="toggle-bullet">bullet</span>
+            <span
+              data-testid="toggle-bullet"
+              role="img"
+              aria-label="Custom toggle bullet"
+              class="h-3 w-3 color-slate-900"
+              :class="{
+                'i-heroicons-check-16-solid': toggleModel === true,
+                'i-heroicons-x-mark-16-solid': toggleModel === false,
+                'i-heroicons-minus-16-solid': toggleModel === null,
+              }"
+            />
           </template>
           <template #append>
             <span data-testid="toggle-append">toggle append</span>
@@ -147,7 +157,14 @@ onMounted(() => ready.value = true)
       <output
         data-example-output
         data-testid="string-toggle-model"
-      >{{ stringToggleModel }}</output>
+      >{{ String(stringToggleModel) }}</output>
+      <button
+        data-example-control
+        type="button"
+        @click="stringToggleModel = undefined"
+      >
+        Clear string toggle
+      </button>
       <output
         data-example-output
         data-testid="readonly-toggle-model"
@@ -162,7 +179,15 @@ onMounted(() => ready.value = true)
       <output
         data-example-output
         data-testid="query-boolean-state"
+        :data-type="typeof queryBoolean"
       >{{ String(queryBoolean) }}:{{ queryBooleanRemovals }}</output>
+      <button
+        data-example-control
+        type="button"
+        @click="queryBoolean = 'false'"
+      >
+        Set false string
+      </button>
 
       <div
         data-testid="confirmation-host"

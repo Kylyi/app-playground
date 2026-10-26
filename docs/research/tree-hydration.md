@@ -1,26 +1,29 @@
 # Tree hydration — HY01
 
-Rechecked on 2026-10-11 with Nuxt 4.6.1 and matched Vue 3.6.0-rc.11
-packages. HY01 remains open for Tree's initial-data mismatch. The separate native
-empty-slot runtime defect is fixed upstream; its expected-failure annotation is
-removed. Tree is already a native Vapor component.
+The 2026-10-12 fix uses Nuxt 4.6.1 and matched Vue 3.6.0-rc.11. Tree now
+commits built-in sorting/search and synchronous custom search before rendering,
+without asynchronous setup. HY01 is an ordinary strict regression test;
+its expected-failure annotation is removed.
 
 ## Initial data
 
-Tree calls its asynchronous `init()` during setup and registers that promise
-with `onServerPrefetch`. SSR waits for flattening and searching; synchronous
-client setup does not. On the 1,000-node playground example, the development
-checker reports server `min-height:36000px` against client `min-height:0px`,
-extra server rows, and an unexpected client `TreeNoData` element.
+The previous asynchronous flatten/search made SSR render 1,000 nodes while the
+first client pass saw none. Synchronous variants of the Utilities sorting and
+searching helpers remove that gap; their existing public async APIs still return
+Promises. Tree rebuilds hierarchy indexes before one initial search, and ignores
+queued duplicate initialization caused by merged configuration.
 
-A trial awaited initialization during SSR and Nuxt hydration, as Pivot does.
-It removed those data/height/empty-state mismatches, and the nine functional
-Tree/TreeDms browser checks still passed. One children mismatch remained on the
-Tree root around the scroller's following slots. The trial was reverted: it
-does not finish HY01, and top-level await also changes Tree into an async-setup
-component requiring a Suspense ancestor. The eventual data fix must account for
-consumers outside NuxtPage's Suspense boundary rather than silently changing
-that contract.
+Custom Promise searches render a deterministic pending first pass on both the
+server and client. Even a server-resolved Promise does not create rows that the
+initial client pass cannot reproduce. Results commit after mount; generation and
+scope checks discard stale results and results from an unmounted owner. This is
+the explicit asynchronous-search contract, while static and synchronous filtered
+data remain present in server HTML.
+
+The remaining nested empty-outlet boundary is avoided by providing the scroller's
+`inner` slot only when there is no data or actual `content-inner` content. No DOM
+wrapper or top-level await is introduced. The no-data slot also stays empty-state
+only. Loading and following Tree slots retain their normal ownership.
 
 ## Independent native slot defect — resolved
 
@@ -61,9 +64,11 @@ variants are ordinary passing tests, including their no-warning assertions. A
 missing child, broken sibling, browser exception or unrelated warning fails
 normally.
 
-The original `HY01: Tree hydrates without mismatch` assertion also remains an
-expected failure. A reporter summary counting these cases as passed does not
-mean warning-free hydration.
+`HY01: Tree hydrates without mismatch` is now an ordinary test. It checks actual
+rows, its following interactive sibling, browser errors and hydration diagnostics.
+The initialization suite adds sorted/filtered/custom/empty SSR, matching localized
+links, async out-of-order results and disposal/remount. The standalone native
+consumer checks the same store without Suspense or `vaporInteropPlugin`.
 
 Historical development validation on 2026-09-29 (RC.9):
 
@@ -86,13 +91,13 @@ Run from the application root, with the development server on port 3020:
 E2E_BASE_URL=http://127.0.0.1:3020 bun run test:e2e \
   tests/e2e/vapor-tree-hydration-probe.spec.mjs \
   tests/e2e/vapor-tree-drag.spec.mjs \
-  tests/e2e/vapor-tree-dms-drop.spec.mjs
+  tests/e2e/vapor-tree-dms-drop.spec.mjs \
+  tests/e2e/vapor-tree-initialization.spec.mjs
 ```
 
-Keep the minimal reproduction when upgrading Vue. The remaining work is to
-align Tree's server and initial client data while preserving synchronous consumer
-compatibility, then cover sorted/filtered input, asynchronous custom search,
-empty trees, TreeDms, remounting and unmounting during initialization. Keep
-virtualization, both drag modes, selection, collapse/expand and sibling behavior
-in the regression run. Do not close HY01 based only on the non-empty control or
-production's reduced hydration diagnostics.
+Keep both the minimal upstream reproduction and the original Tree assertion
+when upgrading Vue. The final round runs these checks in development as well as
+production in all three engines. Virtualization, both drag modes, selection,
+collapse/expand and sibling behavior remain strict regressions. See the current
+validation record in [testing](../testing.md) and the
+[native audit](native-vapor-audit.md).

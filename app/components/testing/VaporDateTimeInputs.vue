@@ -103,7 +103,7 @@ onMounted(() => ready.value = true)
           data-example-control
           type="button"
           position="relative"
-          @click="focus"
+          @click="focus()"
         >
           Focus date
         </button>

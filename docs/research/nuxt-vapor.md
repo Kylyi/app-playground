@@ -1,6 +1,12 @@
 # Nuxt Vapor verification
 
-## Released integration — 2026-10-11
+The 2026-10-12 follow-up fixes Tree HY01, removes asynchronous Pivot setup,
+checks a standalone native consumer and clears the production type diagnostics.
+See the [current validation record](../testing.md) and the
+[native dependency/cleanup audit](native-vapor-audit.md). The dated upgrade
+snapshot below preserves the results and remaining issues at that time.
+
+## Released integration snapshot — 2026-10-11
 
 The application and reusable layers now use released Nuxt **4.6.1**, replacing
 the `pkg.pr.new` integration preview. Vue and all compiler/runtime overrides are
@@ -66,7 +72,7 @@ serialization diagnostic's wording changes with Nuxt's updated types.
 The production Chromium sweep contains 251 cases. All 250 functional cases pass
 across the full sweep and targeted repairs; Tree's initial-data HY01 remains one
 expected failure. After the final rebuild, the floating-target and QueryBuilder
-suites pass all eight cases. See [validation details](../testing.md#nuxt-46-upgrade-validation--2026-10-11).
+suites pass all eight cases. See [validation details](../testing.md#historical-nuxt-46-upgrade-validation--2026-10-11).
 
 Upstream: [Nuxt 4.6.1](https://github.com/nuxt/nuxt/releases/tag/v4.6.1),
 [Vue RC.11](https://github.com/vuejs/core/releases/tag/v3.6.0-rc.11),

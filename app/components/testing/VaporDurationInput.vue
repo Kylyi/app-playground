@@ -111,7 +111,7 @@ onMounted(() => ready.value = true)
             data-example-control
             type="button"
             position="relative"
-            @click="focus"
+            @click="focus()"
           >
             Slot focus
           </button>
@@ -124,7 +124,7 @@ onMounted(() => ready.value = true)
             data-example-control
             type="button"
             position="relative"
-            @click="clear"
+            @click="clear()"
           >
             Slot clear
           </button>

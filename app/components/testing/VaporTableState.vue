@@ -3,7 +3,7 @@ import { useTableStore } from '../../../packages/UI/app/components/Table/stores/
 
 const props = defineProps<{ label: string, storageKey?: string | null }>()
 const { customData, storageKey } = useTableStore({
-  storageKey: () => props.storageKey,
+  storageKey: () => props.storageKey ?? null,
 })
 const ready = ref(false)
 onMounted(() => ready.value = true)

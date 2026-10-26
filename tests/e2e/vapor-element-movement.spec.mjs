@@ -1,4 +1,8 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+import { expectSelectionCleared, expectSelectionDisabled } from './gesture-selection.mjs'
+
+assertRendererDiagnostics(test)
 
 test('native Vapor movement and resize release gestures on owner removal', async ({ page }) => {
   const errors = []
@@ -17,16 +21,16 @@ test('native Vapor movement and resize release gestures on owner removal', async
     await page.mouse.up()
     const field = selector.includes('move-handle') ? 'x' : 'w'
     await expect.poll(async () => (await dimensions())[field]).toBeGreaterThan(before[field] + 40)
-    expect(await page.locator('body').evaluate(el => el.style.userSelect)).toBe('')
+    await expectSelectionCleared(page)
 
     const nextBox = await handle.boundingBox()
     await page.mouse.move(nextBox.x + nextBox.width / 2, nextBox.y + nextBox.height / 2)
     await page.mouse.down()
-    await expect(page.locator('body')).toHaveCSS('user-select', 'none')
+    await expectSelectionDisabled(page)
     await page.getByRole('button', { name: 'Toggle movement' }).evaluate(el => el.click())
     await expect(page.getByTestId('moving-box')).toHaveCount(0)
     const removed = await dimensions()
-    expect(await page.locator('body').evaluate(el => el.style.userSelect)).toBe('')
+    await expectSelectionCleared(page)
     await page.mouse.move(100, 100)
     await page.mouse.up()
     expect(await dimensions()).toEqual(removed)
@@ -36,7 +40,7 @@ test('native Vapor movement and resize release gestures on owner removal', async
 })
 
 test('movement surface renders on the server without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/vapor-element-movement')
@@ -84,7 +88,7 @@ test('movable Menu registers its header after opening and cancels on Escape', as
   await page.mouse.move(100, 100)
   await page.mouse.up()
   expect(await page.getByTestId('menu-dimensions').textContent()).toBe(cancelled)
-  expect(await page.locator('body').evaluate(el => el.style.getPropertyValue('user-select'))).toBe('')
+  await expectSelectionCleared(page)
 })
 
 for (const header of ['mouse', 'pointer']) {
@@ -114,7 +118,7 @@ for (const header of ['mouse', 'pointer']) {
       await page.mouse.move(100, 100)
       await page.mouse.up()
       expect(await dimensions()).toEqual(cancelled)
-      expect(await page.locator('body').evaluate(el => el.style.userSelect)).toBe('')
+      await expectSelectionCleared(page)
     }
     await page.getByRole('button', { name: 'Toggle movable', exact: true }).click()
     await page.getByRole('button', { name: 'Toggle movable menu', exact: true }).click()

@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('DurationInput preserves milliseconds, scoped slots and public input methods', async ({ page }) => {
   const problems = []
@@ -63,7 +66,7 @@ test('DurationInput preserves milliseconds, scoped slots and public input method
 })
 
 test('DurationInput renders its default label and units in SSR with localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-duration-input')

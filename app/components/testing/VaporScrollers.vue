@@ -121,7 +121,7 @@ onMounted(() => ready.value = true)
   @apply flex shrink-0;
 
   span {
-    @apply w-12 shrink-0;
+    @apply w-14 shrink-0;
   }
 }
 

@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('VDOM owner feeding DatePicker events from its period does not loop', async ({ page }) => {
   const errors = []
@@ -31,7 +34,7 @@ test('VDOM owner feeding DatePicker events from its period does not loop', async
 })
 
 test('DatePicker events and localized navigation render on the server', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vdom-date-picker-events')

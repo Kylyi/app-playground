@@ -1,0 +1,182 @@
+import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+async function open(page, mode = '') {
+  await page.goto(`/cs-CZ/vapor-scroller-contracts${mode ? `?mode=${mode}` : ''}`)
+  await expect(page.getByTestId('scroller-contracts')).toHaveAttribute('data-ready', 'true')
+
+  return page.getByTestId('vertical-contract')
+}
+
+const row = (scroller, index) => scroller.locator(`:scope > .virtual-scroll__content > [data-index="${index}"]`)
+const control = (page, name) => page.getByRole('button', { name, exact: true })
+const count = page => page.getByTestId('contract-events').evaluate(element => Number(element.textContent))
+const settle = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => requestAnimationFrame(resolve)))))
+
+test('vertical scroller clear, rerender and range APIs change real rendered rows', async ({ page }) => {
+  const scroller = await open(page)
+  await expect(row(scroller, 0)).toBeVisible()
+  await control(page, 'Contract scroll 60').click()
+  await expect(row(scroller, 60)).toBeVisible()
+  await expect.poll(async () => {
+    const event = await page.getByTestId('contract-last-event').textContent()
+
+    return event ? JSON.parse(event).visibleStartItem.index : undefined
+  }).toBe(60)
+  await control(page, 'Contract viewport').click()
+  await expect(page.getByTestId('contract-rendered')).toHaveText('{"first":60,"last":64,"ids":["60","61","62","63","64"]}')
+  await expect(scroller.locator('.content-row')).toHaveCount(5)
+  await control(page, 'Contract clear').click()
+  await expect(scroller.locator('.content-row')).toHaveCount(0)
+  await expect(page.getByTestId('contract-inner-content')).toHaveText('Inner content retained')
+  await control(page, 'Contract rerender').click()
+  await expect(row(scroller, 60)).toBeVisible()
+  await control(page, 'Contract top').click()
+  await expect(row(scroller, 0)).toBeVisible()
+  await control(page, 'Contract explicit range').click()
+  await expect(page.getByTestId('contract-rendered')).toHaveText('{"first":2,"last":4,"ids":["2","3","4"]}')
+  await expect(scroller.locator('.content-row')).toHaveCount(3)
+  await expect(row(scroller, 0)).toHaveCount(0)
+  await control(page, 'Contract clear tall').click()
+  await expect(scroller.locator('.content-row')).toHaveCount(0)
+  await control(page, 'Contract rerender').click()
+  await expect(row(scroller, 0)).toHaveCSS('height', '72px')
+  await expect(row(scroller, 1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 72)')
+})
+
+test('explicit measurement updates offsets before ResizeObserver, and append preserves measurements', async ({ page }) => {
+  const scroller = await open(page)
+  await control(page, 'Contract measure now').click()
+  await expect(page.getByTestId('contract-measured')).toHaveText('108')
+  await expect(row(scroller, 1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 108)')
+  await control(page, 'Contract append').click()
+  await expect(row(scroller, 1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 108)')
+  await control(page, 'Contract bottom').click()
+  await expect(row(scroller, 119)).toBeVisible()
+  await expect.poll(() => scroller.evaluate(element => Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight))).toBeLessThan(2)
+  await control(page, 'Contract dimensions').click()
+  await expect(page.getByTestId('contract-dimensions')).toHaveText('180')
+})
+
+test('explicit events report valid row zero, noScrollEmit suppresses events, and disposal stops work', async ({ page }) => {
+  const scroller = await open(page)
+  await expect.poll(async () => {
+    const event = await page.getByTestId('contract-last-event').textContent()
+
+    return event ? JSON.parse(event).visibleStartItem.key : undefined
+  }).toBe('0')
+  await settle(page)
+  const before = await count(page)
+  await control(page, 'Contract emit').click()
+  await expect(page.getByTestId('contract-events')).toHaveText(String(before + 1))
+  await settle(page)
+  const silent = await count(page)
+  await control(page, 'Contract silent rerender').click()
+  await settle(page)
+  await expect(page.getByTestId('contract-events')).toHaveText(String(silent))
+  await control(page, 'Contract mute').click()
+  await control(page, 'Contract scroll 60').click()
+  await expect(row(scroller, 60)).toBeVisible()
+  await control(page, 'Contract emit').click()
+  await settle(page)
+  await expect(page.getByTestId('contract-events')).toHaveText(String(silent))
+  await control(page, 'Contract mute').click()
+  await control(page, 'Contract emit').click()
+  await expect(page.getByTestId('contract-events')).toHaveText(String(silent + 1))
+  await control(page, 'Contract empty').click()
+  await expect(scroller.locator('.content-row')).toHaveCount(0)
+  await expect(scroller.locator('.virtual-scroll__content')).toHaveCSS('height', '0px')
+  await control(page, 'Contract viewport').click()
+  await expect(page.getByTestId('contract-rendered')).toHaveText('{"first":null,"last":null,"ids":[]}')
+  await control(page, 'Contract append').click()
+  await control(page, 'Contract top').click()
+  await expect(row(scroller, 0)).toBeVisible()
+  await control(page, 'Contract toggle owner').click()
+  await expect(scroller).toHaveCount(0)
+  await settle(page)
+  const disposed = await count(page)
+  await control(page, 'Contract emit').click()
+  await control(page, 'Contract rerender').click()
+  await settle(page)
+  await expect(page.getByTestId('contract-events')).toHaveText(String(disposed))
+  await control(page, 'Contract toggle owner').click()
+  await expect(row(scroller, 0)).toBeVisible()
+})
+
+test('sticky rows honor clear on both scrollers and recover on rerender', async ({ page }) => {
+  const scroller = await open(page, 'sticky')
+  await control(page, 'Contract scroll 60').click()
+  await expect(row(scroller, 60)).toHaveClass(/is-sticky-active/)
+  await expect.poll(() => row(scroller, 60).evaluate(element => Math.abs(element.getBoundingClientRect().top - element.parentElement.parentElement.getBoundingClientRect().top))).toBeLessThan(1)
+  await control(page, 'Contract clear').click()
+  await expect(scroller.locator('.content-row')).toHaveCount(0)
+  await control(page, 'Contract rerender').click()
+  await expect(row(scroller, 60)).toHaveClass(/is-sticky-active/)
+  const main = page.getByTestId('main-sticky-contract')
+  await expect(row(main, 0)).toHaveClass(/is-sticky-active/)
+  await control(page, 'Main clear sticky').click()
+  await expect(main.locator('.content-row')).toHaveCount(0)
+  await control(page, 'Main rerender sticky').click()
+  await expect(row(main, 0)).toBeVisible()
+})
+
+test('Tree accepts main-scroller options, reacts to overscan and owns canonical IDs', async ({ page }) => {
+  await open(page)
+  const tree = page.getByTestId('typed-tree')
+  const scroller = tree.locator('.virtual-scroll')
+  await expect(scroller).toHaveCSS('height', '180px')
+  await expect(tree.locator('.tree-node[data-id="0"]')).toHaveText('Typed node 0')
+  await expect(row(scroller, 0)).toHaveAttribute('data-key', '0')
+  const initial = await scroller.locator('.content-row').count()
+  expect(initial).toBeGreaterThanOrEqual(5)
+  expect(initial).toBeLessThan(10)
+  await control(page, 'Tree change overscan').click()
+  await expect.poll(() => scroller.locator('.content-row').count()).toBeGreaterThan(initial + 7)
+  await scroller.evaluate(element => element.scrollTop = 36 * 60)
+  await expect(tree.locator('.tree-node[data-id="60"]')).toHaveText('Typed node 60')
+  await expect(row(scroller, 60)).toHaveAttribute('data-key', '60')
+  await control(page, 'Tree change overscan').click()
+  await expect.poll(() => scroller.locator('.content-row').count()).toBeLessThan(10)
+})
+
+test('Table vertical-scroller consumer preserves cells through autofit and remount', async ({ page }) => {
+  const path = '/cs-CZ/vapor-table-measurement?mode=vertical'
+  await page.goto(path)
+  const table = page.getByTestId('measured-table')
+  await expect(page.getByTestId('table-measurement')).toHaveAttribute('data-active', '2')
+  await expect(table.locator('.content-row')).toHaveCount(2)
+  await control(page, 'Fit table').click()
+  await expect(page.getByTestId('fit-state')).toHaveText('fitted')
+  await expect.poll(() => table.locator('.th[data-column="width"]').evaluate(element => element.getBoundingClientRect().width)).toBe(304)
+  await control(page, 'Increase content width').click()
+  await control(page, 'Fit table').click()
+  await expect.poll(() => table.locator('.th[data-column="width"]').evaluate(element => element.getBoundingClientRect().width)).toBe(354)
+  await expect(table.locator('.content-row')).toHaveCount(2)
+  await control(page, 'Toggle table').click()
+  await expect(table.locator('.content-row')).toHaveCount(0)
+  await expect(page.locator('[data-table-measurement]')).toHaveCount(0)
+  await control(page, 'Toggle table').click()
+  await expect(page.getByTestId('table-measurement')).toHaveAttribute('data-active', '2')
+  await expect(page.getByRole('link', { name: 'Table · vertikální scroller a autofit', exact: true })).toHaveAttribute('href', path)
+})
+
+test('server scrollers have bounded rows, stable zero IDs and localized API examples', async ({ browser, baseURL }) => {
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
+  try {
+    const page = await context.newPage()
+    for (const [mode, label] of [['', 'Scrollery a Tree · veřejné API'], ['sticky', 'Scrollery · připnuté řádky a API']]) {
+      const path = `/cs-CZ/vapor-scroller-contracts${mode ? `?mode=${mode}` : ''}`
+      await page.goto(path)
+      const vertical = page.getByTestId('vertical-contract')
+      await expect(vertical.locator('.content-row')).toHaveCount(6)
+      await expect(row(vertical, 0)).toHaveAttribute('data-key', '0')
+      await expect(page.getByTestId('typed-tree').locator('.content-row')).toHaveCount(4)
+      await expect(page.getByTestId('contract-inner')).toHaveText('Inner retained')
+      await expect(page.getByRole('link', { name: label, exact: true })).toHaveAttribute('href', path)
+    }
+  } finally {
+    await context.close()
+  }
+})

@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const locale of ['cs-CZ', 'en-US']) {
   test(`date and time masks, pickers and slots survive remount (${locale})`, async ({ page }) => {
@@ -60,7 +63,7 @@ for (const locale of ['cs-CZ', 'en-US']) {
 }
 
 test('date and time render localized values and navigation in SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-date-time-inputs')
@@ -76,7 +79,7 @@ test('date and time render localized values and navigation in SSR', async ({ bro
 })
 
 test('time picker edits hours and minutes in the mobile dialog', async ({ browser, browserName, baseURL }) => {
-  const context = await browser.newContext({
+  const context = await createObservedContext(browser, {
     baseURL,
     viewport: { width: 390, height: 844 },
     hasTouch: true,

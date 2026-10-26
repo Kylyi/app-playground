@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('Table state in Vapor preserves legacy keys and isolates local instances', async ({ page }) => {
   const errors = []
@@ -40,7 +43,7 @@ test('Table state in Vapor preserves legacy keys and isolates local instances', 
 })
 
 test('Table store owners render on the server without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto(new URL('/vapor-table-state', baseURL).href)

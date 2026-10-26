@@ -16,7 +16,9 @@ async function load() {
   pending.value = true
   failed.value = false
   try {
-    const result = await $fetch('/api/playground/markdown', {
+    // The endpoint returns Comark's JSON AST; avoid Nitro's recursive
+    // SerializeObject expansion of its variadic node tuples.
+    const result = await $fetch<{ document: MarkdownDocumentType }>('/api/playground/markdown', {
       query: { id: props.id, slow: props.slow },
       signal: request.signal,
     })

@@ -25,11 +25,15 @@ export default defineVitestConfig({
     },
   },
   test: {
+    // A cold Nuxt app compiles the layer/plugin graph before the tests run.
+    // Its beforeAll bootstrap can exceed 30s; assertions keep their normal timeout.
+    maxWorkers: 2,
+    hookTimeout: 60000,
     // Inline Vue consumers so Node/CJS cannot create a second reactivity graph.
     server: {
       deps: { inline: [/\/(?:vue|vue-demi|pinia|@vue|@vueuse)\//] },
     },
-    exclude: [...configDefaults.exclude, 'tests/e2e/**', 'tooling/**'],
+    exclude: [...configDefaults.exclude, '.cache/**', 'tests/e2e/**', 'tests/native-e2e/**', 'tests/visual/**', 'tooling/**'],
     environment: 'nuxt',
     environmentOptions: {
       nuxt: {

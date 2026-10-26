@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('async row saves lock actions, retain rejected drafts and allow retry', async ({ page }) => {
   const errors = []
@@ -39,7 +42,7 @@ test('async row saves lock actions, retain rejected drafts and allow retry', asy
 })
 
 test('async row editor renders its data and localized navigation without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-table-edit?mode=row-save')

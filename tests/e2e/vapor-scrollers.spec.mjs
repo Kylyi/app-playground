@@ -1,4 +1,28 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+test('scroller arrows advance once on keyboard activation and stop on release', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-scrollers')
+  await expect(page.getByTestId('scrollers-example')).toHaveAttribute('data-ready', 'true')
+  await page.getByRole('button', { name: 'Set positions', exact: true }).click()
+  for (const axis of ['horizontal', 'vertical']) {
+    const scroller = page.getByTestId(axis)
+    const next = scroller.getByRole('button', { name: 'Následující', exact: true })
+    await next.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('220')
+    await page.keyboard.press('Space')
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('300')
+    const previous = scroller.getByRole('button', { name: 'Předchozí', exact: true })
+    await previous.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('220')
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+    await expect(page.getByTestId(`${axis}-position`)).toHaveText('220')
+  }
+})
 
 test('scrollers remeasure changed content without a scroll or viewport resize', async ({ page }) => {
   await page.goto('/cs-CZ/vapor-scrollers')
@@ -6,16 +30,16 @@ test('scrollers remeasure changed content without a scroll or viewport resize', 
   await page.getByRole('button', { name: 'Scroll to start', exact: true }).click()
   for (const axis of ['horizontal', 'vertical']) {
     await expect(page.getByTestId(`${axis}-position`)).toHaveText('0')
-    await expect(page.getByTestId(axis)).toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(axis)).toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
   }
   await page.getByRole('button', { name: 'Toggle content size', exact: true }).click()
   for (const axis of ['horizontal', 'vertical']) {
-    await expect(page.getByTestId(axis)).not.toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(axis)).not.toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
     await expect(page.getByTestId(`${axis}-position`)).toHaveText('0')
   }
   await page.getByRole('button', { name: 'Toggle content size', exact: true }).click()
   for (const axis of ['horizontal', 'vertical']) {
-    await expect(page.getByTestId(axis)).toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(axis)).toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
   }
 })
 
@@ -32,7 +56,7 @@ test('native scrollers synchronize both axes, wheel, resize and held-arrow clean
   for (const axis of ['horizontal', 'vertical']) {
     const surface = page.getByTestId(axis).locator('.content')
     await expect.poll(() => surface.evaluate((el, axis) => axis === 'horizontal' ? el.scrollLeft : el.scrollTop, axis)).toBe(60)
-    await expect(page.getByTestId(axis)).toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(axis)).toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
   }
   await page.getByRole('button', { name: 'Set positions', exact: true }).click()
   for (const axis of ['horizontal', 'vertical']) {
@@ -67,10 +91,10 @@ test('native scrollers synchronize both axes, wheel, resize and held-arrow clean
   }
   await page.getByRole('button', { name: 'Toggle overflow', exact: true }).click()
   for (const axis of ['horizontal', 'vertical']) {
-    await expect(page.getByTestId(axis)).not.toHaveClass(/is-overflown/)
+    await expect(page.getByTestId(axis)).not.toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
   }
   await page.getByRole('button', { name: 'Toggle overflow', exact: true }).click()
-  await expect(page.getByTestId('horizontal')).toHaveClass(/is-overflown/)
+  await expect(page.getByTestId('horizontal')).toHaveClass(/(?:^|\s)is-overflown(?:\s|$)/)
   const surface = page.getByTestId('horizontal').locator('.content')
   const detached = await surface.elementHandle()
   await page.getByTestId('horizontal').locator('[name="scroll-right"]').dispatchEvent('pointerdown', { pointerId: 1 })
@@ -94,7 +118,7 @@ test('native scrollers synchronize both axes, wheel, resize and held-arrow clean
 })
 
 test('scroller content and localized navigation render without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-scrollers')

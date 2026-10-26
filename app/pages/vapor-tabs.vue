@@ -21,5 +21,6 @@ onMounted(() => ready.value = true)
       </Tabs>
     </Tab>
   </Tabs>
+  <VaporTabsAccessibility v-else-if="route.query.mode === 'keyboard' || route.query.mode === 'automatic'" />
   <VaporTabs v-else />
 </template>

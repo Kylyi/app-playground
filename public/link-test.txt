@@ -1,0 +1,1 @@
+Native link download fixture.

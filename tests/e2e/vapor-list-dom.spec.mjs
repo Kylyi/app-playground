@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('List measures empty DOM and keyboard navigation follows the remounted scroll root', async ({ page }) => {
   const errors = []
@@ -40,7 +43,7 @@ test('List measures empty DOM and keyboard navigation follows the remounted scro
 })
 
 test('List empty state renders on the server without measuring DOM', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false, baseURL })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-list-dom')

@@ -1,0 +1,202 @@
+{
+  "date": "2026-10-25",
+  "round": "Row tuning and corrected VDOM controls",
+  "nuxtRootDeferred": true,
+  "sourceSnapshot": {
+    "files": 1305,
+    "sha256": "47405c7bf3036cb3ddfa6abfac1c0454e2a751f5d9691ae82581c0559a10cef8",
+    "method": "SHA-256 of UTF-8 compact JSON object with ordinally sorted paths and SHA-256 values",
+    "beforeRecordedSha256": "32363f9d1f6c6e738ca3446b2821907338fd7fc1a9bddcd3485e69654b0cd05e",
+    "changedFiles": [
+      "app/components/testing/PivotValueCellProbe.vue",
+      "app/components/testing/VaporTableMeasurement.vue",
+      "app/components/testing/VaporTablePivotDom.vue",
+      "app/components/testing/VaporTreeInitialization.vue",
+      "app/layouts/default.vue",
+      "packages/UI/app/components/Tree/stores/tree.store.ts",
+      "tests/e2e/pivot-cell-contracts.mjs",
+      "tests/e2e/table-cell-contracts.mjs",
+      "tests/e2e/tree-source-contracts.mjs",
+      "tests/e2e/vapor-table-measurement.spec.mjs",
+      "tests/e2e/vapor-table-pivot-dom.spec.mjs",
+      "tests/e2e/vapor-tree-drag.spec.mjs",
+      "tests/e2e/vapor-tree-initialization.spec.mjs",
+      "tests/native-e2e/native-consumer.spec.mjs",
+      "tooling/performance/assess-experiment.mjs",
+      "tooling/performance/assess-experiment.test.mjs",
+      "tooling/performance/build-audit.mjs",
+      "tooling/performance/contracts.mjs",
+      "tooling/performance/nuxt.config.mjs",
+      "tooling/performance/prepare-current-vdom.mjs",
+      "tooling/performance/prepare-experiment.mjs",
+      "tooling/performance/run.mjs",
+      "tooling/performance/variants.mjs",
+      "tooling/performance/vdom-directives.mjs",
+      "tooling/performance/vdom-directives.test.mjs"
+    ]
+  },
+  "runtime": {
+    "nuxt": "4.6.1",
+    "vue": "3.6.0-rc.11"
+  },
+  "browserSuites": {
+    "native": {
+      "startTime": "2026-10-25T02:18:20.508Z",
+      "duration": 183603.333,
+      "expected": 111,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "affectedProduction": {
+      "startTime": "2026-10-25T02:18:20.552Z",
+      "duration": 968236.615,
+      "expected": 481,
+      "skipped": 2,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionResolution": {
+      "method": "Fresh complete 31-file rerun on the final Tree-only source. Original broad 480 passes/2 skips/1 failure retained; test setup corrected, full 33-case Tree drag file passed in all engines and failing Chromium case passed five consecutive runs before the final full rerun. No assertions or timeout budgets were removed.",
+      "broad": {
+        "startTime": "2026-10-25T01:45:38.264Z",
+        "duration": 1104283.052,
+        "expected": 480,
+        "skipped": 2,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "affectedFileRerun": {
+        "startTime": "2026-10-25T02:06:44.185Z",
+        "duration": 43726.17,
+        "expected": 33,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "chromiumRepetition": {
+        "startTime": "2026-10-25T02:06:31.213Z",
+        "duration": 9103.388,
+        "expected": 5,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "rawReports": [
+        ".cache/vapor-row-tuning-2026-10-25/production.json",
+        ".cache/vapor-row-tuning-2026-10-25/tree-drag-final.json",
+        ".cache/vapor-row-tuning-2026-10-25/tree-drag-repeated.json",
+        ".cache/vapor-row-tuning-2026-10-25/production-tree-only.json"
+      ],
+      "cause": "Outside drag auto-scrolled the virtual Tree, recycling node-1. Test now restores the virtual viewport and waits for the source row before the next gesture."
+    },
+    "productionFiles": [
+      "picker-touch-focus.spec.mjs",
+      "selector-menu-overflow.spec.mjs",
+      "selector.spec.mjs",
+      "vapor-consumer-contracts.spec.mjs",
+      "vapor-family-interaction.spec.mjs",
+      "vapor-list-dom.spec.mjs",
+      "vapor-list-drag.spec.mjs",
+      "vapor-native-links.spec.mjs",
+      "vapor-pivot-filters.spec.mjs",
+      "vapor-pivot-initialization.spec.mjs",
+      "vapor-pivot-worker.spec.mjs",
+      "vapor-runtime-icons.spec.mjs",
+      "vapor-scroll-area.spec.mjs",
+      "vapor-scroller-contracts.spec.mjs",
+      "vapor-scrollers.spec.mjs",
+      "vapor-table-fetch-more.spec.mjs",
+      "vapor-table-focus.spec.mjs",
+      "vapor-table-markdown.spec.mjs",
+      "vapor-table-measurement.spec.mjs",
+      "vapor-table-pivot-dom.spec.mjs",
+      "vapor-table-row-save.spec.mjs",
+      "vapor-table-state.spec.mjs",
+      "vapor-tree-dms-drop.spec.mjs",
+      "vapor-tree-drag.spec.mjs",
+      "vapor-tree-hydration-probe.spec.mjs",
+      "vapor-tree-initialization.spec.mjs",
+      "vapor-virtual-grid.spec.mjs",
+      "vapor-virtual-markdown.spec.mjs",
+      "vapor-virtual-scroller.spec.mjs",
+      "vapor-year-selector.spec.mjs",
+      "vdom-consumer-contracts.spec.mjs"
+    ]
+  },
+  "unit": {
+    "files": 61,
+    "passed": 344,
+    "failed": 0
+  },
+  "benchmarkTooling": {
+    "passed": 8,
+    "failed": 0
+  },
+  "typechecks": {
+    "application": "passed",
+    "native": "passed",
+    "performanceVapor": "passed",
+    "performanceBeforeVDOM": "passed",
+    "performanceAfterVDOM": "passed"
+  },
+  "affectedLint": {
+    "files": 25,
+    "errors": 0,
+    "warnings": 0
+  },
+  "performance": {
+    "samples": 1280,
+    "trialsPerFamilyVariant": 64,
+    "correctedSSRHydrationChecks": 120,
+    "sameCompilerDOMParityChecks": 60,
+    "directiveInteractionChecks": 12,
+    "memoryCyclesPerFamilyVariant": 30,
+    "retentionFailures": [],
+    "scrollRuns": 16,
+    "cpuProfiles": 240,
+    "traces": 12,
+    "earlierIsolatedNativeSamples": 768,
+    "additionalRejectedCombinedSamples": 3840
+  },
+  "nativeBundle": {
+    "servedMatchesFile": true,
+    "stage": "final-public-assets",
+    "compiledUI": 242,
+    "uiVDOMRenderImports": [],
+    "retainedVDOM": [
+      "createVNode"
+    ],
+    "iconRendererModules": [],
+    "javascriptFiles": 443,
+    "compiledChunks": 442,
+    "javascriptBytes": 7280762,
+    "sha256": "94816151b8745d59ae128ed8589a7d312ded1632a37c084c846b6038899ef265"
+  },
+  "evidenceDirectory": ".cache/vapor-row-tuning-2026-10-25",
+  "portablePerformance": "vapor-performance-tuning.json",
+  "historicalViewportRound": "vapor-performance-mounts.json",
+  "comparisonCorrection": "Earlier marker-only VDOM controls retained native directive signatures. Corrected before and after controls select the existing VDOM ripple and an equivalent root lifecycle; prepared source hashes and real interactions are validated.",
+  "reportValidation": {
+    "browsers": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "widths": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "axeViolations": 0,
+    "chartControls": "passed",
+    "keyboardFocusAndNarrowTableFit": "passed",
+    "offline": "passed",
+    "noJavaScriptFallback": "passed",
+    "print": "passed",
+    "sourceLinks": "passed",
+    "visualReview": "desktop and mobile screenshots inspected",
+    "rawReport": ".cache/vapor-row-tuning-2026-10-25/report-qa/validation.json"
+  }
+}

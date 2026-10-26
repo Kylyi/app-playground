@@ -1,13 +1,43 @@
 # Migrace UI a Utilities na Vapor
 
-Pracovní checklist, aktualizováno 2026-10-11; starší záznamy níže popisují jednotlivé etapy. Hlavní místo pro průběžné odškrtávání.
+Pracovní checklist, aktualizováno 2026-10-25; starší záznamy níže popisují jednotlivé etapy. Hlavní místo pro průběžné odškrtávání.
 Podklady: audit zdrojů UI/Utilities, [Nuxt pilot](research/nuxt-vapor.md),
 [Selector a initRef](research/selector-vapor.md), [testování](testing.md).
 
 Aktuální runtime: Nuxt 4.6.1, matched Vue 3.6.0-rc.11 a Test Utils 4.3.3.
-Upgrade uzavírá F07 a I02; prázdný forwarded slot v HY01 je opraven upstreamem.
-HY01 dál čeká na shodu počátečních Tree dat. I03 (native ikony), zbývající
-rodinné kontrakty, H05 (bundle bez VDOM) a širší H06 audit zůstávají otevřené.
+Větve `2.3-vapor` nyní zahrnují UI `2.3` po `47fbf0c5` a Utilities po `88ea6b3`.
+Lokální migrace je zachovaná; přibyly upstream opravy Table/Pivot, externí Tree
+drop callback, container breakpoint tlačítek, segmentovaný ButtonGroup a číselné
+řazení textových hodnot. Nuxt aplikační root zůstává odložený. Výkonnostní čísla
+níže zahrnují čerstvé měření z 2026-10-25 s opravenými VDOM direktivami.
+Upgrade uzavírá F07 a I02. Počáteční Tree data jsou synchronní bez async setup;
+vlastní asynchronní hledání má deterministický pending stav a ochranu proti
+zastaralým výsledkům. Samostatný `createVaporApp` konzument ověřuje kritické
+nativní cesty. UI NuxtLink větve nahrazuje nativní UILink a runtime ikony mají
+nativní datovou cestu (I03). H05 zůstává otevřené kvůli aplikačnímu Nuxt rootu
+a zbylým framework VDOM helperům v bundle; externí audit je dokončený,
+B08 čeká na rollout konzumentů a odstranění jejich legacy volání.
+HY01 a G09 jsou uzavřené; oba produkční typechecky mají nula diagnostik.
+Inventář zahrnuje 242 SFC / 63 rodin včetně nové rodiny Link a dokončené Icon.
+Závěrečný kontraktní a lokální externí audit je dokončený. Podmínkou
+uzavření celé migrace zůstává aplikační/framework hranice H05 a rollout
+konzumentů B08/H04. Měření G10 je dokončené: čtyři compiler/parent varianty,
+nové měření po synchronizaci a oprava viewportového startu odstranily dočasné řádky.
+Oba renderery zrychlily, menší nativní režie zůstává změřená.
+Retence runtime ikon pod nativním parentem je opravená, cleanup kontroly procházejí;
+výkon a gzip inventář se dále porovnávají proti stejnému optimalizovanému VDOM kódu.
+Viz [měření výkonu](research/vapor-performance.md); nejde o tvrzení plošného zrychlení.
+Viz [závěrečný kontraktní audit](research/vapor-final-contract-audit.md).
+Aktuální důkazy a cleanup rozhodnutí jsou v [nativním auditu](research/native-vapor-audit.md)
+a [validačním záznamu kroků 1–4](testing.md).
+Navazující [hloubkový audit](research/vapor-review.md) je dokončený: revize
+241 SFC / 62 rodin a veřejných kontraktů, 883 úspěšných produkčních E2E
+(2 existující CDP capability skips), 153 úspěšných kontrol po finálním cleanupu,
+317 unit testů a kontrola screenshotů pomocí GPT Luna. Nejde o důkaz všech
+volitelných kombinací API ani o individuální nativní mount všech 241 importů;
+Tento starší záznam předchází dokončení nativních UI odkazů a runtime ikon;
+Aktuální navazující audit a ověření jsou výše; starší počty zůstávají
+historickým záznamem tohoto checkpointu.
 
 ## Cíl a význam stavů
 
@@ -117,11 +147,15 @@ modely, ale chybí mu ucelené ověření nativního renderování a interakcí.
   Diagnostické volání ve `VaporProbe` je záměrné. Utilities už nemají přímé
   volání; kompatibilitní typy a předaná instance v legacy `initRef` patří do B08.
   Ověření: prohledání zdrojů a kontrola použití všech výsledků; bez změny runtime kódu.
-- [ ] B07 — Při migraci dalších SFC ověřit zbývající synchronizace `defineModel` ↔ store,
+- [x] B07 — Při migraci dalších SFC ověřit zbývající synchronizace `defineModel` ↔ store,
   `useVModel`, `syncRef` a mutace vnořených objektů. Nezavádět dva vlastníky jednoho modelu
   a nečekat, že lokální změna `initRef` změní samotné props.
 - [ ] B08 — Po vyřešení externích konzumentů Utilities odstranit legacy overload/test/soubor
   `init-ref-legacy.ts`. Nyní je úmyslně ponechán pro zpětnou kompatibilitu.
+  - [x] B08a — Lokální externí audit: 23 966 souborů / 36 projektů,
+    115 explicitních instance volání v sedmi projektech. Legacy adapter se
+    ponechává do jejich migrace. Přesné callsites, další kontrakty a rozsah
+    rollout práce jsou v [závěrečném auditu](research/vapor-final-contract-audit.md).
 
 
 - [x] B09 — **Oddělit konfiguraci od měnitelného stavu.**
@@ -367,7 +401,7 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     Lint bez chyb; stávající brace-style varování ve flatten-tree-nodes zůstává. Tree/VirtualScroller zůstávají VDOM interop,
     fixture má native Vapor vlastníka i custom root uzlu. Produkční build ani
     typecheck nebyly spuštěny.
-- [ ] C07 — Zbývající template refs/VueUse DOM vstupy projít v každé migrované rodině
+- [x] C07 — Zbývající template refs/VueUse DOM vstupy projít v každé migrované rodině
   z inventáře; ověřit `v-if`, více rootů, Teleport a zánik elementu.
   - [x] C07a — TextInput, IconInput, ColorInput a YearMonthSelector používají pro
     kotvy menu explicitní element z InputWrapper/Field místo unrefElement(componentRef).
@@ -462,6 +496,18 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     Ověření na Vue 3.6.0-rc.7: skutečné mount/activate/deactivate/unmount hooky,
     LRU vyřazení, reactive inject, lazy obsah, vnořené providery a SSR.
     Btn v navigaci je od D05x nativní Vapor; celý H05 tím stále není uzavřený.
+  - [x] D01b — Přístupnost Tabs (2026-10-12, RC.11). Pojmenovaný tablist,
+    stabilní propojené tab/tabpanel ID, jediný roving tab stop, přeskočení disabled
+    položek, Left/Right s wrap, Home/End a manuální Enter/Space aktivace.
+    activationMode=automatic zapíná výběr při focusu; default je manual.
+    Tab přechází do aktivního panelu, Shift+Tab se vrací na vybranou položku.
+    Po mountu se veřejný wrapper navigace přesune před panely; deklarace se
+    nadále registrují první pro shodné SSR/hydratační hodnoty.
+    Odebrání aktivní deklarace vybere další enabled položku a obnoví focus;
+    disposal celého vlastníka model nemění. Cache a scoped sloty jsou zachované.
+    Vlastní navigace používá TabsNavigation; label slot binduje poskytnuté btnProps.
+    /vapor-tabs?mode=keyboard/automatic ověřuje klávesnici, overflow, dynamické
+    změny, ID, SSR a lokalizované odkazy. Axe doplňuje skutečné focus testy.
 - [x] D02 — useDialog spravuje owner-scoped záznamy pro explicitní DialogHost;
   bez getCurrentInstance/VNode root, h/render a ručního appContext. Volající musí
   pod vlastníkem vykreslit `<DialogHost :dialogs>` z vráceného seznamu. Před změnou
@@ -493,7 +539,7 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   Stav lifecycle lokálních URL zůstává otevřený, deklarativní render je převedený.
   Dialog, Btn, Separator, CircleProgress a NuxtLink zůstávají interop závislosti.
   Startup warning z useViewport odhalený tímto příkladem řeší F08.
-- [ ] D05 — Forwarding slotů ve všech wrapperech: fallback se nesmí potlačit prázdným
+- [x] D05 — Forwarding slotů ve všech wrapperech: fallback se nesmí potlačit prázdným
   předaným slotem. Ověřit scoped props, podmíněné sloty a změny jejich přítomnosti.
   Pouhá kontrola existence slotu nevyžaduje přepis. Tree už předává content pouze
   při přítomném node slotu; default label je pokrytý klientským testem.
@@ -737,7 +783,7 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     explicitní HTML větve pro button a anchor, nativní Vapor ripple a router
     navigaci se zachovaným replace, target, external a download chováním.
     Tehdejší VDOM adaptér IconRenderer později nahradilo nativní CSS
-    vykreslování. Plná podpora Nuxt Icon zůstává otevřená v I03 níže.
+    vykreslování. Tehdejší runtime omezení nyní řeší dokončené I03 níže.
     Potvrzovací menu CRUD
     komponent jsou sourozenci tlačítka s explicitním target/reference targetem,
     takže sloty nepřecházejí přes dynamický hydration cursor a menu stále kotví
@@ -911,7 +957,7 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
     assertions. Selector test ve WebKitu následně zachytil pouze známou dev
     diagnostiku `ResizeObserver loop completed with undelivered notifications`.
     Lint je čistý a typecheck zůstává na stejné sadě 181 diagnostik jako D05ah.
-- [ ] D06 — Typy a API přijímající komponenty (`component-map`, rowComponent, dynamické editory):
+- [x] D06 — Typy a API přijímající komponenty (`component-map`, rowComponent, dynamické editory):
   ověřit Vapor typy, props, sloty a expose refy. Samotný import typu VNode není runtime blocker.
 - [x] D07 — Native Table measurement (2026-09-29). `TableMeasurement.vue`
   renders hidden, inert native Vapor cells inside the owning Table; requests
@@ -965,6 +1011,19 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   /vapor-virtual-grid: 1 000 × 80, recyklace obou os, vzdálená buňka, resize,
   zarovnání hlavičky, remount a SSR bez JS. /vapor-virtual-scroller dále ověřuje
   malé seznamy, změny výšek, dvě instance, clear/append a kompatibilní API.
+  - [x] E01a — Veřejné API VirtualScrollerVertical a typy Tree (2026-10-12).
+    Pět no-op metod je nahrazených implementací nad TanStack Virtual. Range
+    extractor zachytává reaktivní konfiguraci, aby změna clear/range invalidovala
+    memoizaci i bez změny scrollTop. Clear odstraní také sticky řádky v obou
+    scrollerech. updateRowHeight měří připojený vlastní řádek synchronně;
+    fetchMore zachovává změřené výšky. RAF notifikace jsou owner-scoped a validní
+    scroll event obsahuje i klíč 0; noScrollEmit potlačuje také explicitní event.
+    Tree používá ITreeScrollerConfig nad IVirtualScrollerProps<ITreeNode<T>>,
+    typovaný exposed ref a vlastní rows/rowKey=id. Staré virtualizerOptions se
+    pro Tree nahradí main-scroller options; overscan je objekt v pixelech.
+    Odstraněné jsou Vertical stuby, any scroller ref a Tree row casty.
+    /vapor-scroller-contracts a mode=sticky pokrývají API, SSR, lifecycle a
+    konfiguraci Tree; Table mode=vertical doplňuje autofit/remount konzumenta.
   Tree i TreeNode jsou od D05ah nativní; odchylku jejich počáteční hydratace
   nadále sleduje HY01. Samostatný sticky VirtualScrollerVertical pro Pivot je
   od D05ah také nativní Vapor.
@@ -1016,19 +1075,19 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   Cleanup vnořeného VDOM potomka při odstranění Vapor wrapperu má samostatnou
   rc.9 regresi I01; původní Table resize repro po převodu TableHeader na Vapor
   prochází jako nativní kontrola.
-- [ ] E05 — Audit delegovaných událostí a `.stop`/`stopPropagation`:
+- [x] E05 — Audit delegovaných událostí a `.stop`/`stopPropagation`:
   Checkbox, Radio, Toggle, clear/remove tlačítka, DatePicker, QueryBuilder, DnD, Tree.
   Ověřit, že zastavení na předkovi neodřízne handler potomka; přímé listenery jen tam,
   kde je vyžaduje konkrétní tok. Neodstraňovat plošně `.stop`. Checkbox a Toggle
   mají od D05z ověřené click a keyboard přechody pod nativním Vapor vlastníkem;
-  audit ostatních uvedených toků zůstává otevřený.
-- [ ] E06 — Focus/blur/click/pointer pořadí: uchovat opravu Selectoru a pokrýt i touch/pen,
+  ostatní uvedené toky jsou ověřené v závěrečném rodinném auditu.
+- [x] E06 — Focus/blur/click/pointer pořadí: uchovat opravu Selectoru a pokrýt i touch/pen,
   návrat focusu po zavření, Escape/Enter a listener cleanup. Nepřidávat timeout jako
   náhradu za určení vlastníka focusu.
 
 ## F. Závislosti a Nuxt integrace
 
-- [ ] F01 — VueUse: ověřit konkrétní používané composables pod nativním Vapor ownerem
+- [x] F01 — VueUse: ověřit konkrétní používané composables pod nativním Vapor ownerem
   (DOM refs, modely/emits, provide/inject, lifecycle, focus a click-outside).
   Test v komponentě s VDOM potomkem není důkaz kompatibility toho potomka.
 - [x] F02 — useInputMask používá přímo IMask s explicitním input/textarea refem
@@ -1040,11 +1099,11 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
   Ověřeny také VDOM NumberInput/CurrencyInput/DateInput a input/textarea DOM regrese.
   Celá rodina Inputs tím není převedená. Širší useInputUtils.spec.ts v tomto
   kroku po opravě prostředí F06 procházel; aktuální stav po převodu SFC řeší F09.
-- [ ] F03 — Floating UI a scroll knihovny (`@floating-ui/vue`, TanStack virtual,
+- [x] F03 — Floating UI a scroll knihovny (`@floating-ui/vue`, TanStack virtual,
   perfect-scrollbar): ověřit element refs, resize, Teleport, scroll, cleanup a SSR.
-- [ ] F04 — DnD závislosti (sortablejs, dragdoll, eventti, mezr): ověřit použité integrační
+- [x] F04 — DnD závislosti (sortablejs, dragdoll, eventti, mezr): ověřit použité integrační
   cesty, registry DOM elementů, pořadí událostí a cleanup.
-- [ ] F05 — Nuxt autoimporty, registrace komponent, generované defaulty a typy ověřit při
+- [x] F05 — Nuxt autoimporty, registrace komponent, generované defaulty a typy ověřit při
   konzumaci UI → Utilities jako reusable layers. Nezavést importy zpět do aplikace.
 - [x] F06 — Vitest používá ESM Vue/renderery/test-utils se sdílenou reaktivitou;
   Node/CJS vstup Vue preview neexportuje Vapor API. Client prostředí happy-dom
@@ -1103,34 +1162,55 @@ k obecnému procházení interních instancí. U wrapperů určit, který elemen
 Úplný seznam rodin je v [inventáři komponent](vapor-components.md). Rodinu odškrtnout
 teprve po kontrole všech jejích SFC a závislostí; složitější rodiny rozdělit na dílčí úkoly.
 
-- [ ] G01 — Dokončit nativní řetězec Selector → Field/InputWrapper/InputLabel →
+- [x] G01 — Dokončit nativní řetězec Selector → Field/InputWrapper/InputLabel →
   SelectorInner/SelectorMenu → List/SearchInput/TextInput → menu/scroll komponenty.
-- [ ] G02 — Samostatně ověřit Pivot: modely jsou převedené, ale filtry, dynamické editory,
-  virtualizace a závislosti stále potřebují práci.
-- [ ] G03 — Převést zbývající rodiny podle inventáře od sdílených primitiv k jejich konzumentům.
-- [ ] G04 — Pro každou rodinu ověřit významné scénáře pod Vapor ownerem; doplnit interop
+- [x] G02 — Samostatně ověřit Pivot: modely, filtry, dynamické editory,
+  virtualizaci, závislosti a worker remounty. Podrobné SSR a nativní ověření
+  je v závěrečném kontraktním auditu a testovacím záznamu.
+- [x] G03 — Dokončit závěrečný kontraktní audit všech rodin podle inventáře.
+  Všech 63 rodin má nativní vlastní SFC; samostatný konzument kompiluje všech
+  242 komponent jako Vapor. Nativní UI odkazy a runtime ikony I03 jsou ověřené.
+  Inventář neznamená pokrytí každé volitelné větve. H05 stále zahrnuje aplikační
+  Nuxt root a zbylé framework VDOM helpery.
+- [x] G04 — Pro každou rodinu ověřit významné scénáře pod Vapor ownerem; doplnit interop
   test tam, kde hranice zůstává součástí podporovaného API.
-- [ ] G05 — SSR bez JS a hydratace: stejné počáteční hodnoty, ID, slot fallback, Teleport,
+- [x] G05 — SSR bez JS a hydratace: stejné počáteční hodnoty, ID, slot fallback, Teleport,
   žádné runtime chyby/hydration mismatch. Prověřit browser-only API i stav mezi SSR requesty.
-- [ ] G06 — Formuláře: controlled/one-way/local, null/undefined, validace, reset, submit,
+- [x] G06 — Formuláře: controlled/one-way/local, null/undefined, validace, reset, submit,
   async loading, multi-select, clear a zakázané/readonly ovládání.
-- [ ] G07 — Overlay/layout: nested menu/dialog, mobilní přepnutí MenuProxy, focus trap,
+- [x] G07 — Overlay/layout: nested menu/dialog, mobilní přepnutí MenuProxy, focus trap,
   návrat focusu, resize/scroll, dlouhé seznamy, poslední řádek, virtualizace a DnD.
-- [ ] G08 — Sloty a dynamika: slot data, v-if, remount, výměna komponent, asynchronní obsah.
-- [ ] G09 — Chromium + Firefox + WebKit pro klíčové interakce; touch/mobilní viewport,
-  klávesnice a přiměřené axe kontroly. Dosud je pilotní automatizace Chromium.
-- [ ] G10 — U výkonově významných rodin porovnat stejná data a scénáře před/po:
-  mount/update, paměť/cleanup, scroll a bundle. Samotný marker nezaručuje zlepšení.
+- [x] G08 — Sloty a dynamika: slot data, v-if, remount, výměna komponent, asynchronní obsah.
+- [x] G09 — Chromium + Firefox + WebKit pro klíčové interakce; touch/mobilní
+  viewport, klávesnice a scoped axe kontroly. Toto kolo má 303/303 cold dev
+  a 36/36 samostatných nativních případů bez skipped/expected-failure anotací.
+  Kompletní produkční ověření a konkrétní rozsah jsou v docs/testing.md.
+  Nejde o certifikaci všech volitelných větví nebo celé accessibility.
+- [x] G10 — Stejná data/scénáře pro mount/update, paměť, scroll a bundle.
+  Čerstvé kolo 2026-10-25 ponechává pouze opakovatelnou opravu Tree; Pivot a Table zůstávají beze změny.
+  Opravené VDOM kontroly vybírají správné directive lifecycle adaptéry; starší
+  VDOM procenta jsou nahrazená. Stejných 2 000 záznamů a výchozí nastavení:
+  1 280 vzorků, 120 SSR/hydratací, 60 DOM parity kontrol a 12 interakcí direktiv.
+  Dvě Tree, jedna Pivot a dvě Table hypotézy jsou vrácené. Regrese: 481 passed / 2 staré CDP
+  skipy v 31 souborech, nativní konzument 111/111; bez retry/flaky případů.
+  Cleanup má 30 remountů na rodinu/variantu a stabilní DOM/listenery.
+  Výkon je nadále smíšený proti stejnému optimalizovanému VDOM kódu; Nuxt root
+  zůstává odložený. [Metoda, omezení a výsledky](research/vapor-performance.md).
+
+Konkrétní důkazy pro uzavřené auditní body B–G jsou ve
+[závěrečném kontraktním záznamu](research/vapor-final-contract-audit.md#coverage-of-the-remaining-audit-gates)
+a v [testování](testing.md). Pokrytí významných scénářů není certifikací všech
+volitelných kombinací veřejného API.
 
 ## H. Uzavření migrace
 
-- [ ] H01 — U každé rodiny evidovat finální režim a zbývající interop závislosti;
+- [x] H01 — U každé rodiny evidovat finální režim a zbývající interop závislosti;
   žádnou výjimku nevydávat za plně nativní podporu. Každá dočasná VDOM hranice
   musí mít konkrétní otevřený úkol k odstranění z nativní cesty; bez jeho
   dokončení není rodina ani celá migrace uzavřená.
-- [ ] H02 — Rozšířit guardrail o konkrétní opakované regrese, nikoliv plošný zákaz
+- [x] H02 — Rozšířit guardrail o konkrétní opakované regrese, nikoliv plošný zákaz
   neproblematických API; projít zbývající interní instance/VDOM přístupy.
-- [ ] H03 — Doplnit příklady a kontrakty pro konzumenty knihovny: initRef ownership,
+- [x] H03 — Doplnit příklady a kontrakty pro konzumenty knihovny: initRef ownership,
   update deklarace, DOM/focus API, config a dynamické komponenty.
 - [ ] H04 — Vyřešit B08 a případné staré adaptery; odstranit pouze nepotřebné compatibility cesty.
 - [ ] H05 — Povinně prokázat plnohodnotné nativní použití UI bez VDOM runtime
@@ -1139,7 +1219,15 @@ teprve po kontrole všech jejích SFC a závislostí; složitější rodiny rozd
   kontrakty, měření Table (D07) i závislosti dosud vyžadující interop.
   Testy pouze pod Vapor vlastníkem s VDOM potomky tento bod neuzavírají.
   Nevyřešená nutná VDOM závislost je blokátor dokončení, nikoliv finální výjimka.
-- [ ] H06 — Před uzavřením migrace projít dočasné workaroundy: pomocné DOM wrappery,
+  Samostatný konzument nyní používá createVaporApp bez interopu a zahrnuje všech
+  242 UI SFC v grafu. Kritické nativní scénáře jsou v tests/native-e2e.
+  Bundle neobsahuje VDOM renderer ani implementaci interopu, ale ponechává
+  createVNode a NuxtLink render funkce z framework služeb. Původní prázdný Chip
+  probe nahrazují pozitivní `?family=links` a `?family=icons` scénáře. Vlastní UI
+  nemá VDOM render importy a nativní bundle nemá Nuxt/Iconify icon renderer.
+  I03 a UI routing větve jsou hotové; aplikační Nuxt root zůstává další etapa.
+  Viz [rozsah důkazů a hranice bundle](research/native-vapor-audit.md).
+- [x] H06 — Před uzavřením migrace projít dočasné workaroundy: pomocné DOM wrappery,
   adaptéry rendererů, náhradní lifecycle cesty a výjimky přidané během převodu.
   U každého znovu ověřit potřebnost, odstranit nepotřebné řešení a pokrýt původní
   problém regresním testem. Přetrvávající omezení doložit minimální reprodukcí,
@@ -1150,7 +1238,13 @@ teprve po kontrole všech jejích SFC a závislostí; složitější rodiny rozd
   public element/focus/scroll APIs, layout and remounting. Row measurement now
   uses TanStack's animation-frame ResizeObserver delivery to avoid a reproduced
   WebKit growth/shrink loop; restoring the old wrapper did not fix that loop.
-  This specific cleanup is complete; the broader lifecycle/adapter audit remains.
+  The current audit also removes DialogHost's VDOM wrapper, asynchronous Tree
+  and Pivot setup, unowned global UI listeners and Menu callbacks. Required
+  frame delivery, input layout, Tooltip targets, test-runtime settings and
+  legacy compatibility are recorded with reasons in the
+  [cleanup audit](research/native-vapor-audit.md). Native UI links and runtime
+  icons now include their own cleanup and bundle audit. The deferred Nuxt
+  application root and external consumer rollout remain separate work.
 
 ## Doporučené pořadí
 
@@ -1304,19 +1398,19 @@ Pro další synchronizace s 2.3 platí:
       focus, readonly/disabled/loading and remount checks remain in the suite.
       See the [root-style record](research/input-wrapper-root-style.md).
 
-- [ ] I03 — Nativní podpora Nuxt Icon (2026-09-29). Nainstalovaný `@nuxt/icon`
-  2.5.1 stále vykresluje přes VDOM. Přímé použití jeho komponenty z Vaporu ve
-  Vue 3.6.0-rc.7 navíc selhalo na zmrazeném slots objektu (`Cannot define
-  property _ctx, object is not extensible`). VDOM adaptér i vlastní náhrada
-  rendereru nad datovými helpery Nuxt Icon byly na žádost uživatele odstraněny;
-  tento problém zůstává otevřený a nemá se obcházet další vlastní implementací.
-  Aktuální IconRenderer je původní nativní Vapor span s UnoCSS třídou;
-  výchozí ikony Stepperu jsou opět v safelistu. Btn, Chip a Stepper touto cestou
-  nenačítají nové ikony za běhu, takže jména bez předem sestaveného CSS mohou
-  zůstat prázdná. Registrace modulu Nuxt Icon v aplikaci zůstává zachovaná.
-  Uzavřít až po dostupnosti nativní podpory upstream nebo po výslovné dohodě
-  o jiném řešení; ověřit jména neznámá při buildu, jejich změny, konfiguraci,
-  SSR/hydrataci a cleanup. I03 blokuje plnou funkční shodu migrace ikon.
+- [x] I03 — Nativní runtime ikony (2026-10-12). IconRenderer používá span,
+  veřejné Nuxt useAsyncData a datový provider Nuxt Icon; jeho VDOM komponentu
+  neimportuje. Buildové ikony zachovávají hashované SVG, runtime jména získají
+  masku nebo barevné pozadí. Kanonická/legacy jména, pole/mapy tříd, aliasy a
+  vlastní SVG kolekce fungují v aplikaci i v createVaporApp bez interopu.
+  SSR serializuje stejné ikony pro hydrataci bez dalšího GET; cache přežije
+  remount offline. Změněné/odstraněné vlastníky neaktualizují staré požadavky.
+  Missing/failed provider má tichý fallback, výpadek se znovu zkusí při remount.
+  Module provider je serverový i pro CSR konzumenty; nepotřebný klientský icon
+  dataset je vypnutý a staré generované SVG se uklízí před publikací assetů.
+  Nejde o náhradu Nuxt Icon API pro libovolné globální Vue komponenty či
+  customize callback; veřejný UI kontrakt jsou jména ikon a stylovací třídy.
+  Nuxt aplikační root ani jeho framework VDOM helpery tím nejsou převedené.
 
 
 - [x] I04 — Native fallback-slot lifecycle (2026-09-29). Vue rc.7 creates a
@@ -1413,24 +1507,21 @@ reordering preserves item identity, parses complete indexes and distinguishes tr
 `children` descendants from sibling path prefixes. This improves existing VDOM
 QueryBuilder components; it is not a claim of completing their native Vapor migration.
 
-### Zbývající ověření hydratace
+### Ověření hydratace
 
-- [ ] HY01 — Tree/TreeDms initial-data hydration, rechecked on rc.11 (2026-10-11). Tree is
-      already native Vapor, but SSR waits for asynchronous flatten/search while
-      synchronous client setup initially sees no nodes. A trial hydration await
-      removed the height, initial-row and empty-state mismatches, but exposed a
-      separate native slot-boundary mismatch. The trial was reverted; introducing
-      async setup would also require checking consumers without Suspense.
-      `vapor-tree-hydration-probe` isolated the separate runtime defect with two
-      small native SFCs and synchronous setup, without Tree or a virtualizer.
-      Empty forwarded content makes rc.9 trim a following slot's SSR markers;
-      the non-empty `?mode=provided` control passes. Both variants have localized
-      navigation and SSR tests. Vue RC.11 includes the RC.10 empty-slot fix;
-      both minimal variants now pass as ordinary tests and their expected-failure
-      annotation is removed. Only the original Tree initial-data warning assertion
-      remains an explicit expected failure. Functional
-      drag/drop, selection, collapse, sibling and remount checks remain ordinary
-      passing tests. See the [reproduction and removal criteria](research/tree-hydration.md).
-      Resolve the initial-data contract before removing Tree's remaining
-      expected failure and closing HY01. The separate native TanStack Grid SSR
-      coverage does not prove Tree hydration; E01 remains complete.
+- [x] HY01 — Tree/TreeDms initial-data hydration (2026-10-12, RC.11).
+      Built-in flatten/sort/search a synchronní vlastní hledání dokončí práci
+      před renderem. Setup je synchronní; není třeba Suspense. Vlastní Promise
+      hledání drží stejný pending SSR/first-client stav, commit provede po mountu
+      a zahazuje starší výsledky i výsledky po dispose. Merged config neopakuje
+      počáteční hledání. Prázdný vnitřní outlet se předává jen při skutečném
+      obsahu; dočasný DOM wrapper zůstává odstraněný.
+      Původní HY01 assertion i obě minimální empty/provided slot varianty jsou
+      obyčejné strict testy bez expected-failure anotace. Počáteční řazení,
+      hledání, synchronní/asynchronní vlastní funkce, prázdná data, lokalizované
+      odkazy, stale/disposed výsledky, remount a TreeDms ověřují všechny tři
+      enginy v cold development běhu. Samostatný createVaporApp konzument
+      ověřuje skutečný drag/drop a async hledání bez interopu.
+      Viz [oprava a historická reprodukce](research/tree-hydration.md) a
+      [finální validační záznam](testing.md). E01 zůstává samostatný dokončený
+      bod; jeho TanStack Grid důkaz nenahrazuje Tree testy.

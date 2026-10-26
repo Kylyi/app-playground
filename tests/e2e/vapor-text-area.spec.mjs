@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('TextArea preserves slots, autogrow, events and public input methods', async ({ page }) => {
   const problems = []
@@ -68,7 +71,7 @@ test('TextArea preserves slots, autogrow, events and public input methods', asyn
 })
 
 test('TextArea renders fallback label, hint and localized navigation without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-text-area')
@@ -87,6 +90,7 @@ test('TextArea renders fallback label, hint and localized navigation without Jav
 
 test('TextArea retains fixed rows when autogrow is disabled', async ({ page }) => {
   await page.goto('/cs-CZ/vapor-text-area')
+  await expect(page.getByTestId('text-area-example')).toHaveAttribute('data-ready', 'true')
   await page.getByRole('link', { name: 'TextArea · pevné řádky', exact: true }).click()
   await expect(page).toHaveURL(/autogrow=false/)
   await expect(page.getByTestId('text-area-example')).toHaveAttribute('data-ready', 'true')

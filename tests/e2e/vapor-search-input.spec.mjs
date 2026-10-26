@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('SearchInput synchronizes external models and restores slot fallbacks', async ({ page }) => {
   const problems = []
@@ -62,7 +65,7 @@ test('SearchInput synchronizes external models and restores slot fallbacks', asy
 })
 
 test('SearchInput renders its fallback icon and attrs in SSR with localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-search-input')

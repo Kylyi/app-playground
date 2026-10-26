@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const mode of ['wrapped', 'direct']) {
   test(`VDOM ${mode} children dispose after hydration and remount`, async ({ page }) => {
@@ -51,7 +54,7 @@ test('interop lifecycle navigation switches modes and retains cleanup behavior',
 })
 
 test('interop lifecycle example preserves SSR and localized variant links', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-interop-lifecycle')

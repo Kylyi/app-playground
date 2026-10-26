@@ -1,13 +1,202 @@
 # Testing and migration checks
 
+## Row tuning and corrected controls — 2026-10-25
+
+The [latest ledger](research/vapor-mount-verification.json) binds this round's
+source snapshot, scope and results. [Raw corrected evidence](research/vapor-performance-tuning.json)
+includes all timing samples, paired intervals, profiles, row counts and rejected
+experiments. The Nuxt app root remains deferred.
+
+| Check | Result |
+| --- | --- |
+| Production E2E, 31 files / three engines | 481 passed; 2 existing CDP skips; final complete rerun, no retries or flaky cases |
+| Complete native suite | 111/111, no skips or retries |
+| Unit / benchmark tooling | 344/344, 61 files; 8/8 Node checks |
+| App, native and corrected benchmark types | Zero diagnostics |
+| Affected lint / three checkout whitespace checks | 25 files clean; all pass |
+| Corrected benchmark | 1,280 samples in paired trials, 120 SSR/hydration, 60 DOM parity and 12 directive interaction checks |
+| Cleanup and separate diagnosis | 30 GC remount cycles per family/variant, 16 scroll runs, 240 CPU profiles and 12 traces |
+| Report HTML | Three engines / four widths; zero Axe violations; keyboard, offline, no-JS and print checks pass |
+| Native bundle | 242 native SFCs, zero UI VDOM imports or icon renderer modules; 443 JS files, 7,280,762 unminified bytes |
+
+New cases cover Tree source edits published through the model after built-in
+and custom searches, remounts, Pivot ordinary/standalone cell formatting and
+labels, zero/missing values, row/cell keyboard events, changed orientation,
+and Table provided-empty/conditional slots in regular and card views. Both new
+localized query links are followed with JavaScript disabled. Tests wait for
+hydrated readiness before interaction and separately inspect server HTML.
+
+The broad run had one Chromium drag setup timeout caused by a recycled virtual
+row. After restoring the viewport in test setup, the complete 33-case Tree
+file passed in three engines and the failing case passed five Chromium repeats.
+The final source then passed the complete 31-file rerun. The original broad
+480-pass/2-skip/1-failure report and artifacts remain recorded.
+
+Broader cases retain workers, filtering, resizing, scrolling, editing, drag,
+links, runtime icons and cleanup coverage. Corrected VDOM controls use the
+proper directive lifecycles; their typechecks and real interactions pass.
+Earlier viewport initialization, slot forwarding and known-leaf icon fixes
+remain in place. [Performance assessment](research/vapor-performance.md).
+
+## 2.3 synchronization — 2026-10-25
+
+UI `2.3` through `47fbf0c5` (26 incoming commits) and Utilities through
+`88ea6b3` (8 incoming commits) are merged into their `2.3-vapor` branches.
+Existing local migration changes and every original untracked layer file are
+preserved. Local merge commits are UI `f8240fbf` and Utilities `99364d9`;
+integration fixes remain alongside the existing uncommitted migration work.
+The [verification record](research/vapor-sync-2.3-2026-10-25.json) preserves the
+source hash, browser scope, capability skips and native bundle checksum.
+
+| Check | Result |
+| --- | --- |
+| Standalone native, Chromium/Firefox/WebKit | 102/102 passed; no skips or retries |
+| Affected production, 16 files and three engines | 280 passed; 2 existing Chromium-CDP-only capability skips; no failures, retries or flaky cases |
+| Unit suite | 344/344 in 61 files |
+| Application and native typechecks | Both pass with zero diagnostics |
+| Affected lint | 81 files; zero errors, seven existing brace-style warnings |
+| Application/UI/Utilities whitespace checks | All pass |
+| Fresh native bundle | 242 native UI SFCs, zero UI VDOM render imports or icon renderer modules; 443 JS files including the worker, 7,273,127 unminified bytes |
+
+The production run includes no-JavaScript SSR and hydrated interaction checks.
+New regressions exercise container-based labels on native button/anchor roots
+and custom slots, segmented ButtonGroup selection/disabled/keyboard behavior,
+external Tree move/return/drop/Escape/owner cancellation, and a new Table query
+superseding a held page while rejecting its late result. The three new variants
+are in localized navigation and their links are verified in the browser.
+The native suite separately proves external Tree drops without interop.
+
+The sync retains native declarative slots instead of importing the upstream
+button's VDOM reusable-template helper. It combines Tree reporting with existing
+owned cancellation, uses the public native scroller element for empty-table
+autofit, removes a duplicate Menu header binding, and preserves runtime legacy
+icon names alongside custom Uno variants. Numeric-string sorting retains the
+synchronous Vapor API and removes ambiguous repetition from the upstream regex.
+Binary toggles use switch semantics; tri-state/mixed models retain checkbox
+semantics and existing focus behavior. The updated Pivot unit expectation
+reflects the intentional removal of a duplicate grand total without column fields.
+
+Nuxt stays on 4.6.1 / Vue 3.6.0-rc.11. Axios is 1.20.0 in both layers and the
+existing root installation. The Nuxt app root remains deferred. Performance
+and visual checkpoint counts below describe their recorded source snapshots;
+this synchronization does not relabel them as fresh measurements. Final logs,
+reports and recovery snapshots remain in `.cache/sync-2.3-2026-10-25`.
+Temporary Git stashes are removed after restoration verification, and owned
+production/native servers are stopped after validation.
+
+## Parent comparison verification — 2026-10-22
+
+The parent comparison and runtime-icon ownership repair supersede the performance
+and native counts in the previous checkpoint below. The Nuxt app root remains
+deferred. The [latest ledger](research/vapor-performance-verification.json) and
+[performance diagnosis](research/vapor-performance.md) preserve the scope,
+source hashes, raw samples and limitations.
+
+| Check | Latest result |
+| --- | --- |
+| Standalone native suite, Chromium/Firefox/WebKit | 99/99 passed; no skips, retries or flaky cases |
+| Affected production icons, Tree initialization and Pivot worker | 48/48 passed across three engines; no skips, retries or flaky cases |
+| Current SSR/hydration, three compiler/parent variants | Default 90/90 and initial-row control 54/54 clean; JavaScript-disabled HTML and hydrated pages |
+| Unit suite | 325/325 in 57 files |
+| Application, standalone native and canonical Vapor-parent typechecks | All pass with zero diagnostics |
+| Affected source lint and three-checkout whitespace checks | Pass; zero lint errors or warnings |
+| Four-way performance comparison | 640 default + 384 initial-row-control samples; 400 CPU profiles; 20 remount traces; 28 real scroll runs |
+| Retention | All current compiler/parent variants pass; 30 remount cycles per family/variant; no DOM/listener growth from cycle 10 to 30 |
+| Fresh native bundle | 242 native UI SFCs; no UI VDOM render imports or icon renderer modules; 443 JS files including the worker, 7,266,413 unminified bytes |
+
+The identical current library is also compiled as VDOM in a disposable copy;
+compiled inventories prove that both VDOM controls contain zero native UI SFCs.
+The old baseline retains its recorded Tree/Pivot SSR/hydration limitations.
+The default and initial-row runs have 144 clean current checks in total, not
+192 clean checks including the baseline.
+
+Native-parent profiling exposed a runtime-icon teardown/cached-handler leak
+that the mixed-parent checkpoint missed. Public Vue/Nuxt ownership cleanup and
+a thirty-remount native regression repair it. Row-construction probes identify
+68 initial rows for 10–12 retained rows as a major mount multiplier. The
+existing initial-row hint tests that cause without changing library defaults.
+The source snapshot covers 1,291 files and stays frozen throughout the final
+measurements. Application files and Nuxt configuration also match the start of
+this follow-up.
+
+This follow-up reruns the complete native suite and affected production files.
+The broader production and visual counts below remain their earlier checkpoint;
+they are not presented as fresh runs after the icon ownership change. Final
+logs, profiles and archived benchmark assets are retained under
+`.cache/vapor-parent-comparison-2026-10-22`; generated benchmark builds, source
+copies and large diagnostic heaps are removed, and owned servers are stopped.
+
+## Previous verification — 2026-10-22
+
+Nuxt 4.6.1 and matched Vue 3.6.0-rc.11. The application root remains VDOM
+and is deliberately deferred. The [machine-readable verification record](research/vapor-verification.json)
+preserves the exact suite scope, source snapshot and final audit results.
+
+| Check | Final result |
+| --- | --- |
+| Production follow-up, 20 affected files, Chromium/Firefox/WebKit | 295 passed; two existing CDP-only touch-movement capability skips; zero failures or retries |
+| Standalone `createVaporApp` consumer, no interop | 96/96 passed across all three engines; no skips or retries |
+| Affected visual matrix: desktop/mobile × light/dark × three engines | 24/24 passed; all 24 viewport/component pairs reviewed (48 images), plus three native search-error pairs |
+| SSR/hydration performance fixtures, five families × three engines × JS off/on | Current library 30/30 clean; old baseline has 21 clean checks and nine explicitly recorded defects |
+| Unit suite | 325/325 in 57 files |
+| Tooling guardrail | 4/4 |
+| Application and native consumer typechecks | Both pass with zero diagnostics |
+| Affected source lint | 324 files; zero errors, 20 style warnings |
+| Application/UI/Utilities whitespace checks | All pass |
+| Native bundle, final emitted files | 242 UI SFCs compile as Vapor; 443 JS files including the worker, 7,265,884 unminified bytes; no UI VDOM render imports or icon renderer modules |
+| Performance comparison | 150 samples; 30 remount cycles per family/renderer; all five current DOM/listener retention gates pass; eight real scroll runs |
+
+This is a fresh **targeted follow-up**, not a claim that a fresh all-files
+production sweep passed. The earlier 1,020-case sweep recorded 1,003 passes,
+15 failures and two capability skips. Its failures led to observer/hover,
+drawer-disposal, startup-readiness and timing-assertion repairs. All affected
+files are rerun here, with additional Pivot startup/worker and column-control
+accessibility coverage. Application runtime sources stayed frozen during the
+final runs; subsequent source edits affected only the native audit harness.
+
+The final native run also supersedes a 93-pass/3-failure audit-delivery run.
+The audit initially rewrote JSON after Nitro had indexed its old length,
+truncating the HTTP response. It now runs in `nitro:build:public-assets`, after
+late asset injection and before the server indexes assets. Its HTTP response
+matches the emitted file byte-for-byte; the full 96-case rerun is green.
+
+The visual review found no new overlap, hidden control or theme defect. The
+focused narrow editor retains the browser's normal horizontal input scrolling;
+WebKit's selection scrolls the visible text. The capped Collapse and all its
+diagnostic controls remain usable. These are reviewed captures, not automatically
+accepted golden snapshots or full-library accessibility certification.
+
+The [performance report](research/vapor-performance.md) and
+[raw samples](research/vapor-performance.json) record mixed timing results and
+a 6% larger total gzip asset inventory. Several mounts regress; a universal
+speedup is not claimed. Heap tracing repaired Pivot's retained setup initializer;
+remounts now keep DOM/listener counts stable. Generated benchmark archives/builds,
+the large diagnostic heap and superseded browser artifacts are removed. Owned
+test servers are stopped; final raw reports/captures remain under
+`.cache/vapor-final-validation-2026-10-22`.
+
+The [native audit](research/native-vapor-audit.md) retains H05 for the deferred
+Nuxt root/framework helpers. The [consumer audit](research/vapor-final-contract-audit.md)
+maps 115 explicit legacy calls across seven projects; B08/H04 await their rollout.
+External checkouts were read only, with no external backend E2E or deployment claimed.
+Older sections below are historical checkpoints and retain their original counts.
+
+## Commands
+
 Run commands from the application root. Install dependencies with `bun install`
-and Playwright's pinned Chromium with `bunx --no-install playwright install chromium`
-(on Linux CI, use `install --with-deps chromium`). No workspace tooling is required.
+and Playwright's pinned engines with
+`bunx --no-install playwright install chromium firefox webkit`
+(on Linux CI, use `install --with-deps chromium firefox webkit`). No workspace
+tooling is required.
 
 | Command                                               | Purpose                                                         |
 | ----------------------------------------------------- | --------------------------------------------------------------- |
 | `bun run test:e2e`                                    | Starts a Nuxt dev server, runs browser tests, stops it          |
 | `bun run test:e2e:prod`                               | Builds Nuxt, starts production SSR, runs the same tests         |
+| `bun run test:e2e:native`                             | Builds and tests the standalone Vapor consumer in all three engines |
+| `bun run test:e2e:visual`                             | Production captures across three engines, desktop/mobile and light/dark |
+| `bun run typecheck`                                  | Checks the playground and its imported library source          |
+| `bun run typecheck:native`                           | Checks the standalone consumer and library production source   |
 | `E2E_BASE_URL=http://127.0.0.1:3011 bun run test:e2e` | Tests an already running server; caller owns its lifecycle      |
 | `bun run test:e2e:report`                             | Opens the last HTML report                                      |
 | `bun run test:tooling`                                | Tests the local ESLint rule, including generated import aliases |
@@ -19,13 +208,54 @@ using `E2E_BASE_URL` or stop it before using the managed dev command. Run manage
 dev and production suites sequentially: they share generated Nuxt output.
 The old `node scripts/test-vapor.mjs [URL]` command delegates to Playwright Test.
 
-Playwright uses a managed Chromium, one worker, no retries, and retains traces,
+Development pre-bundles the 42 imports observed in Nuxt's dependency-discovery
+messages and Vite metadata, including the dynamic Table-cell Comark dependency,
+Utilities autoimports and development tools. Discovering these in successive
+batches after navigation caused `504 Outdated Optimize Dep` and interrupted startup.
+This follows Vite's [dependency pre-bundling guidance](https://vite.dev/guide/dep-pre-bundling).
+Cold development validation clears the Vite dependency cache before starting
+the server. Tests retain their readiness assertions, browser-error checks and
+zero-retry policy. Cold lazy-route compilation continues after navigation's load
+event: a captured first Pivot hydration took longer than ten seconds. Development
+therefore uses a 90-second test / 30-second assertion budget; production keeps
+45 seconds / 10 seconds. These limits do not permit browser errors or retries.
+
+The shared renderer diagnostics ignore exactly one harness message: WebKit's
+`web-inspector://bootstrap.js` snapshot injection into Nuxt hints' sandboxed
+`mb-preview-frame`. The frame intentionally permits no scripts. Console errors
+from application sources, browser exceptions and renderer warnings still fail;
+the native bootstrap does not include this preview iframe.
+Secondary contexts created for SSR, touch or other isolated tests use
+`createObservedContext` so their errors and renderer warnings also fail.
+Renderer warnings match actual Vue hydration messages and mismatch/completion
+diagnostics, not filenames or URLs containing `hydration`. Firefox's ordinary
+stylesheet/layout warning remains visible without being misclassified.
+
+Hold-repeat tests install Playwright's clock before navigation and pause it
+before pressing. Only `runFor` advances the hold, so real elapsed time between
+an assertion and cancellation cannot add an unrequested repeat. Exact model
+values and zero remaining release subscriptions are still asserted. See
+[Playwright's manual timer guidance](https://playwright.dev/docs/clock#tick-through-time-manually-firing-all-the-timers-consistently).
+
+The fetch-more fixture can hold and release one real page request. This lets
+the test finish measuring newly rendered overscan rows before recording its
+scroll baseline, without racing the 250 ms API delay. Appending the page must
+preserve both the exact scroll offset and the visible row's viewport position.
+QueryBuilder path/order tests center their drag targets to keep the intended
+drop outside the auto-scroll edge; separate cases exercise auto-scroll itself.
+Synthetic paste tests attach their real DataTransfer to the event explicitly:
+Firefox otherwise creates an empty clipboard payload. Model/mask assertions
+remain exact, with a controlled ClipboardEvent payload.
+
+Playwright uses Chromium, Firefox and WebKit, one worker, no retries, and retains traces,
 screenshots and video on failure. Reports are ignored by Git. The initial suite
 checks server HTML without JavaScript, hydration, model/slot/event updates,
 VDOM Badge interop, unmount/remount, keyboard activation and axe WCAG A/AA checks
 scoped to the probe. Browser errors and hydration warnings fail the suite.
 Other existing app warnings (for example the missing `/zz` route) remain visible.
-This does not certify the rest of UI, other browser engines or all accessibility.
+This does not certify every optional UI branch or all accessibility. The
+standalone consumer's precise coverage and remaining native routing/icon gates
+are recorded in the [native audit](research/native-vapor-audit.md).
 
 For future component migrations, add the same behavior scenarios for VDOM→VDOM,
 VDOM→Vapor, Vapor→VDOM and Vapor→Vapor. Add screenshot baselines for meaningful
@@ -75,14 +305,216 @@ document for delegated events. Give the test-utils owner a native DOM root;
 its root-node traversal does not support a raw Vapor component instance.
 This does not replace browser layout or hydration tests.
 
-The complete Vitest suite passes 306 tests across 52 files on the upgraded
-runtime. Two menu-interaction fixtures now declare the props and model update
+The complete Vitest suite passes 317 tests across 54 files on the upgraded
+runtime. Nuxt's cold environment setup uses a 60-second hook budget and two
+workers; this changes framework startup, not assertion timeouts. Two
+menu-interaction fixtures now declare the props and model update
 event owned by their `useModel` call. The input
 fixtures now flush only their pending timers and assert the current 24-year
 picker page. Pivot disposal uses a real effect scope; configuration tests check
 configuration events separately from Tree's derived metadata updates.
 
-## Nuxt 4.6 upgrade validation — 2026-10-11
+## Steps 1–4 validation — 2026-10-12
+
+Nuxt 4.6.1, matched Vue 3.6.0-rc.11 and Test Utils 4.3.3. The implementation
+and configuration stayed frozen during these final runs. Production uses a
+saved standalone build, so development compilation cannot rewrite its assets.
+
+| Check | Actual result |
+| --- | --- |
+| Full production sweep, 81 files / 798 cases | 795 passed; 1 virtual-grid harness failure; 2 capability skips |
+| Corrected virtual-grid follow-up | 18/18 passed: both scenarios, three repetitions in every engine |
+| Cold development, 20 files | 303/303 passed; no skips or expected failures |
+| Standalone native consumer | 36/36 passed; no skips or expected failures |
+| Targeted production regressions before the broad sweep | 36/36 passed in all three engines |
+| Existing unit suite | 313/313 passed across 54 files |
+| Root and native production-source typechecks | Both exit 0; the previous 39 diagnostics are resolved |
+| Affected lint | 87 code files, zero errors; 12 existing warnings |
+| Tooling and Pivot benchmark validation | 4/4 tooling checks and all 4 benchmark cases pass |
+| Root and native builds | Both complete successfully |
+
+The full sweep's sole failure aimed the pointer at column 60's right-edge
+resize handle, which was underneath the header's scroll-right button. A captured
+WebKit hit test confirmed the button received the press and no resize guide
+started. The corrected test centers the column, uses actionability-aware hover,
+and requires the guide before dragging. It retains width growth, header/body
+alignment, recycling, end-of-grid and remount assertions. All 18 follow-up cases
+run against the same implementation build. Across the sweep and follow-up,
+all 796 functional production cases are verified; no application failure is
+left open by this result.
+
+The two skips are Firefox/WebKit's existing CDP-only native touch-movement
+scenario. Real touch taps, touch cancellation, mobile layouts, keyboard and
+scoped axe checks run in all three engines. No automatic retries or
+expected-failure annotations are used.
+
+The standalone audit includes 241/241 Vapor UI SFCs, 324 readable chunks and
+5,639,080 JavaScript bytes. It excludes the VDOM renderer and interop
+implementations, but retains createVNode/NuxtLink helpers. Native routing
+variants and unknown-at-build-time icons remain concrete H05/I03 gates;
+B08's external-consumer audit and the remaining contract/performance audits
+are also unfinished. See the [native audit](research/native-vapor-audit.md)
+and [corrected 62-family inventory](vapor-components.md).
+
+## In-depth review validation — 2026-10-12
+
+The later [source/API and visual review](research/vapor-review.md) adds explicit
+contract and error/disposal regressions to the initial steps 1–4 evidence.
+
+| Check | Actual result |
+| --- | --- |
+| Full production, 84 files / 885 cases | 883 passed; 2 existing CDP capability skips; zero failures/retries |
+| Focused contract verification | 96/96 passed in three engines |
+| Final cleanup and stronger state assertions | 153/153 passed in 13 files, three engines |
+| Native consumer and rebuilt cleanup follow-up | 45/45 and 15/15 passed, three engines |
+| Initial visual matrix | 138 passed; 6 mobile SSR hidden-navigation locator failures |
+| Corrected SSR navigation follow-up | 12/12 passed across browser, size and theme projects |
+| Open interactive surface matrix | 36/36 passed across all 12 visual projects |
+| Rebuilt visual repair matrix | 36/36 passed; circle/drawer geometry and contrast asserted |
+| Final unit suite | 317/317 passed in 54 files |
+| Root/native typechecks and builds | All exit 0 |
+| Affected lint | 217 files; zero errors, 16 style warnings |
+
+Each production run uses a frozen output. Fixture layout, type-barrel and nullish
+style cleanup followed the broad sweep; the final follow-ups use rebuilt root
+and native outputs. No full-output rebuild runs while its server's tests are
+active. Class assertions match complete tokens, so arbitrary UnoCSS variants
+containing `.is-open` cannot satisfy an open-state check.
+
+Passing-state screenshots retain both viewport and component crops plus actual
+route/browser/viewport/theme metadata. GPT Luna reviews distinct images; only
+byte-identical SHA256 matches reuse an existing review. No pixel baseline is
+automatically accepted. Theme classes initialize on mount, so no-JavaScript
+tests verify SSR content/hrefs while hydrated visual cases verify their theme.
+The exact evidence directory is recorded in the review checkpoint; earlier
+failed/interrupted runs are retained separately from final results.
+
+## Tabs, scroller and Tree API follow-up — 2026-10-12
+
+`vapor-tabs-accessibility.spec.mjs` exercises manual and automatic activation,
+Left/Right wrap, disabled skipping, Home/End, Enter/Space, real Tab/Shift+Tab
+focus order, active deletion, dynamic labels/order, isolated IDs, custom label
+bindings, overflow, scoped axe and no-JavaScript ARIA/content. Firefox's implicit
+overflow-container tab stop is explicitly disabled inside Tabs. Fixture focus
+stops are explicit so WebKit's default Tab mode exercises the same sequence.
+Existing cache, nested-provider and date/time-pane cases remain strict tests.
+
+`vapor-scroller-contracts.spec.mjs` covers all five former Vertical API stubs
+against actual DOM rows and events. Height measurement is read within the same
+JavaScript job, before ResizeObserver can supply an unrelated automatic update.
+It also checks range invalidation, sticky clear on both scrollers, append,
+empty data, disposal/remount, dimensions and Table's alternate-scroller autofit.
+Tree's modern options, reactive pixel overscan and custom raw item keys are
+checked at runtime; `scroller-contracts.type.ts` rejects Vertical-only and
+Tree-owned options during the normal root typecheck.
+
+| Check | Actual result |
+| --- | --- |
+| Affected production regression, 24 files | 357/357 unique cases verified across the broad sweep and focused follow-up |
+| Corrected scroller API follow-up | 21/21 passed in three engines; zero failures/retries/skips |
+| Native createVaporApp consumer | 54/54 passed in three engines |
+| Desktop/mobile × light/dark visual matrix | 24/24 passed; all 96 state PNGs reviewed by GPT Luna, no visible defects |
+| Unit suite | 317/317 passed in 54 files |
+| Root/native typechecks and builds | All exit 0 |
+| Affected lint | Zero errors or warnings |
+
+The broad sweep passed 356/357 cases. WebKit reached the event output before
+its first RAF notification; parsing the still-empty string threw inside the
+test's poll callback. The readiness guard now returns undefined until JSON is
+present, then retains the exact row-zero/event assertions. All seven scroller
+API scenarios were rerun in all three engines (21/21); application sources and
+both production outputs stayed unchanged. No application diagnostics were
+ignored. The latest result for each of the 357 unique affected cases passes.
+
+Production outputs and 29 affected source/test files are frozen within each
+run. Tests use one worker, zero retries and the unchanged strict renderer
+diagnostics. Localized navigation links are asserted for both Tabs variants,
+both scroller API variants and the vertical Table example. Native tests mount
+the real createVaporApp consumer and check its bundle for renderer/interop
+implementations; H05's remaining NuxtLink/createVNode path is still separate.
+
+Focused rerun commands (each builds its own owned server unless an external URL
+is supplied):
+
+```sh
+bun run test:e2e:prod tests/e2e/vapor-tabs.spec.mjs tests/e2e/vapor-tabs-accessibility.spec.mjs tests/e2e/vapor-scroller-contracts.spec.mjs
+bun run test:e2e:native
+bun run test:e2e:visual tests/visual/api-contracts.spec.mjs
+```
+
+Final local evidence uses `/tmp/vapor-api-final-{e2e,native,visual}.json`,
+`/tmp/vapor-api-followup-e2e.json` and their HTML report/output siblings.
+The consolidated result is `/tmp/vapor-api-final-validation.json`; source hashes
+are in `/tmp/vapor-api-source-freeze.json` and its follow-up sibling.
+Luna's per-browser screenshot reports use `/tmp/vapor-api-luna-*-report.json`.
+The earlier development failures are retained separately; changed implementation
+and fixture expectations are rechecked against the final production output.
+
+## Native UI links and runtime icons — 2026-10-12
+
+`vapor-native-links.spec.mjs` tests the real anchor branches in Btn, Chip,
+MiniCard, Selector, FilePreview2 and regular/card Tables. Named and localized
+routes, query updates, Back/replace, external document navigation, downloads
+(including empty/Boolean source filenames), new tabs, modifiers, disabled and
+prevented clicks, prefetch and owner replacement use actual browser input.
+Whole-row links are accessible siblings of cell links; their independent
+pointer/keyboard destinations and JavaScript-disabled SSR markup are checked.
+
+`vapor-runtime-icons.spec.mjs` obtains names over HTTP, outside the build-time
+icon manifest. It verifies actual SVG data and paint, currentColor masks,
+multicolor/custom SVGs, aliases, legacy class arrays, static asset reuse,
+request sharing, offline remount, delayed requests, disposal and provider
+failure/recovery. SSR screenshots with JavaScript disabled prove the colored
+artwork is painted; hydration retains the same styles without another icon GET.
+The provider delay/failure comes from server fixtures, without browser mocks.
+
+| Check | Actual result |
+| --- | --- |
+| Affected production regression, 46 files / 540 cases | 538 passed; 2 existing CDP capability skips; zero failures/retries |
+| Rebuilt main-app menu/links/icons cleanup follow-up | 123/123 passed in three engines; zero skips/retries |
+| Native createVaporApp consumer, final cleanup build | 72/72 passed in three engines, zero skips/retries |
+| Desktop/mobile × light/dark visual matrix | 24/24 passed; all 96 original PNGs covered by per-browser Luna reviews |
+| Real multicolor screenshot pixels | Both fully opaque red/blue bands verified in all 36 original icon captures |
+| Unit suite | 321/321 passed in 56 files |
+| Root/native typechecks and builds | Exit 0; affected lint has zero errors/warnings |
+
+Visual tests assert a visible whole-row keyboard outline and at least 4.5:1
+current-link contrast in both themes. WebKit uses its native Option-Shift-Tab
+anchor navigation, as documented in [Safari keyboard shortcuts](https://support.apple.com/guide/safari/cpsh003/mac);
+the focus/outline assertions stay identical across engines. An apparent missing
+color band in a scaled image preview was checked against the original PNGs:
+each contains both fully opaque color bands; the extracted WebKit crop and
+pixel report are retained as evidence.
+
+ResizeObserver diagnostics remain strict. Table breakpoint/relative-width and
+Scroller content updates use scope-owned frames to avoid ancestor resize
+loops. Closed menus stop observing Dialog-entry anchors; open-menu movement
+uses one owned frame task, with the redundant trailing throttle removed.
+The previously failing Dialog scenario additionally passed ten consecutive
+WebKit runs. No application errors or hydration warnings are filtered.
+
+Outputs stay frozen while their servers are tested. The main Nuxt application
+bootstrap remains VDOM by request; the standalone native consumer is CSR,
+while SSR/hydration checks run against the main production application.
+The broad sweep precedes removal of the redundant menu position timer;
+the rebuilt 123-case follow-up and 72-case native run cover that final change.
+The visual follow-up changes only the Safari keyboard chord; no diagnostic
+assertion is relaxed. Source snapshots retain both transitions explicitly.
+Its fresh bundle audits all 242/242 UI SFCs, with no UI VDOM render imports,
+no Nuxt/Iconify icon renderer modules and no VDOM renderer/interop implementation.
+Nuxt framework createVNode/NuxtLink helpers remain; H05 and B08 stay open.
+See the [native bundle/cleanup audit](research/native-vapor-audit.md).
+
+Final local reports use `/tmp/vapor-links-icons-final-{e2e,native-cleanup,visual-keyboard}.json`
+and their log/output siblings. The rebuilt main-app follow-up is
+`/tmp/vapor-links-icons-final-menu-cleanup.json`. Per-browser reviews are
+`/tmp/vapor-links-icons-final-luna-*.json`; original paint evidence is
+`/tmp/vapor-links-icons-final-paint.json`. Source snapshots use
+`/tmp/vapor-links-icons-source-freeze-{final,cleanup}.json`; the consolidated
+results and retained audit are `/tmp/vapor-links-icons-final-validation.json`
+and `/tmp/vapor-links-icons-native-bundle-final.json`.
+
+## Historical Nuxt 4.6 upgrade validation — 2026-10-11
 
 Nuxt 4.6.1, matched Vue 3.6.0-rc.11 and Test Utils 4.3.3 replace the integration
 preview. Root `build` works directly; the orphaned UI Playwright harness and its
@@ -119,10 +551,11 @@ and server HTML without JavaScript. The Vapor parent supplies a frozen initial
 lookup to detect accidental mutation. See the [migration record](research/selector-vapor.md)
 for the boundary between migrated code and remaining VDOM dependencies.
 
-Development Vite logs can additionally report existing ResizeObserver loop
-notifications when opening menus. These occurred in the original VDOM baseline
-as well; production browser checks passed without those errors. A green suite
-is not a promise of a warning-free development console.
+VirtualScroller delivers content-size changes through a scope-owned animation
+frame, outside ResizeObserver's delivery loop. Opening a Selector no longer
+resizes its ancestor menu inside that loop. The browser suites retain strict
+page-error checks. Firefox's opening-click geometry and pointer re-entry after
+returning to a mobile viewport are covered by the MenuProxy regression.
 
 ## Input DOM contracts
 
@@ -422,9 +855,11 @@ navigation links and server-rendered variants are checked without JavaScript.
 The console matcher targets Vue diagnostics so browser messages that merely
 contain the route's word `hydration` do not count as hydration failures.
 
-Tree's original HY01 warning assertion remains an expected failure. This
-reproduction does not resolve Tree's separate async initial-data mismatch.
-See the [diagnosis and retest criteria](research/tree-hydration.md).
+Tree's original HY01 assertion is now ordinary and strict. Built-in flattening,
+sorting and search finish before rendering; custom Promise searches keep matching
+pending SSR/first-client states and commit after mount. The initialization suite
+checks sorted/filtered/custom/empty SSR, localized navigation, stale async results
+and disposal/remount. See the [fix and historical diagnosis](research/tree-hydration.md).
 
 ### MenuConfirmation focus
 

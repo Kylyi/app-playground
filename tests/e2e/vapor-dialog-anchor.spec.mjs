@@ -1,13 +1,10 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext, observeRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('dialog anchors follow targets, event types and native Vapor owner lifetime', async ({ page }) => {
-  const errors = []
-  page.on('pageerror', error => errors.push(error.message))
-  page.on('console', message => {
-    if (message.type() === 'error' || /hydration/i.test(message.text())) {
-      errors.push(message.text())
-    }
-  })
+  const errors = observeRendererDiagnostics(page)
   await page.goto('/vapor-dialog-anchor')
   const model = page.getByTestId('native-dialog-model')
   const toggles = page.getByTestId('native-toggles')
@@ -56,7 +53,7 @@ test('dialog anchors follow targets, event types and native Vapor owner lifetime
 })
 
 test('dialog declaration and native owner render on the server without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false, baseURL })
   const page = await context.newPage()
   try {
     const response = await page.goto('/vapor-dialog-anchor')
@@ -72,13 +69,7 @@ test('dialog declaration and native owner render on the server without JavaScrip
 })
 
 test('MenuProxy hydrates and switches between mobile Dialog and desktop Menu', async ({ page }) => {
-  const errors = []
-  page.on('pageerror', error => errors.push(error.message))
-  page.on('console', message => {
-    if (message.type() === 'error' || /hydration/i.test(message.text())) {
-      errors.push(message.text())
-    }
-  })
+  const errors = observeRendererDiagnostics(page)
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/selector-vapor')
   await expect(page.getByTestId('selector-fixture')).toHaveAttribute('data-ready', 'true')

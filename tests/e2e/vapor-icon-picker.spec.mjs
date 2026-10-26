@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('IconPicker restores slots, searches and prevents readonly selection', async ({ page }) => {
   const problems = []
@@ -68,7 +71,7 @@ test('IconPicker restores slots, searches and prevents readonly selection', asyn
 })
 
 test('IconPicker renders its initial fallback and localized navigation in SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-icon-picker')

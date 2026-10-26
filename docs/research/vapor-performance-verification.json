@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-22",
+  "scope": "Four-way parent/compiler comparison, initial-row control, native icon ownership cleanup and affected production/native verification.",
+  "nuxtRootDeferred": true,
+  "applicationSourcesAndNuxtConfigUnchanged": true,
+  "sourceSnapshot": {
+    "files": 1291,
+    "sha256": "e27f19fc94495682686cd4bf27873c6c57ade1827ab648bf622ef137a90b9811",
+    "runtimeAndHarnessUnchangedDuringMeasurements": true
+  },
+  "runtime": {
+    "nuxt": "4.6.1",
+    "vue": "3.6.0-rc.11",
+    "node": "v24.22.1",
+    "timingBrowser": "151.0.7922.34",
+    "coldTraceBrowser": "Chrome 155.0.0.0"
+  },
+  "browserSuites": {
+    "native": {
+      "startTime": "2026-10-22T01:13:05.123Z",
+      "duration": 147561.898,
+      "expected": 99,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "affectedProduction": {
+      "startTime": "2026-10-22T01:16:49.859Z",
+      "duration": 82459.818,
+      "expected": 48,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionFiles": [
+      "tests/e2e/vapor-runtime-icons.spec.mjs",
+      "tests/e2e/vapor-tree-initialization.spec.mjs",
+      "tests/e2e/vapor-pivot-worker.spec.mjs"
+    ]
+  },
+  "unit": {
+    "files": 57,
+    "passed": 325,
+    "failed": 0
+  },
+  "typechecks": {
+    "application": "passed",
+    "native": "passed",
+    "performanceCanonicalVaporParent": "passed"
+  },
+  "affectedLint": {
+    "passed": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "performance": {
+    "defaultSamples": 640,
+    "initial12Samples": 384,
+    "defaultCorrectness": {
+      "current": 90,
+      "baselineClean": 21,
+      "baselineLimitations": 9,
+      "total": 120
+    },
+    "initial12Correctness": {
+      "current": 54,
+      "baselineClean": 12,
+      "baselineLimitations": 6,
+      "total": 72
+    },
+    "cpuProfiles": 400,
+    "remountTraces": 20,
+    "nativeRetentionFailures": 0,
+    "memoryCyclesPerFamilyVariant": 30,
+    "realScrollRuns": 28
+  },
+  "nativeBundle": {
+    "stage": "final-public-assets",
+    "compiledUI": 242,
+    "uiVDOMRenderImports": [],
+    "javascriptFiles": 443,
+    "compiledChunks": 442,
+    "javascriptBytes": 7266413,
+    "retainedVDOM": [
+      "createVNode"
+    ],
+    "iconRendererModules": [],
+    "rawReportSha256": "cb0965ce1a2a27fedf45602c92e9e52f4022fb1bd1b782e3e3476a3e9fc423ca"
+  },
+  "coldTrace": {
+    "browser": "Chrome 155.0.0.0",
+    "lcpMs": 171,
+    "ttfbMs": 20,
+    "renderDelayMs": 151,
+    "cls": 0,
+    "lcpElement": "H1 heading",
+    "inspectedDocumentScriptStylesheetXHRFetchRequests": 382,
+    "requestStatuses": {
+      "200": 381,
+      "304": 1
+    },
+    "consoleWarningsOrErrors": 0,
+    "rawTraceStorage": "DevTools-managed default",
+    "note": "Single cache-bypassed local reload; heading LCP does not measure Table readiness; different browser from the warm timing run."
+  }
+}

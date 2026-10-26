@@ -1,4 +1,8 @@
 import { expect, test } from '@playwright/test'
+import { expectSelectionCleared, expectSelectionDisabled } from './gesture-selection.mjs'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('CornerResize preserves stepping, inversion and limits and cancels on unmount', async ({ page }) => {
   const errors = []
@@ -23,21 +27,21 @@ test('CornerResize preserves stepping, inversion and limits and cancels on unmou
   await page.mouse.move(box.x + box.width / 2, box.y + 2)
   await page.mouse.down()
   await page.mouse.move(box.x + box.width / 2, box.y - 8, { steps: 3 })
-  await expect(page.locator('body')).toHaveCSS('user-select', 'none')
+  await expectSelectionDisabled(page)
   await page.getByRole('button', { name: 'Toggle corners' }).evaluate(el => el.click())
   await expect(page.locator('[data-adjust-corner]')).toHaveCount(0)
   const cancelled = await values()
   await page.mouse.move(100, 100)
   await page.mouse.up()
   expect(await values()).toEqual(cancelled)
-  expect(await page.locator('body').evaluate(el => el.style.userSelect)).toBe('')
+  await expectSelectionCleared(page)
   await page.getByRole('button', { name: 'Toggle corners' }).click()
   await expect(page.locator('[data-adjust-corner]')).toHaveCount(3)
   expect(errors).toEqual([])
 })
 
 test('CornerResize renders configured handles on the server', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-corner-resize')

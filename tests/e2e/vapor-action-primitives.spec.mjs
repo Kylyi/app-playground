@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('action primitives preserve events, models, DOM properties and remount', async ({ page }) => {
   const problems = []
@@ -12,7 +15,7 @@ test('action primitives preserve events, models, DOM properties and remount', as
   await page.goto('/cs-CZ/vapor-action-primitives')
   await expect(page.getByTestId('action-primitives-example')).toHaveAttribute('data-ready', 'true')
   const drawerPanel = page.getByTestId('action-drawer-panel')
-  await expect(drawerPanel).toHaveClass(/is-open/)
+  await expect(drawerPanel).toHaveClass(/(?:^|\s)is-open(?:\s|$)/)
   await expect(page.getByTestId('action-drawer-panel-content')).toHaveText('Drawer content')
   await drawerPanel.locator('.drawer-title').getByRole('button').click()
   await expect.poll(() => drawerPanel.evaluate(element => element.classList.contains('is-open'))).toBe(false)
@@ -28,10 +31,12 @@ test('action primitives preserve events, models, DOM properties and remount', as
   await expect.poll(() => draggableContainer.evaluate(element => element.classList.contains('no-drop'))).toBe(false)
 
   const pageDrawer = page.getByTestId('action-page-drawer')
-  await expect(pageDrawer).toHaveClass(/is-open/)
+  await expect(pageDrawer).toHaveClass(/(?:^|\s)is-open(?:\s|$)/)
   await expect(page.getByTestId('action-page-drawer-content')).toHaveText('Page drawer content')
   await pageDrawer.locator('.page-drawer-bottom').getByRole('button').click()
   await expect.poll(() => pageDrawer.evaluate(element => element.classList.contains('is-mini'))).toBe(true)
+  await expect(page.getByTestId('action-page-drawer-content')).toHaveCount(0)
+  await expect(pageDrawer.getByLabel('Mini page drawer')).toBeVisible()
   await expect(page.getByTestId('action-page-wrapper')).toContainText('Wrapped page')
   await expect(page.getByTestId('action-page-content')).toHaveText('Wrapped content')
   await page.getByRole('button', { name: 'Toggle page loading', exact: true }).click()
@@ -114,15 +119,15 @@ test('action primitives preserve events, models, DOM properties and remount', as
 })
 
 test('action primitives and localized navigation render during SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-action-primitives')
-    await expect(page.getByTestId('action-drawer-panel')).toHaveClass(/is-open/)
+    await expect(page.getByTestId('action-drawer-panel')).toHaveClass(/(?:^|\s)is-open(?:\s|$)/)
     await expect(page.getByTestId('action-drawer-panel-content')).toHaveText('Drawer content')
     await expect(page.getByTestId('action-draggable-container')).toContainText('First draggable')
     await expect(page.getByTestId('action-draggable-container')).toContainText('Second draggable')
-    await expect(page.getByTestId('action-page-drawer')).toHaveClass(/is-open/)
+    await expect(page.getByTestId('action-page-drawer')).toHaveClass(/(?:^|\s)is-open(?:\s|$)/)
     await expect(page.getByTestId('action-page-drawer-content')).toHaveText('Page drawer content')
     await expect(page.getByTestId('action-page-wrapper')).toContainText('Wrapped page')
     await expect(page.getByTestId('action-page-content')).toHaveText('Wrapped content')
@@ -159,10 +164,10 @@ test('drawers resize from their inner edge through the native resizer', async ({
     await page.mouse.move(x, y)
     await page.mouse.down()
     await page.mouse.move(x + deltaX, y, { steps: 5 })
-    await expect(owner).toHaveClass(/is-resizing/)
-    await expect(resizer).toHaveClass(/is-resizing/)
+    await expect(owner).toHaveClass(/(?:^|\s)is-resizing(?:\s|$)/)
+    await expect(resizer).toHaveClass(/(?:^|\s)is-resizing(?:\s|$)/)
     await page.mouse.up()
-    await expect(owner).not.toHaveClass(/is-resizing/)
+    await expect(owner).not.toHaveClass(/(?:^|\s)is-resizing(?:\s|$)/)
   }
 
   // A right-side drawer grows when its left edge moves away from it
@@ -187,4 +192,30 @@ test('drawers resize from their inner edge through the native resizer', async ({
   await pageDrawer.locator('.page-drawer-bottom').getByRole('button').click()
   await expect(pageDrawer.locator('.drawer-resizer')).toHaveCount(0)
   expect(problems).toEqual([])
+})
+
+test('removing a drawer during a resize cancels its queued model update and listeners', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-action-primitives')
+  await expect(page.getByTestId('action-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const owner = page.getByTestId('action-primitives-owner')
+  await expect(owner).toBeVisible()
+  const resizer = page.getByTestId('action-drawer-panel').locator('.drawer-resizer')
+  await resizer.scrollIntoViewIfNeeded()
+  const box = await resizer.boundingBox()
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+  await page.mouse.down()
+  await expect(resizer).toHaveClass(/(?:^|\s)is-resizing(?:\s|$)/)
+  await expect(page.locator('body')).toHaveClass(/(?:^|\s)cursor-col-resize(?:\s|$)/)
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).evaluate(button => {
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 10, clientY: 100, bubbles: true }))
+    button.click()
+  })
+  await expect(owner).toHaveCount(0)
+  await page.mouse.up()
+  await expect(page.locator('body')).not.toHaveClass(/(?:^|\s)cursor-col-resize(?:\s|$)/)
+  await expect(page.locator('html')).not.toHaveClass(/(?:^|\s)select-none(?:\s|$)/)
+  await page.mouse.move(40, 40)
+  await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+  await expect(owner).toBeVisible()
+  await expect(page.getByTestId('action-drawer-widths')).toHaveText('480:160')
 })

@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('input DOM APIs, label alignment and file drop targets survive layout changes and remount', async ({ page }) => {
   const errors = []
@@ -54,7 +57,7 @@ test('input DOM APIs, label alignment and file drop targets survive layout chang
 })
 
 test('server renders labels and native input values without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto(new URL('/vapor-input-dom', baseURL).href)

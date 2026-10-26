@@ -16,14 +16,14 @@ const customNav = ref(false)
 const mounted = ref(true)
 const items = computed<ITabProps[]>(() => {
   const result: ITabProps[] = [
-    { name: 'alpha', label: renamed.value ? 'Renamed Alpha' : 'Alpha' },
-    { name: 'beta', label: 'Beta' },
+    { name: 'alpha', label: renamed.value ? 'Renamed Alpha' : 'Alpha', keepAlive: mode === 'individual' ? true : undefined },
+    { name: 'beta', label: 'Beta', keepAlive: mode === 'opt-out' ? false : undefined },
     ...(extra.value ? [{ name: 'gamma', label: 'Gamma' }] : []),
   ]
 
   return reversed.value ? result.reverse() : result
 })
-const cache = mode === 'plain'
+const cache = mode === 'plain' || mode === 'individual'
   ? undefined
   : mode === 'filtered'
     ? { include: /^Tab_/, exclude: 'Tab_beta', max: 3 }
@@ -99,22 +99,15 @@ onMounted(() => ready.value = true)
     >
       <template
         v-if="customNav"
-        #navigation="{ tabs }"
+        #navigation="{ tabs, ui }"
       >
-        <nav
+        <TabsNavigation
+          v-model="model"
           data-testid="custom-tabs"
-          flex="~ gap-2"
-        >
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            data-example-control
-            type="button"
-            @click="model = tab.name"
-          >
-            Custom {{ tab.name }}
-          </button>
-        </nav>
+          :ui
+          :tabs="tabs.map(tab => ({ ...tab, props: { ...tab.props, label: `Custom ${tab.name}` } }))"
+          label="Custom tabs"
+        />
       </template>
       <Tab
         v-for="item in items"

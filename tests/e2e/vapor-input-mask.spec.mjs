@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('native Vapor mask edits, reformats and releases replaced inputs and owners', async ({ page }) => {
   const problems = []
@@ -55,7 +58,7 @@ test('native Vapor mask edits, reformats and releases replaced inputs and owners
 })
 
 test('Vapor mask formats the SSR value without a live DOM mask', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-input-mask')

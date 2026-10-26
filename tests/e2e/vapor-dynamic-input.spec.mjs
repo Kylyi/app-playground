@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('DynamicInput forwards conditional scoped slots and preserves its public input API', async ({ page }) => {
   const problems = []
@@ -45,7 +48,7 @@ test('DynamicInput forwards conditional scoped slots and preserves its public in
 })
 
 test('DynamicInput renders SSR without phantom slots and has localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-dynamic-input')

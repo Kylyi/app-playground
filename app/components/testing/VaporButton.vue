@@ -1,5 +1,7 @@
 <script setup lang="ts" vapor>
 const route = useRoute()
+const withBreakpoint = route.query.breakpoint === 'true'
+const wideContainer = ref(false)
 const localePath = useLocalePath()
 const control = useTemplateRef('control')
 const ready = ref(false)
@@ -24,7 +26,10 @@ function focusControl() {
     data-testid="button-example"
     :data-ready="ready"
   >
-    <form @submit.prevent="submits++">
+    <form
+      :style="withBreakpoint ? { containerType: 'inline-size', width: wideContainer ? '720px' : '360px' } : undefined"
+      @submit.prevent="submits++"
+    >
       <Btn
         v-if="mounted"
         ref="control"
@@ -34,6 +39,7 @@ function focusControl() {
         :disabled
         :loading
         :label="() => `Action ${clicks}`"
+        :label-breakpoint="withBreakpoint ? '2xl' : undefined"
         preset="ADD"
         type="submit"
         ripple
@@ -66,6 +72,13 @@ function focusControl() {
         </template>
       </Btn>
     </form>
+    <button
+      v-if="withBreakpoint"
+      data-example-control
+      @click="wideContainer = !wideContainer"
+    >
+      Toggle container width
+    </button>
     <button
       data-example-control
       @click="linked = !linked"

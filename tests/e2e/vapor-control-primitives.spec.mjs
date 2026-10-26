@@ -1,4 +1,46 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+import { expectTextContrast } from './text-contrast.mjs'
+
+assertRendererDiagnostics(test)
+
+test('boolean query buttons expose string/boolean selection and readable labels', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-control-primitives')
+  await expect(page.getByTestId('control-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const input = page.getByTestId('query-boolean')
+  const yes = input.getByRole('button', { name: 'Ano', exact: true })
+  const no = input.getByRole('button', { name: 'Ne', exact: true })
+  await expect(yes).toHaveAttribute('aria-pressed', 'true')
+  await expect(no).toHaveAttribute('aria-pressed', 'false')
+  for (const button of [yes, no]) {
+    await expectTextContrast(button, { foreground: '.btn-label', backgrounds: [':scope'] })
+  }
+  await page.getByRole('button', { name: 'Set false string', exact: true }).click()
+  await expect(page.getByTestId('query-boolean-state')).toHaveAttribute('data-type', 'string')
+  await expect(yes).toHaveAttribute('aria-pressed', 'false')
+  await expect(no).toHaveAttribute('aria-pressed', 'true')
+  for (const button of [yes, no]) {
+    await expectTextContrast(button, { foreground: '.btn-label', backgrounds: [':scope'] })
+  }
+  await no.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByTestId('query-boolean-state')).toHaveText('false:0')
+  await expect(page.getByTestId('query-boolean-state')).toHaveAttribute('data-type', 'boolean')
+})
+
+test('custom Toggle bullet fits its control without overlapping the prepend slot', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-control-primitives')
+  await expect(page.getByTestId('control-primitives-example')).toHaveAttribute('data-ready', 'true')
+  const bullet = page.getByTestId('state-toggle').locator('.bullet')
+  const contentBox = await page.getByTestId('toggle-bullet').boundingBox()
+  const bulletBox = await bullet.boundingBox()
+  const prependBox = await page.getByTestId('toggle-prepend').boundingBox()
+  expect(contentBox.x).toBeGreaterThanOrEqual(bulletBox.x)
+  expect(contentBox.x + contentBox.width).toBeLessThanOrEqual(bulletBox.x + bulletBox.width)
+  expect(contentBox.y).toBeGreaterThanOrEqual(bulletBox.y)
+  expect(contentBox.y + contentBox.height).toBeLessThanOrEqual(bulletBox.y + bulletBox.height)
+  expect(contentBox.x).toBeGreaterThan(prependBox.x + prependBox.width)
+})
 
 test('control primitives preserve models, slots, DOM properties and remount', async ({ page }) => {
   const problems = []
@@ -37,22 +79,31 @@ test('control primitives preserve models, slots, DOM properties and remount', as
   await expect(page.getByTestId('readonly-checkbox-model')).toHaveText('false')
 
   const toggle = page.getByTestId('state-toggle')
-  await expect(toggle).toHaveClass(/is-unchecked/)
+  await expect(toggle).toHaveClass(/(?:^|\s)is-unchecked(?:\s|$)/)
   await expect(toggle).toContainText('Toggle: unchecked')
   await expect(page.getByTestId('toggle-prepend')).toHaveText('toggle prepend')
-  await expect(page.getByTestId('toggle-bullet')).toHaveText('bullet')
+  await expect(page.getByTestId('toggle-bullet')).toHaveAccessibleName('Custom toggle bullet')
   await expect(page.getByTestId('toggle-append')).toHaveText('toggle append')
   await toggle.click()
   await expect(page.getByTestId('toggle-model')).toHaveText('null')
-  await expect(toggle).toHaveClass(/is-indeterminate/)
+  await expect(toggle).toHaveClass(/(?:^|\s)is-indeterminate(?:\s|$)/)
+  await expect(page.getByTestId('toggle-bullet')).toHaveClass(/i-heroicons-minus-16-solid/)
   await toggle.press('Enter')
   await expect(page.getByTestId('toggle-model')).toHaveText('true')
-  await expect(toggle).toHaveClass(/is-checked/)
+  await expect(toggle).toHaveClass(/(?:^|\s)is-checked(?:\s|$)/)
+  await expect(page.getByTestId('toggle-bullet')).toHaveClass(/i-heroicons-check-16-solid/)
   await page.getByRole('button', { name: 'Focus toggle', exact: true }).click()
   await expect(toggle).toBeFocused()
 
   const stringToggle = page.getByTestId('string-toggle')
-  await expect(stringToggle).toHaveClass(/is-checked/)
+  await expect(stringToggle).toHaveClass(/(?:^|\s)is-checked(?:\s|$)/)
+  await stringToggle.click()
+  await expect(page.getByTestId('string-toggle-model')).toHaveText('false')
+  await page.getByRole('button', { name: 'Clear string toggle', exact: true }).click()
+  await expect(page.getByTestId('string-toggle-model')).toHaveText('undefined')
+  await expect(stringToggle).toHaveAttribute('aria-checked', 'mixed')
+  await stringToggle.press('Enter')
+  await expect(page.getByTestId('string-toggle-model')).toHaveText('true')
   await stringToggle.click()
   await expect(page.getByTestId('string-toggle-model')).toHaveText('false')
   await page.getByTestId('readonly-toggle').click()
@@ -72,7 +123,11 @@ test('control primitives preserve models, slots, DOM properties and remount', as
   await expect(page.getByTestId('confirmation-checkmark')).toHaveText('custom checkmark')
   await expect(page.getByTestId('confirmation-content')).toHaveText('Custom confirmation content')
   await expect(page.getByTestId('confirmation-actions')).toHaveText('custom action')
-  await page.getByRole('button', { name: 'Zavřít', exact: true }).click()
+  const close = page.getByRole('button', { name: 'Zavřít', exact: true })
+  await expect(close).toHaveCSS('opacity', '1')
+  await expectTextContrast(close, { foreground: '.btn-label', backgrounds: [':scope'] })
+  await close.focus()
+  await page.keyboard.press('Enter')
   await expect(page.getByTestId('confirmation-state')).toHaveText('false:1')
   await expect(page.getByTestId('confirmation-content')).toHaveCount(0)
 
@@ -81,7 +136,7 @@ test('control primitives preserve models, slots, DOM properties and remount', as
   await expect(marquee).toHaveCSS('--duration', '12s')
   await expect(marquee).toHaveCSS('--gap', '7px')
   await page.getByRole('button', { name: 'Toggle marquee vertical', exact: true }).click()
-  await expect(marquee).toHaveClass(/is-vertical/)
+  await expect(marquee).toHaveClass(/(?:^|\s)is-vertical(?:\s|$)/)
   await expect(marquee.locator('.animate-marquee-vertical')).toHaveCount(2)
   await page.getByRole('button', { name: 'Toggle marquee reverse', exact: true }).click()
   await expect(marquee.locator('.animate-marquee-vertical').first()).toHaveCSS('animation-direction', 'reverse')
@@ -101,14 +156,14 @@ test('control primitives preserve models, slots, DOM properties and remount', as
 })
 
 test('control primitives and localized navigation render during SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-control-primitives')
     await expect(page.getByTestId('state-checkbox')).toContainText('Checkbox: false')
     await expect(page.getByTestId('checkbox-append')).toHaveText('checkbox append')
     await expect(page.getByTestId('state-toggle')).toContainText('Toggle: unchecked')
-    await expect(page.getByTestId('toggle-bullet')).toHaveText('bullet')
+    await expect(page.getByTestId('toggle-bullet')).toHaveAccessibleName('Custom toggle bullet')
     await expect(page.getByTestId('query-boolean-state')).toHaveText('true:0')
     await expect(page.getByTestId('query-move-handler')).toBeVisible()
     await expect(page.getByTestId('confirmation-content')).toHaveCount(0)

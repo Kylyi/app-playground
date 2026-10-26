@@ -1,4 +1,77 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+test('Tree reports external movement, return, drop and cancellation without moving its nodes', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-tree-drag?external=true')
+  await expect(page.getByTestId('tree-drag')).toHaveAttribute('data-ready', 'true')
+  const events = async () => JSON.parse(await page.getByTestId('tree-outside-events').textContent())
+  const endPhases = async () => (await events()).filter(event => ['drop', 'cancel'].includes(event.phase)).map(event => event.phase)
+  let outside
+  async function dragOutside() {
+    const node = page.locator('.tree-node[data-id="node-1"]')
+    // Outside dragging can recycle the source row. Restore the viewport before
+    // locating it; scrolling an absent virtual row cannot bring it back.
+    await expect(page.locator('.ghost')).toHaveCount(0)
+    await page.locator('.tree .is-virtual').evaluate(el => {
+      el.scrollTop = 0
+    })
+    await expect(node).toBeVisible()
+    await node.scrollIntoViewIfNeeded()
+    const source = await node.boundingBox()
+    const target = await page.getByTestId('external-tree-target').boundingBox()
+    outside = { x: target.x + 180, y: target.y + 50 }
+    await page.mouse.move(source.x + 70, source.y + source.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(outside.x, outside.y, { steps: 12 })
+    await expect(page.locator('.ghost')).toHaveCount(1)
+    await expect.poll(async () => (await events()).at(-1)?.phase).toBe('move')
+  }
+  await dragOutside()
+  const row = await page.locator('.tree-node[data-id="node-3"]').boundingBox()
+  await page.mouse.move(row.x + 70, row.y + row.height / 2, { steps: 8 })
+  await expect.poll(async () => (await events()).some(event => event.phase === 'return')).toBe(true)
+  await page.mouse.move(outside.x, outside.y, { steps: 8 })
+  await page.mouse.up()
+  await expect.poll(endPhases).toEqual(['drop'])
+  const dropped = (await events()).find(event => event.phase === 'drop')
+  expect(dropped.id).toBe('node-1')
+  expect(dropped.x).toBeCloseTo(outside.x, 0)
+  expect(dropped.y).toBeCloseTo(outside.y, 0)
+  await dragOutside()
+  await page.keyboard.press('Escape')
+  await page.mouse.up()
+  await expect.poll(endPhases).toEqual(['drop', 'cancel'])
+  await dragOutside()
+  await page.getByRole('button', { name: 'Toggle tree', exact: true }).evaluate(el => el.click())
+  await page.mouse.up()
+  await expect.poll(endPhases).toEqual(['drop', 'cancel', 'cancel'])
+  await expect(page.getByTestId('tree-order')).toHaveText('node-1,node-2,node-3')
+  await expect(page.getByTestId('tree-moves')).toHaveText('0')
+  await expect(page.locator('.ghost')).toHaveCount(0)
+  await expect(page.locator('html')).not.toHaveClass(/select-none/)
+  await expect(page.getByRole('link', { name: 'Tree · přetažení mimo strom', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-tree-drag?external=true')
+})
+
+test('Tree can drop a node into a parent whose numeric ID is zero', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-tree-drag?mode=parent&ids=numeric')
+  await expect(page.getByTestId('tree-drag')).toHaveAttribute('data-ready', 'true')
+  const from = await page.locator('.tree-node[data-id="1"]').boundingBox()
+  const target = await page.locator('.tree-node[data-id="0"]').boundingBox()
+  await page.mouse.move(from.x + 70, from.y + from.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(target.x + 100, target.y + target.height - 3, { steps: 12 })
+  await expect(page.locator('.ghost')).toHaveCount(1)
+  await page.mouse.up()
+  await expect(page.getByTestId('tree-moves')).toHaveText('1')
+  await expect(page.getByTestId('tree-children')).toHaveText('1')
+  await expect(page.getByTestId('tree-order')).toHaveText('0,2,3')
+  await expect(page.locator('.ghost')).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Tree · rodič s číselným ID nula', exact: true }))
+    .toHaveAttribute('href', '/cs-CZ/vapor-tree-drag?mode=parent&ids=numeric')
+})
 
 for (const mode of ['place', 'parent']) {
   test(`Tree uses exposed Vapor node roots and cleans up drag sessions (${mode})`, async ({ page }) => {
@@ -47,7 +120,7 @@ for (const mode of ['place', 'parent']) {
 }
 
 test('Tree renders with SSR and does not create drag effects', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-tree-drag')
@@ -190,7 +263,5 @@ test('HY01: Tree hydrates without mismatch', async ({ page }) => {
   await page.getByRole('button', { name: 'Tree sibling', exact: true }).click()
   await expect(page.getByTestId('tree-sibling-clicks')).toHaveText('1')
   expect(errors).toEqual([])
-  // SSR waits for initialization, while synchronous client setup starts with empty nodes.
-  test.fail(true, 'HY01: Tree initial data differs between SSR and client setup.')
   expect(warnings).toEqual([])
 })

@@ -2,21 +2,24 @@
 import VaporTreeNode from './VaporTreeNode.vue'
 import type { ITreeProps } from '#layers/ui/app/components/Tree/types/tree-props.type'
 
-type Node = { id: string, label: string, children?: Node[] }
+type Node = { id: string | number, label: string, children?: Node[] }
 const route = useRoute()
 const mode: 'parent' | 'place' = route.query.mode === 'parent' ? 'parent' : 'place'
 const restricted = route.query.mode === 'restricted'
 const controls = route.query.controls === 'true'
+const numericIds = route.query.ids === 'numeric'
+const external = route.query.external === 'true'
+const outsideEvents = ref<{ phase: string, id: string | number, x: number, y: number }[]>([])
 const nodes = ref<Node[]>(controls
   ? [
       { id: 'node-1', label: 'Parent', children: [{ id: 'node-2', label: 'Child' }] },
       { id: 'node-3', label: 'Sibling' },
     ]
   : Array.from({ length: 1000 }, (_, index) => ({
-      id: `node-${index + 1}`,
+      id: numericIds ? index : `node-${index + 1}`,
       label: `Node ${index + 1}`,
     })))
-const selection = ref<string[]>([])
+const selection = ref<(string | number)[]>([])
 const mounted = ref(true)
 const ready = ref(false)
 const siblingClicks = ref(0)
@@ -31,6 +34,9 @@ const dndConfig = computed<ITreeProps<Node>['dndConfig']>(() => ({
   onMoved: () => {
     moves.value++
   },
+  onDragOutside: external
+    ? ({ phase, draggedNode, x, y }) => outsideEvents.value.push({ phase, id: draggedNode.id, x, y })
+    : undefined,
 }))
 onMounted(() => ready.value = true)
 </script>
@@ -66,7 +72,7 @@ onMounted(() => ready.value = true)
       data-example-output
       aria-label="Tree children"
       data-testid="tree-children"
-    >{{ nodes.find(node => node.id === 'node-3')?.children?.map(node => node.id).join(',') }}</output>
+    >{{ nodes.find(node => node.id === (numericIds ? 0 : 'node-3'))?.children?.map(node => node.id).join(',') }}</output>
     <Tree
       v-if="mounted"
       v-model="nodes"
@@ -83,6 +89,18 @@ onMounted(() => ready.value = true)
         contentStyle: () => ({ height: '200px' }),
       }"
     />
+    <template v-if="external">
+      <div
+        data-testid="external-tree-target"
+        :style="{ width: '400px', height: '100px' }"
+      >
+        External canvas
+      </div>
+      <output
+        data-example-output
+        data-testid="tree-outside-events"
+      >{{ JSON.stringify(outsideEvents) }}</output>
+    </template>
     <output
       v-if="controls"
       data-example-output

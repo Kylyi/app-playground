@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 const browserErrors = new WeakMap()
 test.beforeEach(async ({ page }) => {
@@ -17,7 +20,7 @@ test.afterEach(async ({ page }) => {
 })
 
 test('server renders content with JavaScript disabled', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto(new URL('/vapor', baseURL).href)

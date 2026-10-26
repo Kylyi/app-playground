@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('UI hosts render automatically and hydrate without duplication', async ({ page, request }) => {
   const errors = []

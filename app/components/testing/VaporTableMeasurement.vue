@@ -15,9 +15,12 @@ const active = ref(0)
 const measurementActive = ref(0)
 const table = useTemplateRef('table')
 const tableMounted = ref(true)
+const customCell = ref(true)
 const fitState = ref('pending')
 const cancelledWidths = ref('pending')
 const route = useRoute()
+const customCellContent = ref(route.query.slot !== 'empty')
+const cards = ref(false)
 const forced = route.query.mode === 'autofit'
 const rows = [
   { id: 1, width: 123, text: 'Short text', enabled: true },
@@ -129,6 +132,27 @@ async function fit(remove = false, mode: 'fit-with-header' | 'stretch' = 'fit-wi
       >
         Toggle table
       </button>
+      <button
+        data-example-control
+        type="button"
+        @click="customCell = !customCell"
+      >
+        Toggle custom cell slot
+      </button>
+      <button
+        data-example-control
+        type="button"
+        @click="customCellContent = !customCellContent"
+      >
+        Toggle cell slot content
+      </button>
+      <button
+        data-example-control
+        type="button"
+        @click="cards = !cards"
+      >
+        Toggle card view
+      </button>
     </div>
     <output
       data-example-output
@@ -163,11 +187,18 @@ async function fit(remove = false, mode: 'fit-with-header' | 'stretch' = 'fit-wi
         :features="['autofit']"
         :auto-fit="{ onInit: forced ? 'forced' : false, mode: 'fit-with-header' }"
         :minimum-column-width="40"
-        :breakpoint="0"
+        :scroller-config="route.query.mode === 'vertical'
+          ? { scrollerComponent: 'VirtualScrollerVertical', initialRowsRenderCount: 2 }
+          : undefined"
+        :breakpoint="cards ? 10000 : 0"
         :split-rows="[]"
       >
-        <template #width="{ row, column, value, index, customData }">
+        <template
+          v-if="customCell"
+          #width="{ row, column, value, index, customData }"
+        >
           <TemporaryMeasurementContent
+            v-if="customCellContent"
             :width="row.width"
             :data-slot-contract="`${column.field}:${value}:${index}:${typeof customData}`"
           />

@@ -1,4 +1,45 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+test('the default SSR estimate hydrates and client remounts fill resized and hidden viewports', async ({ browser, page, baseURL }) => {
+  const path = '/cs-CZ/vapor-virtual-scroller?estimate=auto'
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
+  try {
+    const server = await context.newPage()
+    await server.goto(path)
+    await expect(server.getByTestId('primary-scroller').locator('.virtual-scroll__row')).toHaveCount(68)
+    const link = server.getByRole('link', { name: 'VirtualScroller · odhad SSR a viewport', exact: true })
+    await expect(link).toHaveAttribute('href', path)
+    await link.click()
+    await expect(server.getByTestId('primary-scroller').locator('[data-index="0"]')).toContainText('Row 0')
+  } finally {
+    await context.close()
+  }
+  await page.goto(path)
+  await expect(page.getByTestId('virtual-example')).toHaveAttribute('data-ready', 'true')
+  const primary = page.getByTestId('primary-scroller')
+  for (let cycle = 0; cycle < 3; cycle++) {
+    await expect(primary.locator('.virtual-scroll__row')).toHaveCount(10)
+    // An actual viewport larger than the SSR estimate must fill completely.
+    await page.getByRole('button', { name: 'Set tall viewport', exact: true }).click()
+    await expect(primary).toHaveCSS('height', '2800px')
+    await expect(primary.locator('[data-index="87"]')).toBeVisible()
+    await page.getByRole('button', { name: 'Hide viewport', exact: true }).click()
+    await expect(primary).toBeHidden()
+    await page.getByRole('button', { name: 'Show small viewport', exact: true }).click()
+    await expect(primary).toHaveCSS('height', '96px')
+    await expect(primary.locator('[data-index="0"]')).toBeVisible()
+    await expect(primary.locator('.virtual-scroll__row')).toHaveCount(6)
+    await page.getByRole('button', { name: 'Toggle virtual owner', exact: true }).click()
+    await expect(primary).toHaveCount(0)
+    await page.getByRole('button', { name: 'Toggle virtual owner', exact: true }).click()
+    await expect(primary.locator('.virtual-scroll__row')).toHaveCount(6)
+    await page.getByRole('button', { name: 'Reset viewport', exact: true }).click()
+  }
+  await expect(primary.locator('.virtual-scroll__row')).toHaveCount(10)
+})
 
 test('a VDOM root owner receives the Vapor viewport attrs, DOM ref and scroll API', async ({ page }) => {
   const problems = []
@@ -17,6 +58,11 @@ test('a VDOM root owner receives the Vapor viewport attrs, DOM ref and scroll AP
   await expect(viewport).toHaveCSS('height', '220px')
   await expect(viewport).toHaveCSS('width', '320px')
   expect(await viewport.evaluate(el => el.parentElement.dataset.testid)).toBe('virtual-example')
+  const firstRow = viewport.locator('.virtual-scroll__row').first()
+  const rowBox = await firstRow.boundingBox()
+  const buttonBox = await firstRow.getByRole('button').boundingBox()
+  expect(buttonBox.y).toBeGreaterThanOrEqual(rowBox.y)
+  expect(buttonBox.y + buttonBox.height).toBeLessThanOrEqual(rowBox.y + rowBox.height)
   await viewport.getByRole('button', { name: 'Mixed row 0', exact: true }).click()
   await expect(viewport).toBeFocused()
   await expect(viewport.getByRole('button', { name: 'Mixed row 60', exact: true })).toBeVisible()
@@ -43,7 +89,7 @@ test('virtual rows measure growth and shrink without affecting another scroller'
   const primary = page.getByTestId('primary-scroller')
   const secondary = page.getByTestId('secondary-scroller')
   const row = (scroller, id) => scroller.locator(`.virtual-scroll__row[data-key="${id}"]`)
-  await expect(primary).toHaveClass(/is-virtual/)
+  await expect(primary).toHaveClass(/(?:^|\s)is-virtual(?:\s|$)/)
   await expect.poll(() => primary.locator('.virtual-scroll__row').count()).toBeLessThan(30)
   await expect(row(primary, 0)).toHaveCSS('height', '32px')
   await page.getByRole('button', { name: 'Toggle heights', exact: true }).click()
@@ -87,7 +133,7 @@ test('virtual rows measure growth and shrink without affecting another scroller'
 })
 
 test('virtual scroller SSR and small-list fallback preserve slots and navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-virtual-scroller?small=true')

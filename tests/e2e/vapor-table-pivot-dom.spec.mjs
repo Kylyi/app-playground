@@ -1,4 +1,45 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+import { expectSelectionCleared, expectSelectionDisabled } from './gesture-selection.mjs'
+import { assertPivotCellContracts } from './pivot-cell-contracts.mjs'
+
+assertRendererDiagnostics(test)
+
+test('Pivot ordinary and standalone cells retain formatting, empty values and interaction contracts', async ({ page, browser, baseURL }) => {
+  const path = '/cs-CZ/vapor-table-pivot-dom?cells=true'
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
+  try {
+    const server = await context.newPage()
+    await server.goto(path)
+    await expect(server.getByTestId('standalone-pivot-cell')).toHaveText('Format A cs-CZ: 1')
+    await expect(server.locator('.pivot-content__values .pivot-value-item-cell').first()).toHaveText('Format A cs-CZ: 1')
+    const link = server.getByRole('link', { name: 'Pivot · formátování a kontrakty buněk', exact: true })
+    await expect(link).toHaveAttribute('href', path)
+    await link.click()
+    await expect(server.getByTestId('standalone-pivot-cell')).toHaveText('Format A cs-CZ: 1')
+  } finally {
+    await context.close()
+  }
+  await page.goto(path)
+  await assertPivotCellContracts(page, 'cs-CZ')
+})
+
+test('Table column options have localized names and report their keyboard-open state', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-table-pivot-dom')
+  await expect(page.getByTestId('table-pivot-dom')).toHaveAttribute('data-ready', 'true')
+  const table = page.getByTestId('table')
+  const button = table.getByRole('button', { name: 'Možnosti sloupce name', exact: true })
+  await expect(button).toHaveAttribute('aria-expanded', 'false')
+  await button.press('Enter')
+  await expect(button).toHaveAttribute('aria-expanded', 'true')
+  await expect(page.locator('.menu').last()).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(button).toHaveAttribute('aria-expanded', 'false')
+  await page.getByRole('button', { name: 'Toggle tables', exact: true }).click()
+  await expect(button).toHaveCount(0)
+  await page.getByRole('button', { name: 'Toggle tables', exact: true }).click()
+  await expect(button).toHaveAttribute('aria-expanded', 'false')
+})
 
 test('Table and Pivot follow replaced configuration objects', async ({ page }) => {
   const problems = []
@@ -71,7 +112,9 @@ test('Table and Pivot synchronize native scrollers and resize columns after hydr
       await page.mouse.move(box.x + box.width / 2 + 60, box.y + 8, { steps: 8 })
       // Table teleports its fixed guide to the body; only one resize runs at a time
       await expect(page.locator('.splitter--active')).toBeVisible()
+      await expectSelectionDisabled(page, 'html')
       await page.mouse.up()
+      await expectSelectionCleared(page, 'html')
       await expect.poll(() => splitter.evaluate(el => Number.parseFloat(el.style.left))).toBeGreaterThan(oldLeft + 40)
     }
     await page.getByRole('button', { name: 'Justify' }).click()
@@ -82,11 +125,13 @@ test('Table and Pivot synchronize native scrollers and resize columns after hydr
 })
 
 test('Table and Pivot render with SSR', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     expect((await page.goto('/cs-CZ/vapor-table-pivot-dom')).status()).toBe(200)
     await expect(page.getByTestId('table')).toBeVisible()
+    await expect(page.getByTestId('table').getByRole('button', { name: 'Možnosti sloupce name', exact: true }))
+      .toHaveAttribute('aria-expanded', 'false')
     await expect(page.locator('[data-testid="table"] input[name="_search"]')).toBeVisible()
     await expect(page.locator('[data-testid="table"] .table-top__export')).toBeVisible()
     await expect(page.locator('[data-testid="table"] .table-toolbar')).toBeVisible()
@@ -194,6 +239,10 @@ test('resize cancellation and unmount release document listeners without committ
   page.on('pageerror', error => errors.push(error.message))
   await page.goto('/vapor-table-pivot-dom')
   await expect(page.getByTestId('table-pivot-dom')).toHaveAttribute('data-ready', 'true')
+  await page.locator('html').evaluate(el => {
+    const property = CSS.supports('user-select', 'none') ? 'user-select' : '-webkit-user-select'
+    el.style.setProperty(property, 'text', 'important')
+  })
   for (const root of ['[data-testid="table"]', '.pivot']) {
     for (const unmount of [false, true]) {
       // Separate drag attempts from Table's 500 ms double-click autofit window.
@@ -207,13 +256,18 @@ test('resize cancellation and unmount release document listeners without committ
       await page.mouse.move(box.x + 65, box.y + 8, { steps: 8 })
       // Table teleports its fixed guide to the body; only one resize runs at a time
       await expect(page.locator('.splitter--active')).toBeVisible()
+      await expectSelectionDisabled(page, 'html')
       if (unmount) {
         await page.getByRole('button', { name: 'Toggle tables' }).evaluate(el => el.click())
       } else {
         await page.locator('html').dispatchEvent('pointercancel')
       }
       await expect(page.locator('.splitter--active')).toHaveCount(0)
-      expect(await page.locator('html').evaluate(el => [el.style.cursor, el.style.userSelect])).toEqual(['', ''])
+      expect(await page.locator('html').evaluate(el => {
+        const property = CSS.supports('user-select', 'none') ? 'user-select' : '-webkit-user-select'
+
+        return [el.style.cursor, el.style.getPropertyValue(property), el.style.getPropertyPriority(property)]
+      })).toEqual(['', 'text', 'important'])
       await page.mouse.move(box.x + 100, box.y + 8)
       await page.mouse.up()
       if (unmount) {
@@ -251,7 +305,7 @@ test('Vapor wrapper removal disposes nested Table resize', async ({ page }) => {
     await page.getByRole('button', { name: 'Toggle tables' }).evaluate(el => el.click())
     await expect(page.locator('.splitter--active')).toHaveCount(0)
     expect(await page.locator('html').evaluate(el => el.style.cursor)).toBe('')
-    expect(await page.locator('html').evaluate(el => el.style.userSelect)).toBe('')
+    await expectSelectionCleared(page, 'html')
     await page.mouse.up()
     await page.getByRole('button', { name: 'Toggle tables' }).click()
   }

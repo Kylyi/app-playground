@@ -1,4 +1,23 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+import { captureState } from '../visual/capture-state.mjs'
+
+assertRendererDiagnostics(test)
+
+test('ColorPicker excludes prohibited theme and shade colors and supports keyboard selection', async ({ page }, testInfo) => {
+  await page.goto('/en-US/vapor-color-inputs?mode=tw')
+  await expect(page.getByTestId('color-inputs-example')).toHaveAttribute('data-ready', 'true')
+  const palette = page.getByTestId('standalone-palette')
+  for (const name of ['black', 'primary', 'blue-500']) {
+    await expect(palette.getByRole('button', { name, exact: true })).toHaveCount(0)
+  }
+  const blue = palette.getByRole('button', { name: 'blue-700', exact: true })
+  await blue.focus()
+  await blue.press('Enter')
+  await expect(page.getByTestId('palette-value')).toHaveText('blue-700')
+  await expect(blue).toHaveAttribute('aria-pressed', 'true')
+  await captureState({ page, testInfo, target: palette, state: 'color-palette-keyboard', families: ['Inputs'] })
+})
 
 function trackProblems(page) {
   const problems = []
@@ -70,6 +89,9 @@ test('ColorInput and ColorPicker preserve RGBA selection, opacity, slots and rem
   await palette.locator('[data-color="white"]').click()
   await expect(page.getByTestId('palette-value')).toHaveText('rgba(255, 255, 255, 1)')
   await expect(palette.locator('[data-color="black"]')).toHaveCount(0)
+  await expect(palette.locator('[data-color="primary"]')).toHaveCount(0)
+  await expect(palette.locator('[data-color="blue-500"]')).toHaveCount(0)
+  await expect(palette.locator('[data-color="blue-700"]')).toBeVisible()
   await palette.locator('input[type="range"]').fill('50')
   await expect(page.getByTestId('palette-value')).toHaveText('rgba(255, 255, 255, 0.5)')
   await expect(palette.locator('input:not([type="range"])')).toHaveValue('50')
@@ -120,7 +142,7 @@ test('ColorPicker supports Tailwind output and ColorInput transforms tokens on b
 })
 
 test('currency and color examples render values and localized links without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-currency-input')
@@ -139,7 +161,7 @@ test('currency and color examples render values and localized links without Java
 })
 
 test('ColorInput selects a color through the mobile dialog', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({
+  const context = await createObservedContext(browser, {
     baseURL,
     viewport: { width: 390, height: 844 },
     isMobile: true,

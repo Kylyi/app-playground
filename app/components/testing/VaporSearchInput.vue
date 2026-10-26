@@ -92,7 +92,7 @@ onMounted(() => ready.value = true)
           <button
             data-example-control
             type="button"
-            @click="focus"
+            @click="focus()"
           >
             Slot focus
           </button>

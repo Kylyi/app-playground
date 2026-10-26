@@ -1,7 +1,10 @@
 # Inventář komponent pro Vapor
 
-Stav k 2026-10-11 (synchronizace UI/Utilities `2.3`, po D07 a rc.9).
+Stav k 2026-10-25 (Nuxt 4.6.1, Vue 3.6.0-rc.11, synchronizace s větvemi 2.3).
 Navazuje na [hlavní checklist](vapor-migration.md).
+Po opravě mountů platí čerstvé [ověření](research/vapor-mount-verification.json):
+111/111 nativních případů a rozšířené produkční SSR/hydratační E2E; výkonové
+srovnání používá stejné nastavení pro oba renderery. Nuxt root zůstává odložený.
 
 Checkbox znamená dokončenou migraci a ověření vlastních SFC celé rodiny;
 neznamená převod všech jejích externích závislostí. InputLabel a InputWrapper
@@ -9,11 +12,25 @@ jsou potvrzené. Poslední rendererový batch D05ai doplnil Vapor marker do vše
 zbývajících SFC komponentového stromu; případné VDOM kompatibilní adaptéry jsou
 u dotčených rodin uvedené zvlášť.
 
-Aktuální inventář má 241 UI SFC, všechny s Vapor markerem; další SFC přidal D07.
-Při synchronizaci je odškrtnutých 56 z 61 rodin. Zbývají ElementMovement,
-MenuConfirmation, Scroller, Tabs a Tree; otevřené integrační blokátory a povinné
-ověření bundle bez VDOM/interop jsou v hlavním checklistu. Marker sám
-nepotvrzuje ověření celé rodiny ani uzavření migrace.
+Aktuální inventář má 242 UI SFC, všechny s Vapor markerem, a 63 rodin.
+Původní seznam vynechal adresář Icon. Nativní UI routing a runtime Icon (I03)
+jsou nyní ověřené; ElementMovement, MenuConfirmation,
+Scroller, Tabs a Tree mají doplněné SSR, hydrataci, interakce a cleanup testy.
+
+Samostatný konzument bez interopu prošel 111 případy ve třech enginech. UI
+nemá VDOM render importy a icon renderer Nuxt/Iconify v jeho bundle chybí;
+framework stále ponechává createVNode a NuxtLink render funkce. Aplikační Nuxt
+root a framework helpery zůstávají v H05; externí rollout a odstranění používaného
+legacy API zůstávají v B08/H04. Kontraktní a lokální externí audit je v
+[závěrečném záznamu](research/vapor-final-contract-audit.md). Checkbox
+rodiny ani marker nejsou uzavřením celé migrace. Rozsah důkazů a zbývající
+závislosti uvádí [nativní audit](research/native-vapor-audit.md).
+Čerstvé [měření výkonu](research/vapor-performance.md) má 1 280 párovaných
+vzorků s opravenými VDOM direktivami. Tree používá shallow úložiště odvozených
+uzlů; Pivot a Table po odmítnutí neprokázaných variant zůstávají beze změny.
+Ponechaná změna má změřený přínos; neprokázané Tree/Pivot/Table varianty jsou vrácené.
+Nativní režie proti stejnému optimalizovanému VDOM kódu zůstává přiznaná.
+Aplikační root a externí rollout zůstávají otevřené.
 
 U každé rodiny doplnit při práci konkrétní SFC, testy a případné interop výjimky.
 Počty zahrnují všechny aktuální `.vue` soubory, i případné starší varianty.
@@ -33,15 +50,17 @@ Nepoužívané varianty nejprve doložit jako nepoužívané; neignorovat je aut
 - [x] [Confirmation](../packages/UI/app/components/Confirmation) — 1 nativní Vapor SFC (D05z); visible model, close event, vlastní checkmark/content/actions sloty, Transition, SSR a remount ověřuje /vapor-control-primitives.
 - [x] [Crud](../packages/UI/app/components/Crud) — všech 7 SFC je nativní Vapor (D05x/D05y). Přímé i potvrzované add/save/delete/archive/restore akce, edit/cancel přes skutečný Form store, scoped prepend/append/confirmation sloty, breakpoint po mountu, remount a SSR ověřuje /vapor-action-primitives.
 - [x] [DatePicker](../packages/UI/app/components/DatePicker) — všech 5 SFC je nativní Vapor (D05ae). Lokalizace, navigace, přepnutí kalendáře mezi dny, měsíci a roky, výběr dne, mobilní dialog, remount a SSR ověřuje /vapor-date-time-inputs ve třech prohlížečích.
-- [x] [Dialog](../packages/UI/app/components/Dialog) — oba SFC jsou nativní Vapor (D05ai). Deklarativní i programatické otevření, inject/sloty/close/disposal, focus, kotvy a responsive MenuProxy ověřují dialogové regrese. DialogHost drží úzký kompatibilní adaptér pro uživatelský legacy render-function obsah.
+- [x] [Dialog](../packages/UI/app/components/Dialog) — oba SFC jsou nativní Vapor (D05ai). Deklarativní i programatické otevření, inject/sloty/close/disposal, focus, kotvy a responsive MenuProxy ověřují dialogové regrese. DialogHost používá deklarativní dynamický outlet; jeho původní VDOM wrapper byl odstraněn. Legacy render-function obsah zůstává volitelnou interop cestou v mixed aplikaci.
 - [x] [DragAndDrop](../packages/UI/app/components/DragAndDrop) — oba SFC jsou nativní Vapor (D05w/D05ag). DraggableItem zachovává `get-item`; DraggableContainer po mountu zapisuje get/insert/remove/move/parent/drop DOM API a při dispose je odstraňuje. Reorder, no-drop, remount a SSR ověřuje /vapor-action-primitives.
 - [x] [Drawer](../packages/UI/app/components/Drawer) — všechny 3 SFC jsou nativní Vapor (D05w/D05ag); DrawerResizer z 2.3 byl převeden při sloučení a tažení Draweru i PageDraweru ověřuje /vapor-action-primitives. Drawer explicitně předává attrs kořeni v Teleportu; modely, zavření, sloty, remount a SSR ověřuje /vapor-action-primitives.
-- [ ] [ElementMovement](../packages/UI/app/components/ElementMovement) — 3 SFC; neověřeno jako celek.
+- [x] [ElementMovement](../packages/UI/app/components/ElementMovement) — 3 nativní Vapor SFC; pohyb, resize, všech 8 handles, limity, poslední pozice před RAF, vlastní mouse/pointer header, Escape/hide/unmount a remount ověřují /vapor-element-movement a /vapor-corner-resize. Touch cancel i obnovení původní selection hodnoty a priority pokrývá vapor-family-interaction. SSR a nativní konzument bez interopu jsou ověřené ve třech enginech.
 - [x] [Field](../packages/UI/app/components/Field) — oba SFC jsou nativní Vapor (D05s/D05t). Field má typovaný wrapper ref a podmíněný label slot; FieldWithFormatter zachovává formátovaný obsah a append. FileInput, drop, focus, kotvy a SSR jsou ověřeny.
 - [x] [Form](../packages/UI/app/components/Form) — všechny 3 SFC jsou nativní Vapor (D05v/D05ai); FormControls používá stabilní deklarativní větve. Validace, submit/reset, řízení stavu, SSR a hydratace pro ArkType i Zod ověřují /vapor-form a /vapor-form-zod.
+- [x] [Icon](../packages/UI/app/components/Icon) — IconRenderer vykresluje nativní span nad datovým providerem Nuxt Icon. Podporuje runtime jména, aliasy, vlastní SVG kolekce, masky a barevné pozadí; statické ikony znovu používají hashované SVG. SSR payload, hydrataci bez refetch, změny jména, chyby provideru, offline cache a cleanup ověřuje /vapor-runtime-icons a samostatný nativní konzument. I03 je uzavřené pro tento veřejný UI kontrakt.
+- [x] [Link](../packages/UI/app/components/Link) — UILink je nativní anchor nad veřejným Vue Router useLink. Nahrazuje UI NuxtLink větve v Chip, MiniCard, FilePreview2, TableRow a SelectorInner; Btn sdílí stejnou navigaci. Ověřeny jsou lokalizované/named cíle, aktivní stav, Back/replace, klávesnice, modifikátory, download, disabled/prevented kliknutí, prefetch, SSR/hydratace a disposal. Table má samostatné řádkové/cell odkazy bez vnořených anchorů.
 - [x] [InputBlock](../packages/UI/app/components/InputBlock) — 1 nativní Vapor SFC (D05ai); po převodu MiniCard zachovává scoped readonly i editable obsah při SSR a hydrataci.
 - [x] [InputLabel](../packages/UI/app/components/InputLabel) — 1 nativní Vapor SFC (D05s); focus, floating label, prepend offset a remount ověřeny v /vapor-input-layouts a /vapor-input-dom.
-- [x] [InputWrapper](../packages/UI/app/components/InputWrapper) — 4 nativní Vapor SFC (D05s); regular/inline/label-inside, dynamické přepínání, styly, label fallback, readonly/disabled, loading a SSR. CSS proměnné zůstávají na těle layoutu do samostatného uzavření I02.
+- [x] [InputWrapper](../packages/UI/app/components/InputWrapper) — 4 nativní Vapor SFC (D05s); regular/inline/label-inside, dynamické přepínání, styly, label fallback, readonly/disabled, loading a SSR. I02 je uzavřené na RC.11: CSS proměnné jsou opět na kořeni; měření prepend obsahu je zachované jako nutná layout funkce.
 - [x] [Inputs](../packages/UI/app/components/Inputs) — všech 30 SFC je nativní Vapor (D05a–D05ai). D05ai převedlo IconPickerIcon na nativní span bez @nuxt/icon rendererové hranice. Modely, masky, soubory, pickery, touch/focus, feedback, scoped sloty, veřejná API, SSR a hydrataci pokrývají specializované `/vapor-*input*` regrese.
 - [x] [Item](../packages/UI/app/components/Item) — 1 nativní Vapor SFC (D05u); dynamický HTML tag, attrs, click, readonly helper, SSR a remount ověřeny.
 - [x] [KeyboardShortcut](../packages/UI/app/components/KeyboardShortcut) — 1 nativní Vapor SFC (D05u); pointer-dependent zobrazení, modifikátory, SSR a reální Form/Table konzumenti ověřeni.
@@ -50,7 +69,7 @@ Nepoužívané varianty nejprve doložit jako nepoužívané; neignorovat je aut
 - [x] [MainBar](../packages/UI/app/components/MainBar) — 1 nativní Vapor SFC (D05af); title, subtitle, left, title-append, right a inner sloty, remount a SSR ověřuje /vapor-presentation-primitives ve třech prohlížečích.
 - [x] [Marquee](../packages/UI/app/components/Marquee) — 1 nativní Vapor SFC (D05z); reaktivní repeat, vertical/reverse, CSS proměnné, opakovaný slot, SSR a remount ověřuje /vapor-control-primitives.
 - [x] [Menu](../packages/UI/app/components/Menu) — všechny 4 SFC jsou nativní Vapor (D05ac/D05ad/D05ai). Veřejné DOM refy, trigger/reference anchor, pohyb, overlay/arrow, Escape cleanup a desktop/mobile potvrzovací menu jsou ověřené ve třech enginech.
-- [ ] [MenuConfirmation](../packages/UI/app/components/MenuConfirmation) — 1 SFC; neověřeno jako celek.
+- [x] [MenuConfirmation](../packages/UI/app/components/MenuConfirmation) — 1 nativní Vapor SFC; otevření, dynamický obsah, potvrzení/cancel, focus a návrat focusu, keyboard Enter/Space/Escape, touch tap, remount a SSR ověřují /vapor-menu-confirmation a vapor-family-interaction ve třech enginech. Nativní konzument ověřuje stejnou klávesnicovou cestu bez interopu.
 - [x] [MenuProxy](../packages/UI/app/components/MenuProxy) — 1 nativní Vapor SFC; explicitní Menu/Dialog větve, scoped forwarding, fallback, header-right a responsive přepnutí ověřuje /vapor-menu-proxy (D05b/D05ai).
 - [x] [MonthSelector](../packages/UI/app/components/MonthSelector) — oba SFC jsou nativní Vapor (D05ai); model, vybraný měsíc, click cesta v gridu, desktop/mobile otevření a SSR ověřují date/time regrese.
 - [x] [Movement](../packages/UI/app/components/Movement) — všech 5 SFC je nativní Vapor (D05u). Checkmark, Close, Indeterminate a RadioButton zachovávají reaktivní stavy a animované styly. MovementElement začíná při SSR i hydrataci s nulovým delayem a náhodný interval 0–2000 ms nastaví až po mountu.
@@ -63,21 +82,21 @@ Nepoužívané varianty nejprve doložit jako nepoužívané; neignorovat je aut
 - [x] [Radio](../packages/UI/app/components/Radio) — 1 nativní Vapor SFC (D05u); výchozí i vlastní label, model, disabled stav, keyboard/click cesta, SSR a remount ověřeny.
 - [x] [ScrollArea](../packages/UI/app/components/ScrollArea) — 1 nativní Vapor SFC (D05ai); DOM ref, VueUse/PerfectScrollbar integrace, filtrování lišt a cleanup odložené práce ověřuje /vapor-scroll-area.
 - [x] [ScrollPicker](../packages/UI/app/components/ScrollPicker) — VerticalScrollPicker je nativní Vapor (D05ag) s explicitním scroll refem; výběr a mobilní time picker ověřuje /vapor-date-time-inputs.
-- [ ] [Scroller](../packages/UI/app/components/Scroller) — oba scrolery nativní Vapor, společný helper bez VNode hooků; osy, modely, wheel, RAF, cleanup a SSR ověřeny v /vapor-scrollers. Šipky používají nativní Btn od D05x.
+- [x] [Scroller](../packages/UI/app/components/Scroller) — oba scrolery jsou nativní Vapor; společný helper používá explicitní DOM refy. Osy, modely, wheel, změnu obsahu, veřejné metody, držení šipek, RAF/disposal, remount a SSR ověřuje /vapor-scrollers ve třech enginech; samostatný konzument používá stejné API bez interopu.
 - [x] [Section](../packages/UI/app/components/Section) — 1 nativní Vapor SFC (D05af); title, subtitle, obsah, reaktivní loading, remount a SSR ověřuje /vapor-presentation-primitives ve třech prohlížečích.
-- [x] [Selector](../packages/UI/app/components/Selector) — všechny 4 SFC jsou nativní Vapor (D05v/D05ag). Model, hledání, výběr, chip, focus, krátké menu, remount a SSR ověřuje /selector-vapor v Chromiu, Firefoxu a WebKitu; WebKit dev runtime při ResizeObserver měření hlásí nedoručenou notifikaci jako pageerror.
+- [x] [Selector](../packages/UI/app/components/Selector) — všechny 4 SFC jsou nativní Vapor (D05v/D05ag). Model, hledání, výběr, chip, focus, krátké menu, remount a SSR ověřuje /selector-vapor v Chromiu, Firefoxu a WebKitu; Content-size události jsou doručené mimo ResizeObserver loop; WebKit pageerror byl opraven. Responsive regrese hlídá také Firefox opening click, pointer re-entry a smazání preference cookie.
 - [x] [Separator](../packages/UI/app/components/Separator) — 1 nativní Vapor SFC (D05t); horizontal/vertical, spaced/inset, obsah, SSR a remount ověřeny.
 - [x] [Skeleton](../packages/UI/app/components/Skeleton) — 1 nativní Vapor SFC (D05t); wave/pulse/blink, rychlost, vlastní styl, SSR a remount ověřeny.
 - [x] [Table](../packages/UI/app/components/Table) — všech 39 SFC je nativní Vapor (D05v–D05ai, D07); TableCell 2.3 odstranila. Řádky dál předávají sloty deklarativně; renderSlot outlet z 2.3 řešil jen VDOM překreslování. Poslední batch převedl kořen, content, row, výběr sloupců, filtrování a oba layoutové dialogy. Persistence, pagination, fetch-more, fullscreen, resize, virtualizaci, filtry, QueryBuilder, focus editorů, layouty, toolbar, SSR, hydrataci a remount pokrývají `/vapor-table-*` regrese. D07 odstranil VDOM měření autofitu; nativní sloty měří TableMeasurement uvnitř vlastníka. I04 opravil upgrade na Vue rc.9; cleanup viditelných hydratovaných cell slotů má povinnou regresi.
 - [x] [Stepper](../packages/UI/app/components/Stepper) — všechny 3 SFC z 2.3 jsou nativní Vapor. Ikony kreslí nativní IconRenderer (kanonická jména mapuje na UnoCSS třídu, výchozí ikony jsou v safelistu); číslo kroku je v elementu kvůli hydrataci. Lineární navigaci, model, ikony, SSR a hydrataci ověřuje /vapor-stepper.
-- [ ] [Tabs](../packages/UI/app/components/Tabs) — 4 nativní Vapor SFC (Tabs, Tab, TabPanel, TabsNavigation). Vnořené deklarace přes provide/inject, nativní cache včetně filtrů/LRU/lifecycle, dynamické pořadí a SSR ověřeny v /vapor-tabs (D01/D01a). Navigace používá nativní Btn od D05x.
+- [x] [Tabs](../packages/UI/app/components/Tabs) — 4 nativní Vapor SFC (Tabs, Tab, TabPanel, TabsNavigation). Vnořené deklarace přes provide/inject, cache state, include/exclude, LRU a activate/deactivate/dispose, dynamické pořadí, SSR a hydrataci ověřuje /vapor-tabs. D01b přidává tablist/tab/tabpanel, stabilní ID, roving focus, disabled skipping, Home/End a manuální/automatickou aktivaci. mode=keyboard/automatic ověřuje skutečné Tab/Shift+Tab pořadí, overflow a focus po odebrání. Custom navigace i label slot sdílejí kontrakt TabsNavigation; nativní cache a klávesnice fungují bez interopu.
 - [x] [Toggle](../packages/UI/app/components/Toggle) — 1 nativní Vapor SFC (D05z); tristate i string model, scoped sloty, keyboard, focus API, readonly, SSR a remount ověřuje /vapor-control-primitives.
 - [x] [Tooltip](../packages/UI/app/components/Tooltip) — oba SFC jsou nativní Vapor (D05ai). Anchor, retarget, směr, předání bubliny, slot kontext, časování a cleanup ověřují shared-tooltip regrese. Viz [sdílený Tooltip](research/shared-tooltip.md).
-- [ ] [Tree](../packages/UI/app/components/Tree) — všech 9 SFC je nativních Vapor (D05aa/D05ab/D05ah). Explicitní DOM API, SSR, virtualizace 1 000 uzlů, oba drag režimy, unmount/cancel cleanup, hledání, collapse/expand all a checkboxový výběr ověřuje /vapor-tree-drag. Rodina zůstává otevřená kvůli HY01: rozdílná počáteční data SSR/klienta a samostatná chyba hydratace prázdného předaného slotu ve Vue rc.9. Viz [minimální reprodukce](research/tree-hydration.md).
+- [x] [Tree](../packages/UI/app/components/Tree) — všech 9 SFC je nativní Vapor. HY01 je vyřešené: built-in flatten/sort/search i synchronní vlastní hledání dodají data před renderem; vlastní Promise drží shodný pending SSR/klient stav a zahazuje staré výsledky i výsledky po dispose. Bez async setup/Suspense. /vapor-tree-initialization pokrývá všech 5 režimů a lokalizované odkazy; /vapor-tree-drag, TreeDms a keyboard regrese doplňují virtualizaci 1 000 uzlů, drop, cancel/unmount a remount ve třech enginech. Nativní konzument ověřuje skutečný drag i async hledání bez interopu. Viz [oprava a reprodukce](research/tree-hydration.md).
 - [x] [TreeDms](../packages/UI/app/components/TreeDms) — všech 6 SFC je nativní Vapor (D05ai); strom, search, kontextové menu, soubor/složka, drop, SSR a hydrataci ověřuje /vapor-tree-dms-drop.
 - [x] [Typography](../packages/UI/app/components/Typography) — Heading je 1 nativní Vapor SFC (D05t); slot, highlighted, UI styl, SSR a remount ověřeny.
 - [x] [ValueFormatter](../packages/UI/app/components/ValueFormatter) — 1 nativní Vapor SFC (D05t); default/previous scoped sloty, vlastní formatter, attrs, SSR a Field/Table konzumenti ověřeni.
-- [x] [VirtualScroller](../packages/UI/app/components/VirtualScroller) — oba SFC jsou nativní Vapor; D05ah přidalo sticky VirtualScrollerVertical používaný Pivotem. TanStack Virtual cesta i sticky Pivot cesta mají ověřené osy, resize, recyklaci, synchronizaci scrollu, SSR/hydrataci a kompatibilní API.
+- [x] [VirtualScroller](../packages/UI/app/components/VirtualScroller) — oba SFC jsou nativní Vapor. TanStack Virtual cesta i sticky Pivot cesta mají ověřené osy, resize, recyklaci, synchronizaci scrollu a SSR/hydrataci. E01a nahrazuje pět Vertical API stubů; /vapor-scroller-contracts dokládá clear/rerender, omezený range, synchronní měření, validní eventy, append a cleanup. Table mode=vertical ověřuje skutečného autofit/remount konzumenta; Tree používá typovaný main-scroller kontrakt.
 - [x] [YearMonthSelector](../packages/UI/app/components/YearMonthSelector) — 1 nativní Vapor SFC (D05ag); model, otevření nativního month gridu, výběr měsíce a SSR ověřuje /vapor-date-time-inputs.
 - [x] [YearSelector](../packages/UI/app/components/YearSelector) — vlastní SFC i závislosti jsou nativní Vapor; datum, wheel, držení šipek, cleanup, desktop/mobile a SSR ověřeny v /vapor-year-selector. NumberInput je nativní od D05m, Btn od D05x a Menu od D05ai.
 

@@ -12,8 +12,10 @@ export default defineConfig({
   workers: 1,
   forbidOnly: !!process.env.CI,
   retries: 0,
-  timeout: 45000,
-  expect: { timeout: 10000 },
+  // A cold dev route compiles its lazy client graph after navigation completes.
+  // Production runs retain the tighter interaction and startup budgets.
+  timeout: production ? 45000 : 90000,
+  expect: { timeout: production ? 10000 : 30000 },
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL,
@@ -21,7 +23,11 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
   webServer: externalURL
     ? undefined
     : {
@@ -32,5 +38,6 @@ export default defineConfig({
         url: baseURL,
         reuseExistingServer: false,
         timeout: 180000,
+        stdout: 'pipe',
       },
 })

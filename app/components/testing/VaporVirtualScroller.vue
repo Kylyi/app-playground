@@ -2,6 +2,9 @@
 const route = useRoute()
 const small = route.query.small === 'true'
 const mixed = route.query.mode === 'vdom'
+const initialRowsRenderCount = route.query.estimate === 'auto' ? undefined : 8
+const viewportHeight = ref(220)
+const viewportHidden = ref(false)
 const rows = ref(Array.from({ length: small ? 6 : 100 }, (_, id) => ({ id, label: `Row ${id}` })))
 const primary = useTemplateRef('primary')
 const mounted = ref(true)
@@ -38,10 +41,12 @@ function appendRows() {
       :rows
       :row-height="32"
       :threshold="10"
-      :initial-rows-render-count="8"
+      :initial-rows-render-count
       :overscan="{ top: 32, bottom: 96 }"
       fetch-more
-      :ui="{ containerStyle: () => ({ height: '220px', width: '320px' }) }"
+      :ui="{ containerStyle: () => ({
+        height: `${viewportHeight}px`, width: '320px', display: viewportHidden ? 'none' : undefined,
+      }) }"
       @virtual-scroll="startIndex = $event.visibleStartItem.index"
     >
       <template #default="{ row }">
@@ -61,7 +66,7 @@ function appendRows() {
       :rows
       :row-height="32"
       :threshold="10"
-      :initial-rows-render-count="8"
+      :initial-rows-render-count
       :overscan="{ top: 32, bottom: 96 }"
       :ui="{ containerStyle: () => ({ height: '180px', width: '320px' }) }"
     >
@@ -77,6 +82,32 @@ function appendRows() {
     >
       Toggle heights
     </button>
+    <template v-if="route.query.estimate === 'auto'">
+      <button
+        data-example-control
+        @click="viewportHeight = 2800"
+      >
+        Set tall viewport
+      </button>
+      <button
+        data-example-control
+        @click="viewportHidden = true"
+      >
+        Hide viewport
+      </button>
+      <button
+        data-example-control
+        @click="viewportHeight = 96; viewportHidden = false"
+      >
+        Show small viewport
+      </button>
+      <button
+        data-example-control
+        @click="viewportHeight = 220; viewportHidden = false"
+      >
+        Reset viewport
+      </button>
+    </template>
     <button
       data-example-control
       @click="primary?.scrollTo(60)"

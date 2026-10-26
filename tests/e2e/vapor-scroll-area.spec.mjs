@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('ScrollArea initializes after its DOM ancestor transition and follows slot changes', async ({ page }) => {
   const errors = []
@@ -41,7 +44,7 @@ test('ScrollArea initializes after its DOM ancestor transition and follows slot 
 })
 
 test('ScrollArea leaves server content intact without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false, baseURL })
   try {
     const page = await context.newPage()
     const response = await page.goto('/vapor-scroll-area')

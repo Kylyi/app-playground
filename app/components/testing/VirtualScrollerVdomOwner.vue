@@ -25,18 +25,17 @@ function activateRow(id: number) {
     :data-element-matches="elementMatches"
     :data-start-index="startIndex"
     :rows
-    :row-height="32"
+    :row-height="48"
     :threshold="10"
     :initial-rows-render-count="8"
     :overscan="{ top: 32, bottom: 96 }"
-    :ui="{ containerStyle: () => ({ height: '220px', width: '320px' }) }"
+    :ui="{ containerStyle: () => ({ height: '220px', width: '320px', maxWidth: '100%' }) }"
     @virtual-scroll="startIndex = $event.visibleStartItem.index"
   >
     <template #default="{ row }">
       <button
         data-example-control
         type="button"
-        h="32px"
         @click="activateRow(row.id)"
       >
         {{ row.label }}

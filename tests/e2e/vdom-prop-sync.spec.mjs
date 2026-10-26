@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('VDOM parents can update inline config in all seven client-mounted Vapor consumers', async ({ page }) => {
   const problems = []

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="An evidence-based assessment of the Vapor migration: completed library work, open app and consumer gates, verification, and performance gaps.">
+  <title>Vapor migration · State of the migration · 25 October 2026</title>
+  <style>
+    :root {
+      --paper: #f5f6f1;
+      --surface: #ffffff;
+      --ink: #162b33;
+      --muted: #53666c;
+      --line: #dce3dc;
+      --green: #156c59;
+      --green-soft: #eaf4ed;
+      --amber: #875513;
+      --amber-soft: #fff3de;
+      --blue: #365e84;
+      --blue-soft: #eaf0f7;
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 98px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--green); text-underline-offset: 4px; }
+    a:hover { text-decoration-thickness: 2px; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible, summary:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+    button:disabled { cursor: default; }
+    [hidden] { display: none !important; }
+    .skip-link { position: fixed; left: 18px; top: -80px; z-index: 30; padding: 12px 20px; background: var(--ink); color: white; border-radius: 8px; }
+    .skip-link:focus { top: 12px; }
+    .wrap { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+    .topbar { position: sticky; z-index: 20; top: 0; background: #f5f6f1f2; backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; min-height: 76px; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: -.2px; white-space: nowrap; }
+    .brand-mark { display: grid; place-items: center; width: 32px; height: 34px; border: 1.5px solid var(--ink); border-radius: 8px 8px 15px 15px; font-size: 20px; font-weight: 450; }
+    nav { display: flex; gap: 24px; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    nav a:hover { color: var(--green); }
+    .print-button { border: 1px solid #aebdb2; padding: 8px 13px; border-radius: 8px; color: var(--ink); background: transparent; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .print-button:hover { background: white; }
+    main { padding-bottom: 64px; }
+    .eyebrow { margin: 0 0 14px; font-size: 11px; font-weight: 750; letter-spacing: 1.8px; text-transform: uppercase; }
+    .hero { padding: 55px 0 0; }
+    .edition { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 16px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+    .edition span:last-child { text-align: right; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 66px; align-items: center; padding: 48px 0 38px; }
+    .pill { display: inline-flex; align-items: center; gap: 7px; border-radius: 100px; padding: 5px 10px; font-size: 10px; line-height: 1.5; font-weight: 750; letter-spacing: .55px; text-transform: uppercase; white-space: nowrap; }
+    .pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }
+    .pill.green { background: var(--green-soft); color: var(--green); }
+    .pill.amber { background: var(--amber-soft); color: var(--amber); }
+    .pill.blue { background: var(--blue-soft); color: var(--blue); }
+    .pill.neutral { background: #edf0ed; color: #4a5d60; }
+    h1 { margin: 22px 0 21px; font-size: clamp(42px, 4.4vw, 63px); line-height: 1.05; letter-spacing: -2.7px; font-weight: 650; }
+    h1 em { color: var(--green); font-style: normal; }
+    .hero-description { max-width: 510px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; }
+    .hero-verdict { display: flex; align-items: flex-start; gap: 12px; margin-top: 25px; font-size: 13px; line-height: 1.65; }
+    .hero-verdict .arrow { font-size: 23px; color: var(--green); line-height: 1.3; }
+    .architecture { padding: 27px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(135deg, #ffffff, #f0f4ed); box-shadow: 0 16px 42px #213b2410; }
+    .architecture .eyebrow { color: var(--muted); font-size: 10px; margin-bottom: 20px; }
+    .architecture-box { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; border: 1px solid var(--line); border-radius: 11px; padding: 17px; background: white; }
+    .architecture-box strong { display: block; margin-bottom: 4px; font-size: 15px; }
+    .architecture-box small { display: block; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .architecture-box.pending { border-color: #ddc9a9; background: #fffaf0; }
+    .architecture-box.native { border-color: #99c5af; background: #f1f8f1; }
+    .architecture-box .pill { margin-top: 2px; font-size: 9px; padding: 3px 7px; }
+    .connection { display: flex; align-items: center; gap: 12px; margin: 0 16px; min-height: 44px; color: var(--muted); font-size: 10px; }
+    .connection::before { content: "↓"; display: block; width: 20px; text-align: center; color: var(--green); font-size: 22px; }
+    .harness { margin: 19px 0 0; padding-top: 17px; border-top: 1px dashed #b9c8bb; font-size: 11px; color: var(--muted); }
+    .harness strong { color: var(--green); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .stat { padding: 25px 26px; border-right: 1px solid var(--line); }
+    .stat:last-child { border: 0; }
+    .stat-number { font-size: 36px; line-height: 1.2; letter-spacing: -1.4px; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .stat-number span { font-size: 20px; color: var(--muted); font-weight: 450; letter-spacing: -.5px; }
+    .stat-title { display: block; margin-top: 8px; font-size: 12px; font-weight: 650; }
+    .stat small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .metric-footnote { color: var(--muted); margin: 11px 3px 0; font-size: 11px; }
+    section.report-section { padding-top: 65px; }
+    .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 25px; margin-bottom: 25px; }
+    .section-head h2 { font-size: 30px; font-weight: 650; letter-spacing: -1px; line-height: 1.2; margin: 0; }
+    .section-head p { color: var(--muted); max-width: 420px; margin: 4px 0 0; font-size: 12px; line-height: 1.75; }
+    .section-number { color: var(--green); margin-bottom: 9px; font-size: 10px; text-transform: uppercase; font-weight: 750; letter-spacing: 1.6px; }
+    .status-board { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: white; }
+    .status-row { display: grid; grid-template-columns: 24px 200px 1fr 110px; gap: 20px; align-items: center; padding: 22px 25px; border-bottom: 1px solid var(--line); }
+    .status-row:last-child { border: 0; }
+    .status-symbol { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; font-weight: 700; background: var(--green-soft); color: var(--green); }
+    .status-symbol.open { background: var(--amber-soft); color: var(--amber); }
+    .status-row h3 { margin: 0; font-size: 14px; line-height: 1.4; }
+    .status-row p { margin: 0; font-size: 12px; color: var(--muted); }
+    .status-row .pill { justify-self: end; }
+    .done-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 25px; }
+    .done-item { border-top: 2px solid #a2c9b2; padding-top: 15px; }
+    .done-item h3 { margin: 0 0 6px; font-size: 13px; }
+    .done-item p { color: var(--muted); font-size: 11px; line-height: 1.8; margin: 0; }
+    details { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 15px; }
+    summary { width: fit-content; max-width: 100%; font-size: 12px; font-weight: 600; color: var(--green); cursor: pointer; }
+    details[open] summary { margin-bottom: 15px; }
+    .families { display: flex; flex-wrap: wrap; gap: 7px; }
+    .families span { padding: 4px 9px; background: white; border: 1px solid var(--line); border-radius: 5px; font-size: 11px; }
+    .gap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .gap-card { padding: 29px; border: 1px solid var(--line); background: white; border-radius: var(--radius); }
+    .gap-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 21px; }
+    .gate { font-size: 11px; letter-spacing: 1px; font-weight: 700; color: var(--muted); }
+    .gap-card h3 { font-size: 24px; line-height: 1.2; letter-spacing: -.7px; font-weight: 650; margin: 0 0 13px; }
+    .gap-card > p { color: var(--muted); font-size: 12px; margin: 0 0 22px; }
+    .gap-facts { display: flex; gap: 28px; padding: 17px 0; margin: 0 0 21px; border-block: 1px solid var(--line); }
+    .gap-facts strong { display: block; font-size: 24px; line-height: 1.3; letter-spacing: -.5px; }
+    .gap-facts small { color: var(--muted); font-size: 10px; }
+    .gap-label { display: block; margin-top: 20px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.1px; font-weight: 750; color: var(--muted); }
+    .gap-card ul { padding-left: 18px; margin: 8px 0; font-size: 12px; line-height: 1.8; }
+    .gap-card li + li { margin-top: 6px; }
+    .exit-condition { padding: 14px 16px; border-radius: 9px; background: var(--paper); color: var(--ink); font-size: 11px; margin-top: 20px; line-height: 1.8; }
+    .exit-condition strong { color: var(--green); }
+    .gap-note { border-left: 3px solid #b8c6ba; padding-left: 16px; font-size: 12px; color: var(--muted); margin: 24px 0 0; }
+    .table-scroll { overflow-x: auto; max-width: 100%; }
+    table { border-collapse: collapse; width: 100%; font-size: 12px; text-align: left; }
+    caption { text-align: left; color: var(--muted); font-size: 11px; padding-bottom: 13px; }
+    th { font-weight: 650; }
+    thead th { color: var(--muted); font-size: 10px; letter-spacing: .7px; text-transform: uppercase; border-bottom: 1px solid var(--line); padding: 12px 16px; }
+    td, tbody th { border-bottom: 1px solid var(--line); padding: 15px 16px; vertical-align: top; }
+    tbody tr:last-child > * { border-bottom: 0; }
+    .mini-table { font-size: 11px; }
+    .mini-table td, .mini-table th { padding: 9px 10px; }
+    @media (max-width: 360px) {
+      #performance .mini-table td, #performance .mini-table th { padding-inline: 4px; }
+    }
+    .evidence { border: 1px solid var(--line); background: white; border-radius: var(--radius); overflow: hidden; }
+    .evidence table { min-width: 680px; }
+    .evidence td:nth-child(2) { font-weight: 650; color: var(--green); white-space: nowrap; }
+    .evidence td:last-child { color: var(--muted); }
+    .evidence thead { background: #f0f3ee; }
+    .freshness { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 20px; }
+    .freshness-item { border: 1px dashed #b9c8bb; padding: 16px 19px; border-radius: 11px; font-size: 11px; color: var(--muted); }
+    .freshness-item strong { color: var(--ink); display: block; margin-bottom: 4px; font-size: 12px; }
+    .performance-notice { display: flex; gap: 16px; padding: 17px 21px; background: var(--amber-soft); border-radius: 11px; margin-bottom: 23px; font-size: 12px; color: #744b16; }
+    .performance-notice strong { color: #67400c; }
+    .performance-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; }
+    .chart-card { padding: 27px; background: white; border: 1px solid var(--line); border-radius: var(--radius); min-width: 0; }
+    .chart-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .chart-header h3 { font-size: 15px; margin: 0; }
+    .chart-unit { font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .chart-controls { display: inline-flex; gap: 4px; border: 1px solid var(--line); padding: 4px; border-radius: 9px; margin-top: 19px; background: var(--paper); }
+    .chart-controls button { border: 0; border-radius: 5px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 650; padding: 7px 11px; }
+    .chart-controls button[aria-pressed="true"] { background: var(--ink); color: white; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 15px; margin: 21px 0 5px; font-size: 10px; color: var(--muted); }
+    .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .chart-legend i { display: inline-block; height: 7px; width: 7px; border-radius: 2px; background: #667986; }
+    .chart-legend .native-dot { background: var(--green); }
+    .chart-table { table-layout: fixed; }
+    .chart-table th:first-child { width: 80px; }
+    .chart-table thead th { font-size: 9px; padding: 9px 8px; text-transform: none; letter-spacing: 0; }
+    .chart-table tbody th { font-size: 11px; padding: 17px 8px 17px 0; vertical-align: middle; }
+    .chart-table td { padding: 15px 8px; vertical-align: middle; }
+    .bar-track { position: relative; height: 29px; background: #f0f3f1; border-radius: 5px; overflow: hidden; }
+    .bar { display: block; position: absolute; inset: 0 auto 0 0; min-width: 2px; border-radius: 5px; background: #667986; opacity: .2; }
+    .bar.native-bar { background: var(--green); opacity: .25; }
+    .bar-value { position: relative; z-index: 1; display: block; padding: 3px 9px; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .chart-caption { min-height: 52px; color: var(--muted); font-size: 11px; margin-bottom: 0; }
+    .diagnosis { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: #edf3ec; }
+    .diagnosis h3 { font-size: 21px; line-height: 1.3; letter-spacing: -.6px; margin: 0 0 15px; font-weight: 650; }
+    .row-estimate { display: flex; align-items: center; gap: 16px; margin: 18px 0; }
+    .row-estimate strong { font-size: 40px; line-height: 1.1; letter-spacing: -1.8px; white-space: nowrap; }
+    .row-estimate span { color: var(--green); font-size: 24px; }
+    .row-estimate small { display: block; font-size: 9px; color: var(--muted); margin-top: 6px; }
+    .diagnosis p { font-size: 12px; color: #40584d; margin-bottom: 15px; }
+    .diagnosis .fine { font-size: 10px; border-top: 1px solid #cadacb; padding-top: 15px; }
+    .bundle-strip { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 25px; padding: 23px 27px; margin-top: 22px; border: 1px solid var(--line); border-radius: 13px; background: white; }
+    .bundle-number { font-size: 36px; line-height: 1.1; letter-spacing: -1.4px; }
+    .bundle-number small { display: block; margin-top: 7px; font-size: 9px; color: var(--muted); letter-spacing: .4px; }
+    .bundle-strip p { margin: 0; color: var(--muted); font-size: 11px; }
+    .plan-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; }
+    .next-panel { background: var(--ink); color: white; border-radius: var(--radius); padding: 30px; }
+    .next-panel .eyebrow { color: #a8d4c1; font-size: 10px; }
+    .next-panel h3 { font-size: 25px; letter-spacing: -.6px; line-height: 1.3; font-weight: 550; margin: 0 0 22px; }
+    .plan-step { display: grid; grid-template-columns: 24px 1fr; gap: 13px; padding-block: 16px; border-top: 1px solid #ffffff26; }
+    .plan-step > span { color: #a8d4c1; font-size: 11px; padding-top: 2px; }
+    .plan-step strong { font-size: 13px; display: block; }
+    .plan-step p { color: #c1d1d3; font-size: 11px; line-height: 1.8; margin: 5px 0 0; }
+    .later-panel { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 30px; }
+    .later-panel h3 { font-size: 19px; margin: 16px 0 13px; }
+    .later-panel p { color: var(--muted); font-size: 12px; }
+    .later-panel .decision { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; }
+    .sources-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .source { display: block; background: white; border: 1px solid var(--line); border-radius: 9px; padding: 15px 17px; text-decoration: none; }
+    .source strong { display: block; font-size: 12px; color: var(--ink); }
+    .source small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .source:hover { border-color: var(--green); }
+    .provenance { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 20px; display: flex; gap: 15px 30px; justify-content: space-between; flex-wrap: wrap; color: var(--muted); font-size: 10px; }
+    code { font-family: "SFMono-Regular", Consolas, monospace; font-size: .92em; overflow-wrap: anywhere; }
+    .provenance code { color: var(--ink); }
+    footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 34px; color: var(--muted); font-size: 10px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (max-width: 1000px) {
+      .topbar-inner { flex-wrap: wrap; gap: 0; padding: 15px 0 0; }
+      nav { order: 3; width: 100%; overflow-x: auto; gap: 22px; padding: 15px 0; }
+      .hero-grid { gap: 30px; }
+      h1 { font-size: 49px; }
+      .architecture { padding: 20px; }
+      .architecture-box { flex-wrap: wrap; }
+      .architecture-box .pill { font-size: 8px; }
+      .stat { padding: 22px 18px; }
+      .status-row { grid-template-columns: 24px 160px 1fr 90px; gap: 15px; }
+      .performance-grid { grid-template-columns: 1.2fr 1fr; }
+      .chart-card, .diagnosis { padding: 22px; }
+    }
+    @media (max-width: 760px) {
+      .wrap { width: calc(100% - 36px); }
+      .hero { padding-top: 28px; }
+      .edition { font-size: 9px; letter-spacing: .5px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; padding: 33px 0 25px; }
+      h1 { font-size: clamp(43px, 9vw, 62px); letter-spacing: -2px; max-width: 580px; }
+      .hero-description { font-size: 14px; }
+      .architecture-box { flex-wrap: nowrap; }
+      .architecture { padding: 21px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .stat-number { font-size: 32px; }
+      .metric-footnote { font-size: 10px; }
+      section.report-section { padding-top: 46px; }
+      .section-head { display: block; margin-bottom: 20px; }
+      .section-head p { margin-top: 13px; max-width: 100%; }
+      .section-head h2 { font-size: 27px; }
+      .status-row { grid-template-columns: 23px 1fr auto; gap: 12px; padding: 19px; }
+      .status-row p { grid-column: 2 / 4; font-size: 11px; }
+      .status-row .pill { grid-row: 1; grid-column: 3; font-size: 8px; }
+      .done-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .gap-grid, .performance-grid, .plan-grid { grid-template-columns: 1fr; }
+      .gap-card { padding: 24px; }
+      .freshness { grid-template-columns: 1fr; gap: 12px; }
+      .chart-card { padding: 22px 17px; }
+      .chart-unit { font-size: 9px; }
+      .chart-table th:first-child { width: 65px; }
+      .chart-table td { padding-inline: 5px; }
+      .chart-table thead th { font-size: 8px; }
+      .bar-value { padding-inline: 7px; }
+      .bundle-strip { grid-template-columns: 100px 1fr; padding: 20px; gap: 16px; }
+      .bundle-number { font-size: 30px; }
+      .sources-grid { grid-template-columns: 1fr 1fr; }
+      .next-panel, .later-panel { padding: 25px; }
+      footer { flex-direction: column; gap: 8px; }
+    }
+    @media (max-width: 380px) {
+      .architecture-box { flex-direction: column; gap: 8px; }
+      .edition { align-items: flex-start; }
+      .status-row { padding-inline: 14px; gap: 8px; }
+      .status-row h3 { font-size: 12px; }
+      .stat { padding: 20px 14px; }
+      .stat-title { font-size: 11px; }
+      .sources-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    @media print {
+      @page { size: A4; margin: 16mm 14mm; }
+      html { scroll-behavior: auto; }
+      body { background: white; font-size: 10pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .wrap { width: 100%; }
+      .topbar, .skip-link, .chart-controls, .print-button { display: none !important; }
+      main { padding: 0; }
+      .hero { padding: 0; }
+      .hero-grid { padding: 24px 0; gap: 24px; grid-template-columns: 1.1fr 1fr; }
+      h1 { font-size: 34pt; letter-spacing: -1.5px; }
+      .hero-description { font-size: 10pt; }
+      .hero-verdict { font-size: 9pt; }
+      .architecture { box-shadow: none; padding: 16px; }
+      .stats { break-inside: avoid; }
+      .stat { padding: 16px; }
+      .stat-number { font-size: 26pt; }
+      section.report-section { padding-top: 30px; }
+      .section-head { break-after: avoid; }
+      .section-head h2 { font-size: 21pt; }
+      .gap-card, .status-row, .done-item, .freshness-item, .bundle-strip, .plan-step, .source { break-inside: avoid; }
+      .gap-grid, .performance-grid, .plan-grid { grid-template-columns: 1fr; }
+      .done-grid { grid-template-columns: repeat(3, 1fr); }
+      .gap-card, .diagnosis, .chart-card { padding: 20px; }
+      .table-scroll { overflow: visible; }
+      .evidence table { min-width: 0; font-size: 9px; }
+      .evidence td, .evidence th { padding: 10px; }
+      .evidence tr { break-inside: avoid; }
+      .sources-grid { grid-template-columns: repeat(3, 1fr); }
+      details { break-inside: auto; }
+      .families { gap: 5px; }
+      .families span { font-size: 9px; padding: 2px 6px; }
+      .provenance { font-size: 8px; }
+      a { color: var(--ink); }
+      footer { padding-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to report</a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">V</span> Vapor / Migration state</a>
+      <nav aria-label="Report sections">
+        <a href="#coverage">Coverage</a><a href="#gaps">Open gaps</a><a href="#evidence">Evidence</a><a href="#performance">Performance</a><a href="#next">Next steps</a>
+      </nav>
+      <button class="print-button" id="print-report" type="button" hidden>Print / save PDF ↗</button>
+    </div>
+  </header>
+
+  <main class="wrap" id="overview" tabindex="-1">
+    <div class="hero">
+      <div class="edition"><span>Gentl UI + Utilities · Engineering brief</span><span>As of 25 October 2026</span></div>
+      <div class="hero-grid">
+        <div>
+          <span class="pill green">Core library conversion complete</span>
+          <h1>The UI is native.<br><em>The app is the<br>next boundary.</em></h1>
+          <p class="hero-description">The component conversion and library contract audits are complete. Full migration still needs Nuxt’s full-app support or a custom integration, plus consumer rollout. Performance remains mixed: Tree improves, while Pivot and Table retain measurable native mount overhead.</p>
+          <div class="hero-verdict"><span class="arrow" aria-hidden="true">↳</span><span><strong>Two completion tracks remain open.</strong><br>There is no remaining component-conversion batch on the checklist.</span></div>
+        </div>
+        <aside class="architecture" aria-label="Current renderer boundaries">
+          <p class="eyebrow">What actually runs today</p>
+          <div class="architecture-box pending"><div><strong>Main Nuxt application</strong><small>VDOM bootstrap, pages and layouts.<br>Conversion deliberately deferred.</small></div><span class="pill amber">H05 open</span></div>
+          <div class="connection">Mixed renderer boundary in the main app</div>
+          <div class="architecture-box native"><div><strong>UI + shared Utilities</strong><small>242 native UI components.<br>Native contracts; optional legacy adapter retained.</small></div><span class="pill green">Verified</span></div>
+          <p class="harness"><strong>Independent proof:</strong> the standalone consumer boots with <code>createVaporApp</code> and passes its native tests without the interop plugin. That consumer is client-rendered.</p>
+        </aside>
+      </div>
+      <div class="stats" aria-label="Latest migration evidence">
+        <div class="stat"><div class="stat-number">242<span> / 242</span></div><span class="stat-title">UI components compile as Vapor</span><small>Fresh bundle audit · 25 Oct</small></div>
+        <div class="stat"><div class="stat-number">63</div><span class="stat-title">Component families reviewed</span><small>Source and public-contract inventory</small></div>
+        <div class="stat"><div class="stat-number">111<span> / 111</span></div><span class="stat-title">Native browser cases passed</span><small>Three engines · no skips or retries</small></div>
+        <div class="stat"><div class="stat-number">481<span> + 2 skips</span></div><span class="stat-title">Production scenarios verified</span><small>31 affected files · three engines</small></div>
+      </div>
+      <p class="metric-footnote">Compile coverage and scenario coverage are different. The tests exercise significant supported behavior, rather than every possible component option.</p>
+    </div>
+
+    <section class="report-section" id="coverage" aria-labelledby="coverage-heading">
+      <div class="section-head"><div><div class="section-number">01 / Progress</div><h2 id="coverage-heading">A finished library phase.<br>An unfinished app migration.</h2></div><p>A single overall percentage would hide the work still needed. These are the meaningful boundaries for deciding what is ready.</p></div>
+      <div class="status-board">
+        <div class="status-row"><span class="status-symbol" aria-hidden="true">✓</span><h3>Library conversion</h3><p>All UI single-file components are native; the 63-family source and contract review is complete.</p><span class="pill green">Complete</span></div>
+        <div class="status-row"><span class="status-symbol" aria-hidden="true">✓</span><h3>Native library use</h3><p>Real native owners, Nuxt services, interactions and cleanup work without installing the interop plugin.</p><span class="pill green">Proven</span></div>
+        <div class="status-row"><span class="status-symbol open" aria-hidden="true">Ⅱ</span><h3>Whole application</h3><p>Nuxt’s supported Vapor mode keeps the app root in VDOM. Full native Nuxt apps are currently unsupported, including in 4.6.2.</p><span class="pill amber">Deferred</span></div>
+        <div class="status-row"><span class="status-symbol open" aria-hidden="true">↗</span><h3>Consumer rollout</h3><p>Local consumers are mapped, but their upgrades, real application tests and legacy API removal are still ahead.</p><span class="pill amber">Open</span></div>
+      </div>
+      <div class="done-grid">
+        <article class="done-item"><h3>Tabs, Tree & scroller contracts</h3><p>Tabs keyboard/ARIA behavior, Tree typing and initialization, and the previously stubbed scroller APIs have implementations and regressions.</p></article>
+        <article class="done-item"><h3>Native links & working icons</h3><p>UI links use native anchors. Runtime icons retain the accepted server data provider and native rendering path; broader module-option parity is outside the agreed scope.</p></article>
+        <article class="done-item"><h3>Models, slots & dynamic content</h3><p>Controlled/local models, exposed refs, generic/callable components, slot fallback and programmatic Dialog paths have been reviewed and exercised.</p></article>
+        <article class="done-item"><h3>Ownership & cleanup</h3><p>Obsolete wrappers and async setup paths were removed. Observer, listener, frame, validation and runtime-icon ownership defects were repaired.</p></article>
+        <article class="done-item"><h3>SSR & hydration</h3><p>JavaScript-disabled server HTML and subsequent hydration are checked in the main Nuxt app. This does not prove a native Nuxt app bootstrap.</p></article>
+        <article class="done-item"><h3>Latest 2.3 changes integrated</h3><p>26 UI and 8 Utilities commits are merged. Native slots, external Tree drops, Table request ordering and numeric-string sorting are preserved and tested.</p></article>
+      </div>
+      <details><summary>View the 63 component families in the source inventory</summary><div class="families"><span>Badge</span><span>Banner</span><span>Breadcrumbs</span><span>Burger</span><span>Button</span><span>ButtonGroup</span><span>Card</span><span>Checkbox</span><span>Chip</span><span>CircleProgress</span><span>Collapse</span><span>Confirmation</span><span>Crud</span><span>DatePicker</span><span>Dialog</span><span>DragAndDrop</span><span>Drawer</span><span>ElementMovement</span><span>Field</span><span>Form</span><span>Icon</span><span>InputBlock</span><span>InputLabel</span><span>InputWrapper</span><span>Inputs</span><span>Item</span><span>KeyboardShortcut</span><span>Link</span><span>List</span><span>Loader</span><span>MainBar</span><span>Marquee</span><span>Menu</span><span>MenuConfirmation</span><span>MenuProxy</span><span>MonthSelector</span><span>Movement</span><span>Navigation</span><span>Notification</span><span>Page</span><span>Pivot</span><span>ProgressBar</span><span>QueryBuilder</span><span>Radio</span><span>ScrollArea</span><span>ScrollPicker</span><span>Scroller</span><span>Section</span><span>Selector</span><span>Separator</span><span>Skeleton</span><span>Stepper</span><span>Table</span><span>Tabs</span><span>Toggle</span><span>Tooltip</span><span>Tree</span><span>TreeDms</span><span>Typography</span><span>ValueFormatter</span><span>VirtualScroller</span><span>YearMonthSelector</span><span>YearSelector</span></div><p class="metric-footnote">Family review covers important supported scenarios; importing every component in the audit is not an individual runtime test of every branch.</p></details>
+    </section>
+
+    <section class="report-section" id="gaps" aria-labelledby="gaps-heading">
+      <div class="section-head"><div><div class="section-number">02 / What is left</div><h2 id="gaps-heading">Two tracks prevent<br>calling the migration finished.</h2></div><p>The checklist has three open gate IDs. B08 and H04 describe the same rollout-and-removal chain; H05 is the separate application/framework boundary.</p></div>
+      <div class="gap-grid">
+        <article class="gap-card">
+          <div class="gap-top"><span class="gate">TRACK A · H05</span><span class="pill amber">Upstream gap</span></div>
+          <h3>Finish the Nuxt<br>application boundary.</h3>
+          <p>Our application already enables <code>vue.vapor: true</code>. Nuxt 4.6.2 still uses that setting for interop: the application root remains VDOM. Its official documentation says: “Full Vapor apps are not yet supported.”</p>
+          <span class="gap-label">Work needed</span>
+          <ul><li>Use future framework support for a full native app, or deliberately build and maintain a custom Nuxt integration.</li><li>Prove native bootstrap, real SSR/hydration, page/layout routing, provider injection and disposal in all three engines.</li><li>Trace and remove remaining framework VDOM paths from the application bundle.</li></ul>
+          <span class="gap-label">What we can do ourselves</span>
+          <p>We can prototype custom entries, as the standalone CSR harness already demonstrates. A complete native Nuxt app with SSR would be a separate, currently unsupported integration to validate and maintain. A configuration change or package upgrade alone cannot finish H05.</p>
+          <p class="metric-footnote">Support checked on 25 Oct against the <a href="https://github.com/nuxt/nuxt/blob/v4.6.2/docs/3.guide/1.concepts/10.vuejs-development.md">official Nuxt 4.6.2 Vapor documentation</a>. Our installed application remains on 4.6.1.</p>
+          <div class="exit-condition"><strong>Done means:</strong> the actual native application has framework support or an explicitly owned integration, passes SSR/hydration and lifecycle checks, and its bundle satisfies the full-native gate.</div>
+        </article>
+        <article class="gap-card">
+          <div class="gap-top"><span class="gate">TRACK B · B08 + H04</span><span class="pill amber">Rollout required</span></div>
+          <h3>Migrate consumers,<br>then remove the adapter.</h3>
+          <p>The explicit-instance compatibility path is still used. Deleting it now would break supported consumers, so retaining it is the current cleanup decision.</p>
+          <div class="gap-facts"><div><strong>115</strong><small>legacy model calls</small></div><div><strong>7</strong><small>local consumer projects</small></div><div><strong>22 Oct</strong><small>audit snapshot</small></div></div>
+          <ul><li>Upgrade selected consumers to the tested compiler/runtime.</li><li>Move instance-owned models to explicit setup-owned contracts; review DOM targets, dialog hosts and Table persistence keys.</li><li>Run each consumer’s real application/backend tests before removing the compatibility API.</li></ul>
+          <div class="exit-condition"><strong>Done means:</strong> supported consumers no longer use the legacy path, their upgrades are validated, and the obsolete adapter/test/overload can be removed.</div>
+        </article>
+      </div>
+      <p class="gap-note"><strong>Blocker assessment:</strong> H05 is a framework support gap while we stay within supported Nuxt behavior. A custom integration would be a separate engineering undertaking. Consumer rollout is work in other projects. The app-root work remains deliberately parked.</p>
+      <details><summary>Consumer audit detail · scope, affected projects and rollout checks</summary>
+        <p class="metric-footnote">Read-only audit of 23,966 source files in 36 local projects on 22 Oct. No external consumer was upgraded, deployed or tested against its authenticated backend by that audit.</p>
+        <div class="gap-grid">
+          <div class="table-scroll"><table class="mini-table"><caption>Projects using explicit-instance model calls</caption><thead><tr><th scope="col">Local project</th><th scope="col">Calls</th></tr></thead><tbody><tr><th scope="row"><code>app-lc</code></th><td>36</td></tr><tr><th scope="row"><code>mono_new</code></th><td>29</td></tr><tr><th scope="row"><code>app-lc_old</code></th><td>12</td></tr><tr><th scope="row"><code>app-dg-minimal</code></th><td>12</td></tr><tr><th scope="row"><code>app-lc-test</code></th><td>12</td></tr><tr><th scope="row"><code>app-lc_2</code></th><td>8</td></tr><tr><th scope="row"><code>app-dg-minimal_old</code></th><td>6</td></tr></tbody></table></div>
+          <div class="table-scroll"><table class="mini-table"><caption>Additional rollout review surfaces</caption><thead><tr><th scope="col">Surface</th><th scope="col">Audit finding</th></tr></thead><tbody><tr><th scope="row">Hide helper</th><td>356 instance-option locations; some are older local helper copies.</td></tr><tr><th scope="row">Dialog layout</th><td>8 old-shape calls need the owning host getter.</td></tr><tr><th scope="row">Table persistence</th><td>374 of 387 declarations omit an explicit key; review actual persistence needs and spreads.</td></tr></tbody></table><p class="metric-footnote">These are candidate migration/review locations, not a count of confirmed broken screens. Counts overlap across projects and must not be added into a defect total.</p></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="report-section" id="evidence" aria-labelledby="evidence-heading">
+      <div class="section-head"><div><div class="section-number">03 / Confidence</div><h2 id="evidence-heading">Strong evidence.<br>Clearly bounded claims.</h2></div><p>The latest row-tuning verification is from 25 Oct. It covers the affected production paths and the complete standalone native suite, rather than a new all-files production sweep.</p></div>
+      <div class="evidence table-scroll" role="region" aria-label="Verification results" tabindex="0">
+        <table><caption class="sr-only">Latest verification results, 25 October 2026</caption><thead><tr><th scope="col">Evidence</th><th scope="col">Result</th><th scope="col">What it establishes / limit</th></tr></thead><tbody>
+          <tr><th scope="row">Standalone native browser suite</th><td>111 / 111 passed</td><td>Chromium, Firefox and WebKit; no interop plugin, no skips or retries. The harness is CSR.</td></tr>
+          <tr><th scope="row">Affected production E2E</th><td>481 passed · 2 skips</td><td>31 files across three engines, including SSR/hydration. Fresh complete rerun on the final Tree-only source. An earlier Tree test setup timeout was fixed by restoring the virtual viewport before finding a recycled source row; its full 33-case file and five Chromium repeats also passed. Original results are retained. The skips are existing CDP touch-movement capability limits in Firefox/WebKit.</td></tr>
+          <tr><th scope="row">Unit tests</th><td>344 / 344 passed</td><td>61 files. Includes the imported sorting/request/Pivot regressions and the icon-class integration repair.</td></tr>
+          <tr><th scope="row">Application + native types</th><td>0 diagnostics</td><td>Both production typechecks pass on the synced source.</td></tr>
+          <tr><th scope="row">Affected lint</th><td>0 errors</td><td>25 affected files; zero errors or warnings. All three checkout whitespace checks pass.</td></tr>
+          <tr><th scope="row">Final native bundle</th><td>242 native UI SFCs</td><td>Zero UI VDOM render imports or icon renderer modules. VDOM renderer/interop implementations are absent; framework helpers remain.</td></tr>
+        </tbody></table>
+      </div>
+      <div class="freshness">
+        <div class="freshness-item"><strong>Current code · 25 Oct</strong>UI <code>2.3</code> through <code>47fbf0c5</code> · Utilities through <code>88ea6b3</code>. Nuxt 4.6.1 / Vue 3.6.0-rc.11. Local migration work is preserved.</div>
+        <div class="freshness-item"><strong>Fresh corrected performance · 25 Oct</strong>1,280 samples in paired trials, 240 CPU profiles and 12 remount traces. The earlier 22 Oct visual review remains historical; this report is checked in three engines at four widths.</div>
+      </div>
+      <details><summary>Important limits before treating this as release certification</summary><ul><li>The 242-component inventory is a compiler/build check; it does not individually mount every optional branch.</li><li>The main application’s server rendering and hydration tests currently run around its VDOM app root. The independent native root is client-rendered.</li><li>The fresh standalone audit intentionally imports every UI component: its 443 JS files / 7,280,762 unminified bytes are audit inventory, not initial page transfer size.</li><li>The native bundle still contains framework <code>createVNode</code>/NuxtLink-related render helpers. Their presence must not be confused with an installed VDOM renderer, or with a completely VDOM-free bundle.</li><li>External consumers were reviewed as source; authenticated/backend E2E and deployment in those projects remain outside the completed work.</li><li>Earlier broad family retention checks are thirty-cycle observations, not a long-running soak. The runtime-icon remount regression was rerun in the latest native suite.</li></ul></details>
+    </section>
+
+    <section class="report-section" id="performance" aria-labelledby="performance-heading">
+      <div class="section-head"><div><div class="section-number">04 / Measured row tuning</div><h2 id="performance-heading">Less setup work.<br>An honest comparison.</h2></div><p>Tree keeps its repeatable source improvement. Pivot and Table were audited; their optimization proposals failed replication and were reverted. The final chart uses corrected VDOM directive lifecycles and matched per-stage source.</p></div>
+      <div class="performance-notice"><span aria-hidden="true">◷</span><div><strong>Corrected paired comparison · 25 Oct.</strong> Frozen before/after sources, each compiled as VDOM or Vapor. Same 2,000 records, features, row estimates and viewport. Chromium 151.0.7922.34 on Apple M2 Pro. Eight warmups, 64 paired trials per family/variant.</div></div>
+      <div class="performance-grid">
+        <div class="chart-card">
+          <div class="chart-header"><h3>Fair renderer comparison</h3><span class="chart-unit">Warm mount · median ms ↓</span></div>
+          <div class="chart-controls" hidden aria-label="Measurement stage"><button type="button" data-chart="default" aria-pressed="true">After fixes</button><button type="button" data-chart="before" aria-pressed="false">Before fixes</button></div>
+          <div class="chart-legend"><span><i aria-hidden="true"></i>VDOM control</span><span><i class="native-dot" aria-hidden="true"></i>Vapor parent</span></div>
+          <table class="chart-table"><caption class="sr-only" id="chart-title">After row tuning, corrected 25 October comparison, median milliseconds</caption><thead><tr><th scope="col">Family</th><th scope="col">VDOM control</th><th scope="col">Vapor parent</th></tr></thead><tbody id="mount-chart"><tr><th scope="row">Table</th><td><div class="bar-track"><span class="bar" aria-hidden="true" style="width:41.500%"></span><span class="bar-value">8.3</span></div></td><td><div class="bar-track"><span class="bar native-bar" aria-hidden="true" style="width:46.500%"></span><span class="bar-value">9.3</span></div></td></tr><tr><th scope="row">Tree</th><td><div class="bar-track"><span class="bar" aria-hidden="true" style="width:34.500%"></span><span class="bar-value">6.9</span></div></td><td><div class="bar-track"><span class="bar native-bar" aria-hidden="true" style="width:42.000%"></span><span class="bar-value">8.4</span></div></td></tr><tr><th scope="row">Pivot</th><td><div class="bar-track"><span class="bar" aria-hidden="true" style="width:78.500%"></span><span class="bar-value">15.7</span></div></td><td><div class="bar-track"><span class="bar native-bar" aria-hidden="true" style="width:87.500%"></span><span class="bar-value">17.5</span></div></td></tr><tr><th scope="row">Selector</th><td><div class="bar-track"><span class="bar" aria-hidden="true" style="width:16.000%"></span><span class="bar-value">3.2</span></div></td><td><div class="bar-track"><span class="bar native-bar" aria-hidden="true" style="width:17.000%"></span><span class="bar-value">3.4</span></div></td></tr><tr><th scope="row">Scroller</th><td><div class="bar-track"><span class="bar" aria-hidden="true" style="width:5.000%"></span><span class="bar-value">1.0</span></div></td><td><div class="bar-track"><span class="bar native-bar" aria-hidden="true" style="width:5.500%"></span><span class="bar-value">1.1</span></div></td></tr></tbody></table>
+          <p class="chart-caption" id="chart-caption" aria-live="polite">Same optimized library source and 2,000 input records, compiled as VDOM or Vapor with matching directive lifecycles. Chromium warm component mounts to requested DOM content and layout.</p>
+        </div>
+        <aside class="diagnosis"><span class="pill green">Measured changes retained</span><h3 style="margin-top:18px">Remove repeated work,<br>preserve the contracts.</h3>
+          <div class="row-estimate"><div><strong>1</strong><small>source change kept</small></div><span aria-hidden="true">/</span><div><strong>5</strong><small>proposals removed</small></div></div>
+          <p><strong>Tree:</strong> search results use shallow storage for immutable derived node records. Source item refs and collapse state retain their existing reactivity. Native updates improve from 5.80 to 4.50ms; mount p95 improves from 13.40 to 9.40ms.</p>
+          <p><strong>Pivot:</strong> the row-owned cell refactor was removed. Its earlier gain did not survive final replication (15.40 → 15.50ms; paired interval −0.25 to +0.30ms). The existing public cell implementation remains, with expanded formatting, locale and interaction coverage.</p>
+          <p><strong>Table:</strong> no performance refactor is retained. Slot and key-lookup proposals did not justify their complexity with sufficiently repeatable gains. Existing slots, editing, card views, scrolling and measurement remain covered.</p>
+          <p class="fine">The earlier connected-viewport fix remains. Row-construction probes still retain the same real rows/cells; no shorter dataset or special initial-row hint is used in the timings.</p>
+        </aside>
+      </div>
+      <div class="bundle-strip"><div class="bundle-number">+2.7%<small>MATCHED GZIP INVENTORY</small></div><p>Native versus the same final source compiled as VDOM: <strong>+25,714 bytes</strong>. Native inventory changed by +22 bytes during this tuning round. This is aggregate emitted JS/CSS, including lazy chunks. The eager native audit is a separate, unminified inventory.</p></div>
+      <div class="table-scroll" role="region" aria-label="Before and after performance results" tabindex="0"><table class="mini-table"><caption>Same-run before/after proof · default settings · native paired differences below zero favor the change</caption><thead><tr><th scope="col">Family</th><th scope="col">Vapor before</th><th scope="col">Vapor after</th><th scope="col">Paired change</th><th scope="col">VDOM before → after</th></tr></thead><tbody><tr><th scope="row">Tree</th><td>9.80ms</td><td>8.40ms</td><td>-1.40ms<br><small>95% interval -1.65 to -1.20ms</small></td><td>8.50 → 6.90ms</td></tr><tr><th scope="row">Pivot</th><td>17.50ms</td><td>17.50ms</td><td>Unchanged source<br><small>No refactor retained</small></td><td>15.70 → 15.70ms</td></tr><tr><th scope="row">Table</th><td>9.50ms</td><td>9.30ms</td><td>Unchanged source<br><small>No refactor retained</small></td><td>8.30 → 8.30ms</td></tr></tbody></table></div>
+      <p class="metric-footnote"><strong>Remaining native mount overhead:</strong> Tree 21.7% (1.50ms) · Pivot 11.5% (1.80ms) · Table 12.0% (1.00ms). The retained Tree change reduces native setup cost. A universal Vapor speedup or hard upstream performance limit has not been established.</p>
+      <details><summary>Comparison correction, rejected experiments and validation</summary>
+        <p class="metric-footnote"><strong>Fairness correction:</strong> removing Vapor markers alone left Button/Chip using native directive signatures. The VDOM copies now select the existing VDOM ripple export and an equivalent root creation/disposal lifecycle. Types, prepared-source hashes and real ripple/update/remount interactions verify those controls. Earlier VDOM timings and percentages are superseded; the final before and after above both use corrected controls.</p>
+        <p class="metric-footnote">The measured owner already uses the selected renderer. Nuxt bootstrap stays outside the timed component mount; converting the application's Nuxt root remains a separate, deferred job.</p>
+        <p class="metric-footnote"><strong>Rejected:</strong> a duplicated static Tree root produced no stable native gain; deferred prefetch setup produced no stable native gain and worse tail latency. Both were reverted. A Table slot fast path also failed replication and was removed. Captured row-key preparation was simplified to an existing lodash accessor and tested, then also reverted: one Table block was flat and native scroller results were inconclusive.</p>
+        <p class="metric-footnote">The retained Tree change improves both 32-trial native blocks with a negative paired confidence interval. Intervals use 10,000 deterministic bootstrap resamples of paired median differences. This is a shared-machine lab diagnostic, with load and distributions preserved in the evidence. Builds, suites, typechecks and profiling are idle during latency collection.</p>
+        <p class="metric-footnote">The corrected combined run records 1,280 samples, 120 SSR/hydration checks, 60 same-compiler DOM parity checks, 12 directive interaction checks and 30 GC remount cycles per family/variant. All retention gates and real scroll runs pass. Separate profiles and DOM construction probes do not contribute to the timing samples.</p>
+        <p class="metric-footnote"><strong>What the profiles show:</strong> Table still spends work in virtualizer measurement, reactive/prop access and DOM geometry. Pivot spends work in aggregation, index/data construction and virtualization in both renderers. Sampling points to these shared costs; it does not prove that one function explains the renderer gap. Neither the cell-inlining nor key/slot proposals earned a stable final gain, so their extra code was removed.</p>
+        <p class="metric-footnote"><strong>Cleanup:</strong> temporary source copies and generated benchmark outputs were removed after archive verification. Frozen inputs, emitted assets/maps, raw profiles and rejected results remain archived for reproduction; the portable evidence includes the final source hashes and decisions.</p>
+        <p class="metric-footnote"><strong>Existing Tree update contract:</strong> publish the model array after nested item edits to rebuild label/search snapshots. Source references are retained. This round verifies model commits, built-in/custom/async search, collapse, drag and remount; automatic deep metadata refresh remains a separate behavior change.</p>
+      </details>
+    </section>
+
+    <section class="report-section" id="next" aria-labelledby="next-heading">
+      <div class="section-head"><div><div class="section-number">05 / Decision</div><h2 id="next-heading">Where effort now<br>has the most value.</h2></div><p>There is no need to reopen the completed component conversion or the accepted icon implementation. Keep the agreed app-root deferral while pursuing the measurable local opportunity.</p></div>
+      <div class="plan-grid">
+        <article class="next-panel"><p class="eyebrow">After the measured fixes</p><h3>Set a representative<br>acceptance budget.</h3><div class="plan-step"><span>01</span><div><strong>Keep the verified source improvements.</strong><p>Tree reduces setup work; Pivot and Table overhead remains visible. Rejected experiments are removed; contracts, SSR/hydration and disposal checks pass.</p></div></div><div class="plan-step"><span>02</span><div><strong>Measure real consumer screens.</strong><p>Warm mount overhead and the emitted inventory remain workload-specific costs. Validate startup, interaction and memory budgets before broad rollout.</p></div></div><div class="plan-step"><span>03</span><div><strong>Keep completion gates explicit.</strong><p>Authenticated consumer E2E and rollout remain B08/H04. The Nuxt app root remains H05 and stays deferred.</p></div></div></article>
+        <article class="later-panel"><span class="pill amber">Separate completion work</span><h3>Resume deliberately.</h3><p><strong>Nuxt app root:</strong> keep H05 deferred. Revisit when Nuxt supports full native apps, or if you deliberately choose to own a custom integration. Current configuration already enables the supported interop mode.</p><p><strong>Consumer rollout:</strong> choose supported projects and upgrade them individually. Keep compatibility until their callers and application tests are migrated.</p><div class="decision"><strong>Assessment today</strong><p>The library is ready for continued development and controlled adoption on the tested runtime. More work is needed before declaring the whole application native or the cross-project rollout complete.</p></div></article>
+      </div>
+    </section>
+
+    <section class="report-section" id="sources" aria-labelledby="sources-heading">
+      <div class="section-head"><div><div class="section-number">06 / Traceability</div><h2 id="sources-heading">The evidence behind this report.</h2></div><p>This is a self-contained report with no external assets or services. Source links open the accompanying repository records when the report stays in this folder.</p></div>
+      <div class="sources-grid">
+        <a class="source" href="vapor-mount-verification.json"><strong>Latest sync & verification ↗</strong><small>25 Oct · source hash, suite scope and results</small></a>
+        <a class="source" href="native-vapor-audit.md"><strong>Native bundle & cleanup audit ↗</strong><small>25 Oct · native proof and remaining boundary</small></a>
+        <a class="source" href="vapor-final-contract-audit.md"><strong>Contracts & consumer assessment ↗</strong><small>22 Oct · compatibility and rollout decisions</small></a>
+        <a class="source" href="vapor-external-consumers.json"><strong>Consumer callsite inventory ↗</strong><small>22 Oct · read-only local source findings</small></a>
+        <a class="source" href="vapor-performance-tuning.json"><strong>Corrected timing evidence ↗</strong><small>25 Oct · all samples, paired intervals and decisions</small></a>
+        <a class="source" href="vapor-performance.md"><strong>Performance diagnosis ↗</strong><small>25 Oct · fresh controls, fixes and residual overhead</small></a>
+        <a class="source" href="../vapor-migration.md"><strong>Full migration checklist ↗</strong><small>B08 / H04 / H05 remain open</small></a>
+      </div>
+      <div class="provenance"><span>Vapor branch heads<br><code>UI f8240fbf · Utilities 99364d93</code></span><span>Verification snapshot<br><code>1,305 source files · 47405c7bf303…</code></span><span>Report compiled<br><code>25 October 2026 · frozen assessment</code></span></div>
+    </section>
+    <footer><span>Gentl / Vapor migration</span><span>Library conversion complete · app boundary and consumer rollout remain open</span></footer>
+  </main>
+  <script type="application/json" id="report-data">{"date":"25 Oct 2026","snapshot":{"files":1305,"sha256":"47405c7bf3036cb3ddfa6abfac1c0454e2a751f5d9691ae82581c0559a10cef8"},"families":["Badge","Banner","Breadcrumbs","Burger","Button","ButtonGroup","Card","Checkbox","Chip","CircleProgress","Collapse","Confirmation","Crud","DatePicker","Dialog","DragAndDrop","Drawer","ElementMovement","Field","Form","Icon","InputBlock","InputLabel","InputWrapper","Inputs","Item","KeyboardShortcut","Link","List","Loader","MainBar","Marquee","Menu","MenuConfirmation","MenuProxy","MonthSelector","Movement","Navigation","Notification","Page","Pivot","ProgressBar","QueryBuilder","Radio","ScrollArea","ScrollPicker","Scroller","Section","Selector","Separator","Skeleton","Stepper","Table","Tabs","Toggle","Tooltip","Tree","TreeDms","Typography","ValueFormatter","VirtualScroller","YearMonthSelector","YearSelector"],"native":{"startTime":"2026-10-25T02:18:20.508Z","duration":183603.333,"expected":111,"skipped":0,"unexpected":0,"flaky":0},"production":{"startTime":"2026-10-25T02:18:20.552Z","duration":968236.615,"expected":481,"skipped":2,"unexpected":0,"flaky":0},"unit":{"files":61,"passed":344,"failed":0},"legacy":{"app-lc":36,"mono_new":29,"app-lc_old":12,"app-dg-minimal":12,"app-lc-test":12,"app-lc_2":8,"app-dg-minimal_old":6},"charts":{"default":[{"family":"Table","vdom":8.3,"vapor":9.3},{"family":"Tree","vdom":6.9,"vapor":8.4},{"family":"Pivot","vdom":15.7,"vapor":17.5},{"family":"Selector","vdom":3.2,"vapor":3.4},{"family":"Scroller","vdom":1,"vapor":1.1}],"before":[{"family":"Table","vdom":8.3,"vapor":9.5},{"family":"Tree","vdom":8.5,"vapor":9.8},{"family":"Pivot","vdom":15.7,"vapor":17.5},{"family":"Selector","vdom":3.3,"vapor":3.5},{"family":"Scroller","vdom":1,"vapor":1.1}]},"bundles":{"before-vdom":{"files":507,"bytes":2769955,"gzipBytes":967951},"before-vapor":{"files":507,"bytes":2850375,"gzipBytes":993693},"after-vdom":{"files":507,"bytes":2769954,"gzipBytes":968001},"after-vapor":{"files":507,"bytes":2850374,"gzipBytes":993715}},"chartMaxMs":20}</script>
+  <script>
+    'use strict';
+    const report = JSON.parse(document.getElementById('report-data').textContent);
+    const chart = document.getElementById('mount-chart');
+    const caption = document.getElementById('chart-caption');
+    const controls = document.querySelector('.chart-controls');
+    const descriptions = {
+      default: 'Same optimized library source and 2,000 input records, compiled as VDOM or Vapor with matching directive lifecycles. Chromium warm component mounts to requested DOM content and layout.',
+      before: 'Source at the start of row tuning: 2,000 input records, identical settings, and corrected directive lifecycles on both compilers. The earlier viewport fix is already present.'
+    };
+    function renderChart(mode) {
+      chart.replaceChildren();
+      for (const row of report.charts[mode]) {
+        const tr = document.createElement('tr');
+        const label = document.createElement('th');
+        label.scope = 'row';
+        label.textContent = row.family;
+        tr.append(label);
+        for (const renderer of ['vdom', 'vapor']) {
+          const td = document.createElement('td');
+          const track = document.createElement('div');
+          track.className = 'bar-track';
+          const bar = document.createElement('span');
+          bar.className = renderer === 'vapor' ? 'bar native-bar' : 'bar';
+          bar.setAttribute('aria-hidden', 'true');
+          bar.style.width = `${row[renderer] / report.chartMaxMs * 100}%`;
+          const value = document.createElement('span');
+          value.className = 'bar-value';
+          value.textContent = (Math.round(row[renderer] * 10) / 10).toFixed(1);
+          track.append(bar, value);
+          td.append(track);
+          tr.append(td);
+        }
+        chart.append(tr);
+      }
+      for (const button of controls.querySelectorAll('button')) {
+        button.setAttribute('aria-pressed', String(button.dataset.chart === mode));
+      }
+      caption.textContent = descriptions[mode];
+      document.getElementById('chart-title').textContent = `${mode === 'default' ? 'After fixes' : 'Before fixes'}, corrected 25 October row-tuning snapshot, median milliseconds`;
+    }
+    controls.hidden = false;
+    for (const button of controls.querySelectorAll('button')) {
+      button.addEventListener('click', () => renderChart(button.dataset.chart));
+    }
+    const printButton = document.getElementById('print-report');
+    printButton.hidden = false;
+    printButton.addEventListener('click', () => window.print());
+    let previousDetails = [];
+    window.addEventListener('beforeprint', () => {
+      previousDetails = [...document.querySelectorAll('details')].map(element => [element, element.open]);
+      for (const [element] of previousDetails) {
+        element.open = true;
+      }
+    });
+    window.addEventListener('afterprint', () => {
+      for (const [element, wasOpen] of previousDetails) {
+        element.open = wasOpen;
+      }
+    });
+  </script>
+</body>
+</html>

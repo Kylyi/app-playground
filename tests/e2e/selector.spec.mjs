@@ -1,15 +1,12 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext, observeRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 const errorsByPage = new WeakMap()
 test.beforeEach(async ({ page }) => {
-  const errors = []
+  const errors = observeRendererDiagnostics(page)
   errorsByPage.set(page, errors)
-  page.on('pageerror', error => errors.push(error.message))
-  page.on('console', message => {
-    if (message.type() === 'error' || (message.type() === 'warning' && /hydration/i.test(message.text()))) {
-      errors.push(message.text())
-    }
-  })
   await page.goto('/selector-vapor')
   await expect(page.getByTestId('selector-fixture')).toHaveAttribute('data-ready', 'true')
 })
@@ -46,7 +43,7 @@ test('selects an option and keeps omitted models local', async ({ page }) => {
 })
 
 test('SSR includes the initial selection without JavaScript', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     const response = await page.goto(new URL('/selector-vapor', baseURL).href)

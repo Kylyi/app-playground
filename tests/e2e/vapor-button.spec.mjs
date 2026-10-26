@@ -1,4 +1,41 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
+
+test('button label follows its container width for native roots, slots and remounts', async ({ page, browser, baseURL }) => {
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
+  try {
+    const ssr = await context.newPage()
+    await ssr.goto('/cs-CZ/vapor-button?breakpoint=true')
+    await expect(ssr.getByTestId('subject').locator('.btn-label')).toBeHidden()
+    await expect(ssr.getByTestId('subject')).toHaveAccessibleName('Action 0')
+    await expect(ssr.getByRole('link', { name: 'Btn · šířka kontejneru', exact: true }))
+      .toHaveAttribute('href', '/cs-CZ/vapor-button?breakpoint=true')
+  } finally {
+    await context.close()
+  }
+  await page.goto('/cs-CZ/vapor-button?breakpoint=true')
+  await expect(page.getByTestId('button-example')).toHaveAttribute('data-ready', 'true')
+  const subject = page.getByTestId('subject')
+  for (const linked of [false, true]) {
+    if (linked) {
+      await page.getByRole('button', { name: 'Toggle link', exact: true }).click()
+    }
+    await expect(subject.locator('.btn-label')).toBeHidden()
+    await page.getByRole('button', { name: 'Toggle container width', exact: true }).click()
+    await expect(subject.locator('.btn-label')).toBeVisible()
+    await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+    await expect(page.getByTestId('custom-label')).toBeVisible()
+    await expect(page.getByTestId('custom-label')).toHaveCSS('letter-spacing', '2px')
+    await page.getByRole('button', { name: 'Toggle container width', exact: true }).click()
+    await expect(page.getByTestId('custom-label')).toBeHidden()
+    await page.getByRole('button', { name: 'Toggle slots', exact: true }).click()
+    await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+    await page.getByRole('button', { name: 'Toggle owner', exact: true }).click()
+    await expect(subject.locator('.btn-label')).toBeHidden()
+  }
+})
 
 test('button preserves content, submit, loading and DOM ownership through root changes', async ({ page }) => {
   const errors = []
@@ -59,7 +96,7 @@ test('button preserves content, submit, loading and DOM ownership through root c
 })
 
 test('link attributes, replace navigation, SSR and localized example links survive refactor', async ({ browser, page, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const ssr = await context.newPage()
     await ssr.goto('/cs-CZ/vapor-button?loading=true')

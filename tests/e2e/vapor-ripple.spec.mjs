@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('VDOM and Vapor ripple follow live values and dispose listeners and animations', async ({ page }) => {
   const errors = []
@@ -71,7 +74,7 @@ test('VDOM and Vapor ripple follow live values and dispose listeners and animati
 })
 
 test('ripple and native Chip render with SSR and localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-ripple')

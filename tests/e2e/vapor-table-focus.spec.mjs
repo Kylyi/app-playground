@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('cell editors focus with the cursor at the end across VDOM and Vapor mounts', async ({ page }) => {
   const errors = []
@@ -52,7 +55,7 @@ for (const [name, selector] of [['Table', '.filtering'], ['Pivot', '.pivot-filte
 }
 
 test('focus example renders SSR without creating editors or filters', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-table-focus')

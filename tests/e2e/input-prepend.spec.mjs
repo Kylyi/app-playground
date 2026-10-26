@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('filled label stays aligned throughout hydration and prepend resizing', async ({ page }) => {
   await page.addInitScript(() => {

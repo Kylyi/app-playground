@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 for (const provided of [false, true]) {
   test(`native forwarded slot hydrates without warnings (provided=${provided})`, async ({ page }) => {
@@ -23,7 +26,7 @@ for (const provided of [false, true]) {
 }
 
 test('hydration probe preserves both SSR variants and localized navigation', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-tree-hydration-probe')

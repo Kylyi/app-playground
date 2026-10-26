@@ -89,6 +89,7 @@ onMounted(() => ready.value = true)
       v-if="visible"
       data-testid="action-primitives-owner"
       flex="~ col gap-4"
+      relative
     >
       <Drawer
         v-model="drawerPanelOpen"
@@ -112,6 +113,7 @@ onMounted(() => ready.value = true)
 
       <div
         relative
+        min-h="60"
         data-testid="action-page-shell"
       >
         <PageDrawer
@@ -121,9 +123,20 @@ onMounted(() => ready.value = true)
           side="left"
           :mini-width="48"
           :resizable-config="{ enabled: true }"
+          :ui="{ containerStyle: () => ({ position: 'absolute' }) }"
           data-testid="action-page-drawer"
         >
-          <span data-testid="action-page-drawer-content">Page drawer content</span>
+          <template #default="{ mini }">
+            <span
+              v-if="!mini"
+              data-testid="action-page-drawer-content"
+            >Page drawer content</span>
+            <span
+              v-else
+              class="i-heroicons-bars-3-16-solid h-5 w-5 mx-auto"
+              aria-label="Mini page drawer"
+            />
+          </template>
         </PageDrawer>
         <PageWrapper
           :loading="pageLoading"

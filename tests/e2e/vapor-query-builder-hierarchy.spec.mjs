@@ -1,10 +1,20 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test.describe.configure({ timeout: 120_000 })
 
 async function waitForHydration(page) {
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve())))
   await expect(page.getByTestId('query-builder-dom')).toHaveAttribute('data-ready', 'true', { timeout: 60_000 })
+}
+
+function centerDragTarget(locator) {
+  // Keep the intended row away from the auto-scroll edge while holding it.
+  return locator.evaluate(element => {
+    element.scrollIntoView({ block: 'center', inline: 'nearest' })
+  })
 }
 
 test('hierarchical QueryBuilder remains responsive during repeated drag movement', async ({ page }, testInfo) => {
@@ -62,12 +72,12 @@ test('moving a two-digit sibling index between groups preserves every item and p
   await page.goto('/vapor-query-builder-dom')
   await waitForHydration(page)
   const source = page.locator('.qb-item[data-path="0.children.10"] .query-builder-move-handler')
-  await source.scrollIntoViewIfNeeded()
+  await centerDragTarget(source)
   const sourceBox = await source.boundingBox()
   await page.mouse.move(sourceBox.x + 5, sourceBox.y + 5)
   await page.mouse.down()
   const destination = page.locator('.qb-group[data-path="0.children.12"] > .qb-group-row')
-  await destination.scrollIntoViewIfNeeded()
+  await centerDragTarget(destination)
   const target = await destination.boundingBox()
   await page.mouse.move(target.x + target.width / 2, target.y + 15, { steps: 10 })
   await page.mouse.up()
@@ -98,11 +108,12 @@ test('a sibling at index 10 is a valid target and reordered rows retain their DO
   await waitForHydration(page)
   const sourceRow = page.locator('.qb-item[data-path="0.children.1"]')
   const retainedRow = await sourceRow.elementHandle()
+  await centerDragTarget(sourceRow)
   const handle = await sourceRow.locator('.query-builder-move-handler').boundingBox()
   await page.mouse.move(handle.x + 5, handle.y + 5)
   await page.mouse.down()
   const destination = page.locator('.qb-item[data-path="0.children.10"]')
-  await destination.scrollIntoViewIfNeeded()
+  await centerDragTarget(destination)
   const target = await destination.boundingBox()
   await page.mouse.move(target.x + 100, target.y + target.height - 4, { steps: 10 })
   await page.mouse.up()
@@ -116,12 +127,12 @@ test('a nested group moves with its entire subtree', async ({ page }) => {
   await page.goto('/vapor-query-builder-dom')
   await waitForHydration(page)
   const source = page.locator('.qb-group[data-path="0.children.12.children.4"] > .qb-group-row .query-builder-move-handler')
-  await source.scrollIntoViewIfNeeded()
+  await centerDragTarget(source)
   const sourceBox = await source.boundingBox()
   await page.mouse.move(sourceBox.x + 5, sourceBox.y + 5)
   await page.mouse.down()
   const destination = page.locator('.qb-group[data-path="0.children.13"] > .qb-group-row')
-  await destination.scrollIntoViewIfNeeded()
+  await centerDragTarget(destination)
   const target = await destination.boundingBox()
   await page.mouse.move(target.x + target.width / 2, target.y + 15, { steps: 10 })
   await page.mouse.up()

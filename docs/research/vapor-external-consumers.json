@@ -1,0 +1,6129 @@
+{
+  "date": "2026-10-22",
+  "scope": "Local application and non-UI layer source; vendored UI/Utilities, generated output and tests excluded",
+  "excludedProjectRoots": [
+    "mono_new-codegen-runs",
+    "mono_new-loop"
+  ],
+  "exclusionReason": "Temporary code-generation runs and review worktree copies are excluded from consumer rollout counts.",
+  "projects": {
+    "__docker": 12,
+    "app-admin": 1147,
+    "app-ai": 887,
+    "app-ai2": 757,
+    "app-base": 854,
+    "app-be": 14,
+    "app-be-elysia": 29,
+    "app-components-docs": 579,
+    "app-convert": 13,
+    "app-core": 732,
+    "app-dg-minimal": 518,
+    "app-dg-minimal_old": 469,
+    "app-example": 5,
+    "app-lc": 1832,
+    "app-lc-test": 737,
+    "app-lc_2": 494,
+    "app-lc_old": 1766,
+    "app-log": 705,
+    "app-nitro": 8,
+    "app-pres": 720,
+    "app-prez": 5,
+    "app-product": 458,
+    "app-tasks": 860,
+    "app-tasks-old": 1005,
+    "app-tasks2-old": 867,
+    "app-templates": 805,
+    "app-templates2": 1440,
+    "app-watchout": 178,
+    "idk": 88,
+    "mono": 757,
+    "mono-solid": 70,
+    "mono2": 474,
+    "mono_new": 3439,
+    "nuxtv4": 9,
+    "to-dlete": 2,
+    "ui-solid": 1231
+  },
+  "sourceFiles": 23966,
+  "parseErrors": [],
+  "unresolved": [],
+  "matchedCalls": 2028,
+  "findings": [
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 64,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Tag/client/components/TagUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Comment/client/components/CommentUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/CustomField/client/components/CustomFieldUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 41,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Board/client/components/BoardUpdateForm.vue",
+      "line": 51,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/components/Dialog/Dialog.vue",
+      "line": 84,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/components/Dialog/Dialog.vue",
+      "line": 84,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardOnOrganization/client/components/BoardOnOrganizationUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 64,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Tag/client/components/TagUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 64,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Tag/client/components/TagUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Workflow/client/components/WorkflowUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Account/components/AccountUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Account/components/AccountUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/TaskAssignment/components/TaskAssignmentUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/TaskAssignment/components/TaskAssignmentUpdateForm.vue",
+      "line": 87,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Tag/components/TagUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 78,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Account/components/AccountUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Account/components/AccountUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 78,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Workflow/components/WorkflowUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Workflow/client/components/WorkflowUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/File/components/FileUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiAgent/client/components/AiAgentUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Comment/components/CommentUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/CustomField/client/components/CustomFieldUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/CustomField/components/CustomFieldUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 41,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardColumn/components/BoardColumnUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardColumn/components/BoardColumnUpdateForm.vue",
+      "line": 87,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/File/client/components/FileUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/File/components/FileUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 53,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 117,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 163,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 205,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 347,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 449,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 800,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 872,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 979,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Board/components/BoardUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Board/client/components/BoardUpdateForm.vue",
+      "line": 51,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 117,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 163,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 205,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 346,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 448,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 799,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 871,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 978,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 102,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 109,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/composables/useDynamicGridJsonDataContext.ts",
+      "line": 48,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/composables/useDynamicGridJsonDataActions.ts",
+      "line": 47,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 102,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 109,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/composables/useDynamicGridJsonDataContext.ts",
+      "line": 48,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/composables/useDynamicGridJsonDataActions.ts",
+      "line": 47,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/components/Dialog/Dialog.vue",
+      "line": 83,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiMessage/client/components/AiMessageUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Workflow/client/components/WorkflowUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/components/Dialog/Dialog.vue",
+      "line": 83,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Comment/client/components/CommentUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Contact/components/ContactUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Contact/components/ContactUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 47,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Attendance/components/AttendanceUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Attendance/components/AttendanceUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Account/components/AccountUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Account/components/AccountUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardOnOrganization/client/components/BoardOnOrganizationUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/CustomField/client/components/CustomFieldUpdateForm.vue",
+      "line": 55,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiEmbedding/client/components/AiEmbeddingUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 41,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 78,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/File/client/components/FileUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Task/composables/useTaskStore.ts",
+      "line": 92,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Task/composables/useTaskStore.ts",
+      "line": 98,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Task/composables/useTaskStore.ts",
+      "line": 104,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Board/client/components/BoardUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/File/components/FileUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 93,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 100,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 107,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 117,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 124,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Mastra/composables/useMastraStore.ts",
+      "line": 131,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Contact/client/components/ContactUpdateForm.vue",
+      "line": 41,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Contact/client/components/ContactUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-product",
+      "file": "app-product/components/Dialog/Dialog.vue",
+      "line": 83,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Board/composables/useBoardTaskStore.ts",
+      "line": 28,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Board/composables/useBoardTaskStore.ts",
+      "line": 34,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/TaskAssignment/components/TaskAssignmentUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/TaskAssignment/components/TaskAssignmentUpdateForm.vue",
+      "line": 87,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Tag/components/TagUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Account/components/AccountUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Account/components/AccountUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiThread/client/components/AiThreadUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 78,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Workflow/components/WorkflowUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiTool/client/components/AiToolUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffRequirement/components/ActivityStaffRequirementUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffRequirement/components/ActivityStaffRequirementUpdateForm.vue",
+      "line": 87,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Comment/client/components/CommentUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/components/Dialog/Dialog.vue",
+      "line": 87,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffAssignment/components/ActivityStaffAssignmentUpdateForm.vue",
+      "line": 95,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffAssignment/components/ActivityStaffAssignmentUpdateForm.vue",
+      "line": 110,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/PlanningStageOnPlanning/components/PlanningStageOnPlanningUpdateForm.vue",
+      "line": 81,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/PlanningStageOnPlanning/components/PlanningStageOnPlanningUpdateForm.vue",
+      "line": 96,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Comment/components/CommentUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Activity/components/ActivityUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Activity/components/ActivityUpdateForm.vue",
+      "line": 71,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiAgent/components/AiAgentUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/CustomField/components/CustomFieldUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardColumn/components/BoardColumnUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardColumn/components/BoardColumnUpdateForm.vue",
+      "line": 87,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 33,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 40,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 47,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 54,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 61,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 68,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 75,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 82,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/ExtendedUI/app/stores/wysiwyg.store.ts",
+      "line": 89,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/File/components/FileUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiAgent/client/components/AiAgentUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Board/components/BoardUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiEmbedding/components/AiEmbeddingUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardOnOrganization/components/BoardOnOrganizationUpdateForm.vue",
+      "line": 89,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Contact/components/ContactUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Contact/components/ContactUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiThread/client/components/AiThreadUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Attendance/components/AttendanceUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Attendance/components/AttendanceUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiTool/components/AiToolUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/File/client/components/FileUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiEmbedding/client/components/AiEmbeddingUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiMessage/components/AiMessageUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/File/client/components/FileUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiMessage/client/components/AiMessageUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 147,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 227,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 336,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 693,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 765,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 882,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 113,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 146,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 188,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 291,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 384,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 753,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 823,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/stores/dynamic-grid.store.ts",
+      "line": 939,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiThread/client/components/AiThreadUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiTool/client/components/AiToolUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 210,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 217,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 358,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 708,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 843,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 930,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1756,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1850,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/packages/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1958,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 112,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 158,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 200,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 342,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 443,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 793,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 865,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/stores/dynamic-grid.store.ts",
+      "line": 972,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 102,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 109,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/composables/useDynamicGridJsonDataContext.ts",
+      "line": 48,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/composables/useDynamicGridJsonDataActions.ts",
+      "line": 47,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 47,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Claim/client/components/ClaimUpdateForm.vue",
+      "line": 39,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 64,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 55,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/TaskAssignment/client/components/TaskAssignmentUpdateForm.vue",
+      "line": 71,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Tag/client/components/TagUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Tag/client/components/TagUpdateForm.vue",
+      "line": 54,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/CustomField/client/components/CustomFieldUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Enumerator/client/components/EnumeratorUpdateForm.vue",
+      "line": 51,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/File/client/components/FileUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Board/client/components/BoardUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Account/client/components/AccountUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 44,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 51,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 66,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiAgent/client/components/AiAgentUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Contact/client/components/ContactUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Contact/client/components/ContactUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 72,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 64,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Workflow/client/components/WorkflowUpdateForm.vue",
+      "line": 53,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 55,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 70,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 43,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Instance/client/components/InstanceUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 54,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 69,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 42,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/UserInvitation/client/components/UserInvitationUpdateForm.vue",
+      "line": 57,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Comment/client/components/CommentUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Comment/client/components/CommentUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Activity/client/components/ActivityUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Workflow/client/components/WorkflowUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/CustomField/client/components/CustomFieldUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 46,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/EnumeratorOption/client/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 41,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardColumn/client/components/BoardColumnUpdateForm.vue",
+      "line": 56,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/File/client/components/FileUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiEmbedding/client/components/AiEmbeddingUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Board/client/components/BoardUpdateForm.vue",
+      "line": 51,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiMessage/client/components/AiMessageUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Role/client/components/RoleUpdateForm.vue",
+      "line": 37,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardOnOrganization/client/components/BoardOnOrganizationUpdateForm.vue",
+      "line": 62,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/UserOnOrganization/client/components/UserOnOrganizationUpdateForm.vue",
+      "line": 52,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiThread/client/components/AiThreadUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiTool/client/components/AiToolUpdateForm.vue",
+      "line": 49,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 50,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardLayout/client/components/BoardLayoutUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Organization/client/components/OrganizationUpdateForm.vue",
+      "line": 60,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 48,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Attendance/client/components/AttendanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 44,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 51,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 58,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 69,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 76,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Mastra/app/composables/useMastraStore.ts",
+      "line": 83,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Monaco/app/composables/useMonaco.ts",
+      "line": 32,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Monaco/app/composables/useMonaco.ts",
+      "line": 51,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Monaco/app/composables/useMonaco.ts",
+      "line": 57,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Monaco/app/composables/useMonaco.ts",
+      "line": 63,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Monaco/app/composables/useMonaco.ts",
+      "line": 69,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/components/Dialog/Dialog.vue",
+      "line": 87,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 33,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 40,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 47,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 54,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 61,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 68,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 75,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 82,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Wysiwyg/app/stores/wysiwyg.store.ts",
+      "line": 89,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/components/Dialog/Dialog.vue",
+      "line": 87,
+      "name": "useDialogLayout",
+      "contract": "dialog-layout-needs-host"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Claim/components/ClaimUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Enumerator/components/EnumeratorUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Account/components/AccountUpdateForm.vue",
+      "line": 58,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Account/components/AccountUpdateForm.vue",
+      "line": 73,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 63,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Instance/components/InstanceUpdateForm.vue",
+      "line": 78,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 59,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/UserInvitation/components/UserInvitationUpdateForm.vue",
+      "line": 74,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 61,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/EnumeratorOption/components/EnumeratorOptionUpdateForm.vue",
+      "line": 76,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/UserOnOrganization/components/UserOnOrganizationUpdateForm.vue",
+      "line": 82,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Role/components/RoleUpdateForm.vue",
+      "line": 65,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 106,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataDesignSystem.ts",
+      "line": 113,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonIntegration.ts",
+      "line": 32,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataContext.ts",
+      "line": 52,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataFiles.ts",
+      "line": 26,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 180,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 187,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 289,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 568,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 673,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 760,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1210,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1305,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridStore.ts",
+      "line": 1401,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataActions.ts",
+      "line": 51,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/composables/useDynamicGridJsonDataTranslations.ts",
+      "line": 37,
+      "name": "initRef",
+      "contract": "legacy-instance-model"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 68,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/BoardLayout/components/BoardLayoutUpdateForm.vue",
+      "line": 83,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 93,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Organization/components/OrganizationUpdateForm.vue",
+      "line": 105,
+      "name": "$hide",
+      "contract": "hide-instance-needs-explicit-target"
+    }
+  ],
+  "tables": [
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Importing/client/components/ImportingEditTable.vue",
+      "line": 137,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/widgets/Logi/client/components/LogiTable.vue",
+      "line": 75,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/TaskAssignment/client/components/TaskAssignmentTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Tag/client/components/TagTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/widgets/Jafin/client/components/JafinTable.vue",
+      "line": 105,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Comment/client/components/CommentTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/CustomField/client/components/CustomFieldTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Structure/client/components/StructureTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardColumn/client/components/BoardColumnTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Sprint/client/components/SprintTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Board/client/components/BoardTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Secret/client/components/SecretTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Log/client/components/HistoryBtn.vue",
+      "line": 65,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 399,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Task/client/components/TaskTable.vue",
+      "line": 38,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardOnOrganization/client/components/BoardOnOrganizationTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/TaskAssignment/client/components/TaskAssignmentTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Importing/client/components/ImportingEditTable.vue",
+      "line": 137,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Tag/client/components/TagTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/TaskAssignment/client/components/TaskAssignmentTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Importing/components/ImportingEditTable.vue",
+      "line": 148,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Tag/client/components/TagTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Workflow/client/components/WorkflowTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Account/components/AccountTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/TaskAssignment/components/TaskAssignmentTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Structure/client/components/StructureTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Tag/components/TagTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Instance/components/InstanceTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Sprint/client/components/SprintTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Account/components/AccountTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Instance/components/InstanceTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 85,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 96,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Task/client/components/TaskTable.vue",
+      "line": 38,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Task/client/components/TaskTable.vue",
+      "line": 49,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Workflow/components/WorkflowTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/EmailTemplate/client/components/EmailTemplateTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Secret/client/components/SecretTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Workflow/client/components/WorkflowTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/File/components/FileTable.vue",
+      "line": 45,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Project/client/components/ProjectTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiAgent/client/components/AiAgentTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/User/client/components/UserTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Log/client/components/HistoryBtn.vue",
+      "line": 65,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/StructureItem/client/components/StructureItemTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-core",
+      "file": "app-core/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 399,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Task/client/components/TaskTable.vue",
+      "line": 38,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/widgets/GentlTable/components/BuildingBlockGentlTableResult.vue",
+      "line": 699,
+      "explicitStorage": true,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Comment/components/CommentTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/User/client/components/UserTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/CustomField/client/components/CustomFieldTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/CustomField/components/CustomFieldTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardColumn/client/components/BoardColumnTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardColumn/components/BoardColumnTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/BoardLayout/client/components/BoardLayoutTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Translation/client/components/TranslationTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/File/client/components/FileTable.vue",
+      "line": 35,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/File/components/FileTable.vue",
+      "line": 45,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 321,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Board/components/BoardTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Board/client/components/BoardTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-dg-minimal",
+      "file": "app-dg-minimal/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 321,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks",
+      "file": "app-tasks/libs/Attendance/client/components/AttendanceTable.vue",
+      "line": 88,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiMessage/client/components/AiMessageTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Workflow/client/components/WorkflowTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Comment/client/components/CommentTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Contact/components/ContactTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Attendance/client/components/AttendanceTable.vue",
+      "line": 162,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/pages/playground/table.vue",
+      "line": 540,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Activity/client/components/ActivityTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks-old",
+      "file": "app-tasks-old/libs/Attendance/components/AttendanceTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Account/components/AccountTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardOnOrganization/client/components/BoardOnOrganizationTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/CustomField/client/components/CustomFieldTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiEmbedding/client/components/AiEmbeddingTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardColumn/client/components/BoardColumnTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Instance/components/InstanceTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Page/client/components/PageTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/File/client/components/FileTable.vue",
+      "line": 35,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Board/client/components/BoardTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/File/components/FileTable.vue",
+      "line": 45,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Contact/client/components/ContactTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Project/client/components/ProjectTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiThreadSetup/client/components/AiThreadSetupTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Board/components/BoardTable.vue",
+      "line": 212,
+      "explicitStorage": true,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/User/client/components/UserTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates",
+      "file": "app-templates/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/ActivityType/client/components/ActivityTypeTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/DataSource/components/DataSourceTable.vue",
+      "line": 352,
+      "explicitStorage": true,
+      "spreads": false
+    },
+    {
+      "project": "mono_new",
+      "file": "mono_new/apps/lc/app/features/Attendance/components/AttendanceTable.vue",
+      "line": 56,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Importing/components/ImportingEditTable.vue",
+      "line": 148,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/TaskAssignment/components/TaskAssignmentTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Tag/components/TagTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Account/components/AccountTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiThread/client/components/AiThreadTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Instance/components/InstanceTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Task/components/TaskTableHierarchy.vue",
+      "line": 95,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Task/components/TaskTable.vue",
+      "line": 49,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Workflow/components/WorkflowTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/AiTool/client/components/AiToolTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffRequirement/components/ActivityStaffRequirementTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Comment/client/components/CommentTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/PlanningStage/components/PlanningStageTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/Activity/client/components/ActivityTable.vue",
+      "line": 24,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityType/components/ActivityTypeTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Planning/components/PlanningTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/ActivityStaffAssignment/components/ActivityStaffAssignmentTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/PlanningStageOnPlanning/components/PlanningStageOnPlanningTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/PlanningStageRule/components/PlanningStageRuleTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Comment/components/CommentTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Activity/components/ActivityTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_old",
+      "file": "app-lc_old/libs/BoardLayout/client/components/BoardLayoutTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/BoardLayout/client/components/BoardLayoutTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Structure/client/components/StructureTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiAgent/components/AiAgentTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/CustomField/components/CustomFieldTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Log/client/components/HistoryBtn.vue",
+      "line": 72,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Secret/client/components/SecretTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardColumn/components/BoardColumnTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/File/components/FileTable.vue",
+      "line": 45,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiAgent/client/components/AiAgentTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Board/components/BoardTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Log/client/components/HistoryBtn.vue",
+      "line": 65,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-tasks2-old",
+      "file": "app-tasks2-old/libs/Attendance/client/components/AttendanceTable.vue",
+      "line": 41,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiEmbedding/components/AiEmbeddingTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardOnOrganization/components/BoardOnOrganizationTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Contact/components/ContactTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/LaborRule/components/LaborRuleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Note/components/NoteTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiThread/client/components/AiThreadTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-admin",
+      "file": "app-admin/libs/Attendance/components/AttendanceTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiTool/components/AiToolTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/File/client/components/FileTable.vue",
+      "line": 35,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiEmbedding/client/components/AiEmbeddingTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai",
+      "file": "app-ai/libs/AiMessage/components/AiMessageTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/File/client/components/FileTable.vue",
+      "line": 35,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiMessage/client/components/AiMessageTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-dg-minimal_old",
+      "file": "app-dg-minimal_old/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 284,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiThreadSetup/client/components/AiThreadSetupTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/User/client/components/UserTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/StructureItem/client/components/StructureItemTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc_2",
+      "file": "app-lc_2/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 311,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/Core/app/pages/playground/data.vue",
+      "line": 92,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Log/client/components/HistoryBtn.vue",
+      "line": 72,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiThread/client/components/AiThreadTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/AiTool/client/components/AiToolTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-ai2",
+      "file": "app-ai2/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/User/client/components/UserTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/client/widgets/Logi/components/LogiTable.vue",
+      "line": 69,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-lc-test",
+      "file": "app-lc-test/libs/DynamicGrid/app/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 324,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/client/widgets/Jafin/components/JafinTable.vue",
+      "line": 105,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/User/client/components/UserTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Claim/client/components/ClaimTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Claim/client/components/ClaimTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Importing/client/components/ImportingEditTable.vue",
+      "line": 143,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono2",
+      "file": "mono2/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/TaskAssignment/client/components/TaskAssignmentTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/TaskAssignment/client/components/TaskAssignmentTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Secret/client/components/SecretTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Tag/client/components/TagTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Tag/client/components/TagTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Log/client/components/HistoryBtn.vue",
+      "line": 65,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/CustomField/client/components/CustomFieldTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardColumn/client/components/BoardColumnTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Enumerator/client/components/EnumeratorTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/File/client/components/FileTable.vue",
+      "line": 39,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Sprint/client/components/SprintTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Board/client/components/BoardTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Account/client/components/AccountTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/DynamicGridServer/client/components/DynamicGridTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Account/client/components/AccountTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Log/client/components/LogTable.vue",
+      "line": 24,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Log/client/components/HistoryBtn.vue",
+      "line": 78,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Role/client/components/RoleTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Secret/client/components/SecretTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Instance/client/components/InstanceTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiAgent/client/components/AiAgentTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Contact/client/components/ContactTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 93,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Task/client/components/TaskTable.vue",
+      "line": 46,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/BoardLayout/client/components/BoardLayoutTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Log/client/components/LogTable.vue",
+      "line": 17,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Log/client/components/HistoryBtn.vue",
+      "line": 65,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 24,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Workflow/client/components/WorkflowTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Attendance/client/components/AttendanceTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Instance/client/components/InstanceTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/User/client/components/UserTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Task/client/components/TaskTableHierarchy.vue",
+      "line": 399,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Task/client/components/TaskTable.vue",
+      "line": 38,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/UserInvitation/client/components/UserInvitationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/User/client/components/UserTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 25,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/libs/Comment/client/components/CommentTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Comment/client/components/CommentTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Activity/client/components/ActivityTable.vue",
+      "line": 24,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Workflow/client/components/WorkflowTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/CustomField/client/components/CustomFieldTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-log",
+      "file": "app-log/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/EnumeratorOption/client/components/EnumeratorOptionTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardColumn/client/components/BoardColumnTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/ServiceAccount/client/components/ServiceAccountTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/File/client/components/FileTable.vue",
+      "line": 35,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiEmbedding/client/components/AiEmbeddingTable.vue",
+      "line": 48,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Board/client/components/BoardTable.vue",
+      "line": 16,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiMessage/client/components/AiMessageTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Role/client/components/RoleTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardOnOrganization/client/components/BoardOnOrganizationTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Project/client/components/ProjectTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Page/client/components/PageTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiThreadSetup/client/components/AiThreadSetupTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Credential/client/components/CredentialTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "idk",
+      "file": "idk/libs/Core/app/pages/playground/data.vue",
+      "line": 92,
+      "explicitStorage": true,
+      "spreads": true
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/User/client/components/UserTable.vue",
+      "line": 23,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/widgets/GentlTable/app/components/BuildingBlockGentlTable.vue",
+      "line": 214,
+      "explicitStorage": true,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/UserOnOrganization/client/components/UserOnOrganizationTable.vue",
+      "line": 21,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiThread/client/components/AiThreadTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/AiTool/client/components/AiToolTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "mono",
+      "file": "mono/layers/DynamicGrid/client/components/Jafin/BuildingBlockJafinTable.vue",
+      "line": 126,
+      "explicitStorage": true,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 284,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/BoardLayout/client/components/BoardLayoutTable.vue",
+      "line": 18,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-base",
+      "file": "app-base/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/DynamicGrid/client/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 284,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Organization/client/components/OrganizationTable.vue",
+      "line": 20,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-templates2",
+      "file": "app-templates2/libs/Attendance/client/components/AttendanceTable.vue",
+      "line": 88,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-components-docs",
+      "file": "app-components-docs/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Claim/components/ClaimTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Enumerator/components/EnumeratorTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Account/components/AccountTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Log/components/LogTable.vue",
+      "line": 22,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Log/components/HistoryBtn.vue",
+      "line": 80,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Instance/components/InstanceTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/UserInvitation/components/UserInvitationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/EnumeratorOption/components/EnumeratorOptionTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/User/components/UserTable.vue",
+      "line": 28,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/UserOnOrganization/components/UserOnOrganizationTable.vue",
+      "line": 27,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/DynamicGrid/app/components/DynamicGrid/DynamicGridToolbar/DynamicGridJsonData/DynamicGridJsonDataDatasets.vue",
+      "line": 328,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Role/components/RoleTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Operation/components/OperationTable.vue",
+      "line": 158,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Operation/components/OperationDetailTable.vue",
+      "line": 75,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/BoardLayout/components/BoardLayoutTable.vue",
+      "line": 26,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-pres",
+      "file": "app-pres/libs/Organization/components/OrganizationTable.vue",
+      "line": 29,
+      "explicitStorage": false,
+      "spreads": false
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/libs/Attendance/app/components/AttendanceTable.vue",
+      "line": 49,
+      "explicitStorage": false,
+      "spreads": true
+    },
+    {
+      "project": "app-lc",
+      "file": "app-lc/app/pages/playground/data.vue",
+      "line": 92,
+      "explicitStorage": true,
+      "spreads": true
+    }
+  ],
+  "templates": [
+    "idk/libs/Core/_templates/management/app/components/[FTName % PascalCase]Detail.vue",
+    "app-lc/libs/Core/_templates/management/app/components/[FTName % PascalCase]Detail.vue",
+    "app-watchout/libs/Core/_templates/management/app/components/[FTName % PascalCase]Detail.vue"
+  ],
+  "decisions": {
+    "legacyInstanceModels": "Retain the explicit-instance compatibility path: 115 calls remain in 7 local projects, including current mono_new/app-lc sources.",
+    "hideInstance": "Review and migrate instance options to explicit DOM targets before upgrading consumers; many older apps include their own component/helper copies.",
+    "tableStorage": "Assign stable existing storage keys where persistence is required; absence alone does not prove a defect.",
+    "consumerRuntime": "Upgrade consumers to the tested Nuxt/Vue runtime before adopting the Vapor library; older Nuxt 3/4.2 apps have not been upgraded by this audit.",
+    "codeChanges": "Consumer checkouts were audited read-only; no external application deployment or backend-dependent E2E is claimed."
+  }
+}

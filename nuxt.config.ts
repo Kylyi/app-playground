@@ -63,6 +63,54 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    optimizeDeps: {
+      // Nuxt autoimports and lazy components expose these after the initial scan.
+      // Pre-bundle the observed imports so cold navigation keeps one client graph.
+      include: [
+        '@comark/vue',
+        '@floating-ui/dom',
+        '@floating-ui/vue',
+        '@iconify/utils/lib/css/icon',
+        '@iconify/vue',
+        '@tanstack/vue-virtual',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        'arktype',
+        'axios',
+        'change-case',
+        'dayjs/esm',
+        'dayjs/esm/locale/cs',
+        'dayjs/esm/locale/en-gb',
+        'dayjs/esm/plugin/customParseFormat',
+        'dayjs/esm/plugin/dayOfYear',
+        'dayjs/esm/plugin/duration',
+        'dayjs/esm/plugin/isBetween',
+        'dayjs/esm/plugin/isSameOrAfter',
+        'dayjs/esm/plugin/isSameOrBefore',
+        'dayjs/esm/plugin/isoWeek',
+        'dayjs/esm/plugin/quarterOfYear',
+        'dayjs/esm/plugin/timezone',
+        'dayjs/esm/plugin/utc',
+        'dragdoll',
+        'error-stack-parser-es',
+        'errx',
+        'fuse.js',
+        'image-meta',
+        'invert-color',
+        'lodash-es',
+        'mezr',
+        'nostics',
+        'nostics/formatters/ansi',
+        'nostics/reporters/dev',
+        'perfect-scrollbar',
+        'sortablejs',
+        'uuid',
+        'valibot',
+        'vite-plugin-vue-tracer/client/overlay',
+        'xlsx',
+        'zod',
+      ],
+    },
     resolve: {
       // Both renderers compare shared sentinels by identity (e.g. template refs).
       dedupe: ['vue', '@vue/shared', '@vue/reactivity', '@vue/runtime-core', '@vue/runtime-dom', '@vue/runtime-vapor'],
@@ -107,9 +155,12 @@ export default defineNuxtConfig({
     },
   },
 
-  // UI icons are published by UnoCSS; avoid bundling every installed Iconify collection.
+  // Build-time icons keep hashed assets; bundle only our runtime datasets.
   icon: {
-    serverBundle: { collections: [] },
+    serverBundle: { collections: ['lucide', 'solar'] },
+    customCollections: [{ prefix: 'playground', dir: resolve('./app/assets/testing-icons') }],
+    aliases: { nativeAlias: 'playground:runtime-mark' },
+    clientBundle: { scan: false, includeCustomCollections: false },
   },
 
   unocss: {

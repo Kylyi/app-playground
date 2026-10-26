@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics, createObservedContext } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 function iconImage(locator) {
   return locator.evaluate(element => {
@@ -44,8 +47,8 @@ test('native Stepper navigates linearly and renders its icons natively', async (
   await expect(page.getByTestId('active-step')).toHaveText('profile')
   await expect(profile).toBeVisible()
   await expect(account).toHaveCount(0)
-  await expect(items.nth(0)).toHaveClass(/is-completed/)
-  await expect(items.nth(0).locator('.stepper-separator')).toHaveClass(/is-completed/)
+  await expect(items.nth(0)).toHaveClass(/(?:^|\s)is-completed(?:\s|$)/)
+  await expect(items.nth(0).locator('.stepper-separator')).toHaveClass(/(?:^|\s)is-completed(?:\s|$)/)
 
   // The canonical default `lucide:check` maps to its UnoCSS icon class
   const completedIcon = items.nth(0).locator('.stepper-indicator > span.i-lucide\\:check')
@@ -54,11 +57,11 @@ test('native Stepper navigates linearly and renders its icons natively', async (
 
   await page.getByRole('button', { name: 'Toggle profile error', exact: true }).click()
   const errorIcon = items.nth(1).locator('.stepper-indicator > span.i-lucide\\:x')
-  await expect(items.nth(1)).toHaveClass(/is-error/)
+  await expect(items.nth(1)).toHaveClass(/(?:^|\s)is-error(?:\s|$)/)
   await expect(errorIcon).toHaveCount(1)
   expect(await iconImage(errorIcon)).toContain('url(')
   await page.getByRole('button', { name: 'Toggle profile error', exact: true }).click()
-  await expect(items.nth(1)).toHaveClass(/is-active/)
+  await expect(items.nth(1)).toHaveClass(/(?:^|\s)is-active(?:\s|$)/)
 
   // Reached steps stay clickable in linear mode, later ones do not
   await expect(triggers.nth(2)).toBeDisabled()
@@ -72,7 +75,7 @@ test('native Stepper navigates linearly and renders its icons natively', async (
   await page.getByRole('button', { name: 'Set external step', exact: true }).click()
   await expect(done).toBeVisible()
   await expect(triggers.nth(2)).toHaveAttribute('aria-current', 'step')
-  await expect(items.nth(1)).toHaveClass(/is-completed/)
+  await expect(items.nth(1)).toHaveClass(/(?:^|\s)is-completed(?:\s|$)/)
 
   await page.getByRole('button', { name: 'Previous step', exact: true }).click()
   await expect(page.getByTestId('active-step')).toHaveText('profile')
@@ -81,7 +84,7 @@ test('native Stepper navigates linearly and renders its icons natively', async (
 })
 
 test('Stepper and its localized navigation render on the server', async ({ browser, baseURL }) => {
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })
   try {
     const page = await context.newPage()
     await page.goto('/cs-CZ/vapor-stepper')

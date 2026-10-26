@@ -106,7 +106,7 @@ onMounted(() => ready.value = true)
           data-example-control
           type="button"
           position="relative"
-          @click="focus"
+          @click="focus()"
         >
           Slot focus
         </button>
@@ -132,7 +132,7 @@ onMounted(() => ready.value = true)
         v-model="palette"
         :rgba="!tw"
         :tw
-        :disallowed-colors="['black']"
+        :disallowed-colors="['black', 'primary', 'BLUE-500']"
       />
     </div>
     <output

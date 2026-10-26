@@ -1,0 +1,4703 @@
+{
+  "recordedAt": "2026-10-22T00:15:57.369Z",
+  "baseline": {
+    "refs": {
+      "UI": "ad740a61190e7b1961386982da03f8a1d2a5e4e8",
+      "Utilities": "35b19e8db4bd95e9eafbed4a0744944b96301788"
+    },
+    "compilerAdjustments": [
+      "UI/app/components/Pivot/Pivot.vue"
+    ]
+  },
+  "runtime": {
+    "nuxt": "4.6.1",
+    "vue": "3.6.0-rc.11"
+  },
+  "environment": {
+    "platform": "darwin",
+    "release": "24.6.0",
+    "cpu": "Apple M2 Pro",
+    "logicalCpuCount": 10,
+    "totalMemory": 34359738368,
+    "loadAverageStart": [
+      6.34326171875,
+      6.7041015625,
+      5.7890625
+    ],
+    "browser": "151.0.7922.34",
+    "loadAverageEnd": [
+      6.8671875,
+      6.78125,
+      5.8681640625
+    ]
+  },
+  "method": "Same 2,000 records, props, viewport and installed dependencies; 3 warmups, 15 measured trials; Chromium memory after forced GC",
+  "correctness": [
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": false,
+      "passed": false,
+      "baselineLimitation": "baseline-missing-SSR-rows"
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-tree-hydration-mismatch"
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-pivot-hydration-mismatch"
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "chromium",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": false,
+      "passed": false,
+      "baselineLimitation": "baseline-missing-SSR-rows"
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-tree-hydration-mismatch"
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-pivot-hydration-mismatch"
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "firefox",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": false,
+      "passed": false,
+      "baselineLimitation": "baseline-missing-SSR-rows"
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": false,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "tree",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-tree-hydration-mismatch"
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "pivot",
+      "javascript": true,
+      "passed": false,
+      "baselineLimitation": "baseline-pivot-hydration-mismatch"
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vdom",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "table",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "tree",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "pivot",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "selector",
+      "javascript": true,
+      "passed": true
+    },
+    {
+      "browser": "webkit",
+      "renderer": "vapor",
+      "family": "scroller",
+      "javascript": true,
+      "passed": true
+    }
+  ],
+  "samples": [
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 0,
+      "mount": {
+        "flush": 21.699999928474426,
+        "contentReady": 21.699999928474426,
+        "settled": 25.600000023841858
+      },
+      "update": {
+        "flush": 4.199999928474426,
+        "contentReady": 4.199999928474426,
+        "settled": 20.799999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 41.699999928474426
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 0,
+      "mount": {
+        "flush": 42.799999952316284,
+        "contentReady": 42.799999952316284,
+        "settled": 45.59999990463257
+      },
+      "update": {
+        "flush": 3.399999976158142,
+        "contentReady": 3.399999976158142,
+        "settled": 27.299999952316284
+      },
+      "remove": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.399999976158142,
+        "settled": 8.399999976158142
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 1,
+      "mount": {
+        "flush": 32.299999952316284,
+        "contentReady": 32.299999952316284,
+        "settled": 35.199999928474426
+      },
+      "update": {
+        "flush": 4.299999952316284,
+        "contentReady": 4.299999952316284,
+        "settled": 20.299999952316284
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 26.199999928474426
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 1,
+      "mount": {
+        "flush": 18.600000023841858,
+        "contentReady": 18.600000023841858,
+        "settled": 22
+      },
+      "update": {
+        "flush": 3.399999976158142,
+        "contentReady": 3.399999976158142,
+        "settled": 17.600000023841858
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 6.399999976158142
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 2,
+      "mount": {
+        "flush": 18.699999928474426,
+        "contentReady": 18.699999928474426,
+        "settled": 22.100000023841858
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 3,
+        "settled": 13.099999904632568
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.5999999046325684,
+        "settled": 17.09999990463257
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 2,
+      "mount": {
+        "flush": 34.299999952316284,
+        "contentReady": 34.39999997615814,
+        "settled": 37.5
+      },
+      "update": {
+        "flush": 3.5,
+        "contentReady": 3.5,
+        "settled": 39.10000002384186
+      },
+      "remove": {
+        "flush": 1.0999999046325684,
+        "contentReady": 1.0999999046325684,
+        "settled": 8.399999976158142
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 3,
+      "mount": {
+        "flush": 33,
+        "contentReady": 33,
+        "settled": 35.39999997615814
+      },
+      "update": {
+        "flush": 3.6999999284744263,
+        "contentReady": 3.6999999284744263,
+        "settled": 12.899999976158142
+      },
+      "remove": {
+        "flush": 0.9000000953674316,
+        "contentReady": 0.9000000953674316,
+        "settled": 24.90000009536743
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 3,
+      "mount": {
+        "flush": 18.5,
+        "contentReady": 18.5,
+        "settled": 24.40000009536743
+      },
+      "update": {
+        "flush": 4.100000023841858,
+        "contentReady": 4.100000023841858,
+        "settled": 6
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 9.100000023841858
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 4,
+      "mount": {
+        "flush": 19.600000023841858,
+        "contentReady": 19.600000023841858,
+        "settled": 22.700000047683716
+      },
+      "update": {
+        "flush": 2.799999952316284,
+        "contentReady": 2.799999952316284,
+        "settled": 13.899999976158142
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 16.5
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 4,
+      "mount": {
+        "flush": 27,
+        "contentReady": 27,
+        "settled": 29.300000071525574
+      },
+      "update": {
+        "flush": 3.5,
+        "contentReady": 3.5,
+        "settled": 15.399999976158142
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 7.899999976158142
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 5,
+      "mount": {
+        "flush": 32.299999952316284,
+        "contentReady": 32.299999952316284,
+        "settled": 34.799999952316284
+      },
+      "update": {
+        "flush": 3.3000000715255737,
+        "contentReady": 3.3000000715255737,
+        "settled": 40.10000002384186
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 16.299999952316284
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 5,
+      "mount": {
+        "flush": 19.399999976158142,
+        "contentReady": 19.399999976158142,
+        "settled": 24.699999928474426
+      },
+      "update": {
+        "flush": 3.0999999046325684,
+        "contentReady": 3.0999999046325684,
+        "settled": 21.299999952316284
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 9.799999952316284
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 6,
+      "mount": {
+        "flush": 19.09999990463257,
+        "contentReady": 19.09999990463257,
+        "settled": 24.59999990463257
+      },
+      "update": {
+        "flush": 3.8000000715255737,
+        "contentReady": 3.8000000715255737,
+        "settled": 11.400000095367432
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 20
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 6,
+      "mount": {
+        "flush": 28.200000047683716,
+        "contentReady": 28.200000047683716,
+        "settled": 30.700000047683716
+      },
+      "update": {
+        "flush": 4.700000047683716,
+        "contentReady": 4.700000047683716,
+        "settled": 10
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 8.600000023841858
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 7,
+      "mount": {
+        "flush": 28.600000023841858,
+        "contentReady": 28.600000023841858,
+        "settled": 31.700000047683716
+      },
+      "update": {
+        "flush": 3.399999976158142,
+        "contentReady": 3.399999976158142,
+        "settled": 18.199999928474426
+      },
+      "remove": {
+        "flush": 0.8000000715255737,
+        "contentReady": 0.8000000715255737,
+        "settled": 33.300000071525574
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 7,
+      "mount": {
+        "flush": 17.600000023841858,
+        "contentReady": 17.600000023841858,
+        "settled": 21.40000009536743
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 3,
+        "settled": 17.600000023841858
+      },
+      "remove": {
+        "flush": 0.8000000715255737,
+        "contentReady": 0.8000000715255737,
+        "settled": 9.400000095367432
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 8,
+      "mount": {
+        "flush": 18,
+        "contentReady": 18,
+        "settled": 24.299999952316284
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 3,
+        "settled": 26.699999928474426
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 17.300000071525574
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 8,
+      "mount": {
+        "flush": 36.10000002384186,
+        "contentReady": 36.10000002384186,
+        "settled": 39.10000002384186
+      },
+      "update": {
+        "flush": 3.5,
+        "contentReady": 3.5,
+        "settled": 16.200000047683716
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 14.700000047683716
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 9,
+      "mount": {
+        "flush": 29.699999928474426,
+        "contentReady": 29.699999928474426,
+        "settled": 32.60000002384186
+      },
+      "update": {
+        "flush": 3.8000000715255737,
+        "contentReady": 3.8000000715255737,
+        "settled": 9
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 19.199999928474426
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 9,
+      "mount": {
+        "flush": 16.600000023841858,
+        "contentReady": 16.600000023841858,
+        "settled": 42.800000071525574
+      },
+      "update": {
+        "flush": 3.600000023841858,
+        "contentReady": 3.6999999284744263,
+        "settled": 24.799999952316284
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 6.099999904632568
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 10,
+      "mount": {
+        "flush": 21.600000023841858,
+        "contentReady": 21.600000023841858,
+        "settled": 24.90000009536743
+      },
+      "update": {
+        "flush": 3.299999952316284,
+        "contentReady": 3.299999952316284,
+        "settled": 29
+      },
+      "remove": {
+        "flush": 0.6999999284744263,
+        "contentReady": 0.6999999284744263,
+        "settled": 22.399999976158142
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 10,
+      "mount": {
+        "flush": 31.700000047683716,
+        "contentReady": 31.700000047683716,
+        "settled": 34.39999997615814
+      },
+      "update": {
+        "flush": 4.900000095367432,
+        "contentReady": 4.900000095367432,
+        "settled": 19.300000071525574
+      },
+      "remove": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.2999999523162842,
+        "settled": 10.600000023841858
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 11,
+      "mount": {
+        "flush": 30.700000047683716,
+        "contentReady": 30.700000047683716,
+        "settled": 33
+      },
+      "update": {
+        "flush": 3.299999952316284,
+        "contentReady": 3.299999952316284,
+        "settled": 10.5
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 18.600000023841858
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 11,
+      "mount": {
+        "flush": 19.199999928474426,
+        "contentReady": 19.199999928474426,
+        "settled": 26.899999976158142
+      },
+      "update": {
+        "flush": 3.6999999284744263,
+        "contentReady": 3.6999999284744263,
+        "settled": 23.699999928474426
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 24.600000023841858
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 12,
+      "mount": {
+        "flush": 22.5,
+        "contentReady": 22.5,
+        "settled": 26
+      },
+      "update": {
+        "flush": 3.100000023841858,
+        "contentReady": 3.100000023841858,
+        "settled": 26.90000009536743
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 21.700000047683716
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 12,
+      "mount": {
+        "flush": 31.299999952316284,
+        "contentReady": 31.299999952316284,
+        "settled": 34
+      },
+      "update": {
+        "flush": 3.899999976158142,
+        "contentReady": 3.899999976158142,
+        "settled": 18.199999928474426
+      },
+      "remove": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.2999999523162842,
+        "settled": 14.699999928474426
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 13,
+      "mount": {
+        "flush": 33.199999928474426,
+        "contentReady": 33.199999928474426,
+        "settled": 36
+      },
+      "update": {
+        "flush": 4,
+        "contentReady": 4,
+        "settled": 37.800000071525574
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 41.59999990463257
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 13,
+      "mount": {
+        "flush": 26.100000023841858,
+        "contentReady": 26.200000047683716,
+        "settled": 30.90000009536743
+      },
+      "update": {
+        "flush": 4,
+        "contentReady": 4,
+        "settled": 9.5
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 6.400000095367432
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "trial": 14,
+      "mount": {
+        "flush": 19.90000009536743,
+        "contentReady": 19.90000009536743,
+        "settled": 42.90000009536743
+      },
+      "update": {
+        "flush": 3.3000000715255737,
+        "contentReady": 3.3000000715255737,
+        "settled": 24.600000023841858
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 17.799999952316284
+      },
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "trial": 14,
+      "mount": {
+        "flush": 30.100000023841858,
+        "contentReady": 30.100000023841858,
+        "settled": 32.5
+      },
+      "update": {
+        "flush": 3.600000023841858,
+        "contentReady": 3.600000023841858,
+        "settled": 8.5
+      },
+      "remove": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.1999999284744263,
+        "settled": 7.399999976158142
+      },
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 0,
+      "mount": {
+        "flush": 4.599999904632568,
+        "contentReady": 26.5,
+        "settled": 61.299999952316284
+      },
+      "update": {
+        "flush": 3.299999952316284,
+        "contentReady": 9.899999976158142,
+        "settled": 33.10000002384186
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 11.5
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 0,
+      "mount": {
+        "flush": 31.899999976158142,
+        "contentReady": 31.899999976158142,
+        "settled": 47.299999952316284
+      },
+      "update": {
+        "flush": 6.299999952316284,
+        "contentReady": 6.299999952316284,
+        "settled": 25.199999928474426
+      },
+      "remove": {
+        "flush": 1.6999999284744263,
+        "contentReady": 1.6999999284744263,
+        "settled": 3.6999999284744263
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 1,
+      "mount": {
+        "flush": 32.700000047683716,
+        "contentReady": 32.700000047683716,
+        "settled": 36.40000009536743
+      },
+      "update": {
+        "flush": 5.200000047683716,
+        "contentReady": 5.200000047683716,
+        "settled": 7.100000023841858
+      },
+      "remove": {
+        "flush": 1.9000000953674316,
+        "contentReady": 1.9000000953674316,
+        "settled": 23.40000009536743
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 1,
+      "mount": {
+        "flush": 3.100000023841858,
+        "contentReady": 18.200000047683716,
+        "settled": 36.799999952316284
+      },
+      "update": {
+        "flush": 3.1999999284744263,
+        "contentReady": 8.399999976158142,
+        "settled": 27.799999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 7
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 2,
+      "mount": {
+        "flush": 3.399999976158142,
+        "contentReady": 18.600000023841858,
+        "settled": 36
+      },
+      "update": {
+        "flush": 2.799999952316284,
+        "contentReady": 8.700000047683716,
+        "settled": 28.299999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 12.400000095367432
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 2,
+      "mount": {
+        "flush": 29.90000009536743,
+        "contentReady": 29.90000009536743,
+        "settled": 33.800000071525574
+      },
+      "update": {
+        "flush": 5.700000047683716,
+        "contentReady": 5.700000047683716,
+        "settled": 7.600000023841858
+      },
+      "remove": {
+        "flush": 1.3000000715255737,
+        "contentReady": 1.3000000715255737,
+        "settled": 7.300000071525574
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 3,
+      "mount": {
+        "flush": 27.799999952316284,
+        "contentReady": 27.799999952316284,
+        "settled": 33.89999997615814
+      },
+      "update": {
+        "flush": 5.399999976158142,
+        "contentReady": 5.399999976158142,
+        "settled": 15.399999976158142
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 25.899999976158142
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 3,
+      "mount": {
+        "flush": 3.700000047683716,
+        "contentReady": 19.40000009536743,
+        "settled": 50.5
+      },
+      "update": {
+        "flush": 2.600000023841858,
+        "contentReady": 15.100000023841858,
+        "settled": 42.5
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 13.200000047683716
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 4,
+      "mount": {
+        "flush": 9.5,
+        "contentReady": 26.100000023841858,
+        "settled": 32.60000002384186
+      },
+      "update": {
+        "flush": 2.8000000715255737,
+        "contentReady": 17.100000023841858,
+        "settled": 36.90000009536743
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 14.200000047683716
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 4,
+      "mount": {
+        "flush": 27.899999976158142,
+        "contentReady": 27.899999976158142,
+        "settled": 32.5
+      },
+      "update": {
+        "flush": 5.899999976158142,
+        "contentReady": 5.899999976158142,
+        "settled": 11.699999928474426
+      },
+      "remove": {
+        "flush": 1.3000000715255737,
+        "contentReady": 1.3000000715255737,
+        "settled": 12
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 5,
+      "mount": {
+        "flush": 24.200000047683716,
+        "contentReady": 24.200000047683716,
+        "settled": 27.700000047683716
+      },
+      "update": {
+        "flush": 6.700000047683716,
+        "contentReady": 6.700000047683716,
+        "settled": 10.100000023841858
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 17.600000023841858
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 5,
+      "mount": {
+        "flush": 3.100000023841858,
+        "contentReady": 18,
+        "settled": 36
+      },
+      "update": {
+        "flush": 2.5,
+        "contentReady": 7.300000071525574,
+        "settled": 27.100000023841858
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 5.600000023841858
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 6,
+      "mount": {
+        "flush": 3.299999952316284,
+        "contentReady": 16.899999976158142,
+        "settled": 34.799999952316284
+      },
+      "update": {
+        "flush": 2.5,
+        "contentReady": 10.200000047683716,
+        "settled": 42.39999997615814
+      },
+      "remove": {
+        "flush": 0.40000009536743164,
+        "contentReady": 0.5,
+        "settled": 7.900000095367432
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 6,
+      "mount": {
+        "flush": 27.199999928474426,
+        "contentReady": 27.199999928474426,
+        "settled": 31.199999928474426
+      },
+      "update": {
+        "flush": 5.699999928474426,
+        "contentReady": 5.699999928474426,
+        "settled": 14.100000023841858
+      },
+      "remove": {
+        "flush": 1.4000000953674316,
+        "contentReady": 1.4000000953674316,
+        "settled": 9.200000047683716
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 7,
+      "mount": {
+        "flush": 26.90000009536743,
+        "contentReady": 26.90000009536743,
+        "settled": 30.800000071525574
+      },
+      "update": {
+        "flush": 6.299999952316284,
+        "contentReady": 6.299999952316284,
+        "settled": 9.799999952316284
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 19.40000009536743
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 7,
+      "mount": {
+        "flush": 2.899999976158142,
+        "contentReady": 17.09999990463257,
+        "settled": 36.799999952316284
+      },
+      "update": {
+        "flush": 2.3000000715255737,
+        "contentReady": 8.100000023841858,
+        "settled": 27.800000071525574
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 7.800000071525574
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 8,
+      "mount": {
+        "flush": 3.399999976158142,
+        "contentReady": 17.899999976158142,
+        "settled": 35.10000002384186
+      },
+      "update": {
+        "flush": 2.6999999284744263,
+        "contentReady": 8.699999928474426,
+        "settled": 43.39999997615814
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 9.899999976158142
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 8,
+      "mount": {
+        "flush": 31.700000047683716,
+        "contentReady": 31.700000047683716,
+        "settled": 36.200000047683716
+      },
+      "update": {
+        "flush": 6.200000047683716,
+        "contentReady": 6.200000047683716,
+        "settled": 8.100000023841858
+      },
+      "remove": {
+        "flush": 1.5,
+        "contentReady": 1.5,
+        "settled": 8.400000095367432
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 9,
+      "mount": {
+        "flush": 24.800000071525574,
+        "contentReady": 24.800000071525574,
+        "settled": 28.5
+      },
+      "update": {
+        "flush": 5.699999928474426,
+        "contentReady": 5.699999928474426,
+        "settled": 20.100000023841858
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 16.300000071525574
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 9,
+      "mount": {
+        "flush": 3.4000000953674316,
+        "contentReady": 17.200000047683716,
+        "settled": 41.200000047683716
+      },
+      "update": {
+        "flush": 2.5,
+        "contentReady": 10.199999928474426,
+        "settled": 39.60000002384186
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 15.700000047683716
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 10,
+      "mount": {
+        "flush": 4.100000023841858,
+        "contentReady": 22.799999952316284,
+        "settled": 42.5
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 9,
+        "settled": 32.300000071525574
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 26.399999976158142
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 10,
+      "mount": {
+        "flush": 29.59999990463257,
+        "contentReady": 29.59999990463257,
+        "settled": 33.799999952316284
+      },
+      "update": {
+        "flush": 6.200000047683716,
+        "contentReady": 6.200000047683716,
+        "settled": 16.600000023841858
+      },
+      "remove": {
+        "flush": 1.3000000715255737,
+        "contentReady": 1.3000000715255737,
+        "settled": 25.40000009536743
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 11,
+      "mount": {
+        "flush": 28.5,
+        "contentReady": 28.5,
+        "settled": 32.60000002384186
+      },
+      "update": {
+        "flush": 7.100000023841858,
+        "contentReady": 7.100000023841858,
+        "settled": 10.299999952316284
+      },
+      "remove": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.1999999284744263,
+        "settled": 21.699999928474426
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 11,
+      "mount": {
+        "flush": 2.700000047683716,
+        "contentReady": 18,
+        "settled": 37.60000002384186
+      },
+      "update": {
+        "flush": 2.399999976158142,
+        "contentReady": 13.899999976158142,
+        "settled": 47.60000002384186
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 4.600000023841858
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 12,
+      "mount": {
+        "flush": 4,
+        "contentReady": 20.600000023841858,
+        "settled": 39.89999997615814
+      },
+      "update": {
+        "flush": 2.6999999284744263,
+        "contentReady": 10.699999928474426,
+        "settled": 44.39999997615814
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.5999999046325684,
+        "settled": 16.399999976158142
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 12,
+      "mount": {
+        "flush": 33.10000002384186,
+        "contentReady": 33.10000002384186,
+        "settled": 37
+      },
+      "update": {
+        "flush": 5.900000095367432,
+        "contentReady": 5.900000095367432,
+        "settled": 7.800000071525574
+      },
+      "remove": {
+        "flush": 1.7000000476837158,
+        "contentReady": 1.7000000476837158,
+        "settled": 5.600000023841858
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 13,
+      "mount": {
+        "flush": 29,
+        "contentReady": 29,
+        "settled": 32.89999997615814
+      },
+      "update": {
+        "flush": 6.200000047683716,
+        "contentReady": 6.200000047683716,
+        "settled": 14.100000023841858
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 41
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 13,
+      "mount": {
+        "flush": 3.100000023841858,
+        "contentReady": 26.600000023841858,
+        "settled": 59.89999997615814
+      },
+      "update": {
+        "flush": 2.899999976158142,
+        "contentReady": 10.600000023841858,
+        "settled": 33.699999928474426
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 5.5
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "trial": 14,
+      "mount": {
+        "flush": 9.200000047683716,
+        "contentReady": 24.100000023841858,
+        "settled": 47.799999952316284
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 14.900000095367432,
+        "settled": 39.90000009536743
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 16.899999976158142
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "trial": 14,
+      "mount": {
+        "flush": 26.600000023841858,
+        "contentReady": 26.600000023841858,
+        "settled": 30.600000023841858
+      },
+      "update": {
+        "flush": 6.5,
+        "contentReady": 6.5,
+        "settled": 8.300000071525574
+      },
+      "remove": {
+        "flush": 1.399999976158142,
+        "contentReady": 1.399999976158142,
+        "settled": 2.8000000715255737
+      },
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 0,
+      "mount": {
+        "flush": 7.800000071525574,
+        "contentReady": 26.700000047683716,
+        "settled": 29.399999976158142
+      },
+      "update": {
+        "flush": 8.100000023841858,
+        "contentReady": 13.100000023841858,
+        "settled": 47.5
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 10.700000047683716
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 0,
+      "mount": {
+        "flush": 11.600000023841858,
+        "contentReady": 33.200000047683716,
+        "settled": 38.10000002384186
+      },
+      "update": {
+        "flush": 8.200000047683716,
+        "contentReady": 14.600000023841858,
+        "settled": 35.39999997615814
+      },
+      "remove": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.399999976158142,
+        "settled": 9.299999952316284
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 1,
+      "mount": {
+        "flush": 11,
+        "contentReady": 36.60000002384186,
+        "settled": 39.10000002384186
+      },
+      "update": {
+        "flush": 7,
+        "contentReady": 13.299999952316284,
+        "settled": 32.5
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 11.899999976158142
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 1,
+      "mount": {
+        "flush": 7.100000023841858,
+        "contentReady": 24.5,
+        "settled": 44.5
+      },
+      "update": {
+        "flush": 7.199999928474426,
+        "contentReady": 22.799999952316284,
+        "settled": 56
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 6.5
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 2,
+      "mount": {
+        "flush": 8.200000047683716,
+        "contentReady": 29.300000071525574,
+        "settled": 32.300000071525574
+      },
+      "update": {
+        "flush": 7.5,
+        "contentReady": 20.399999976158142,
+        "settled": 53.699999928474426
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 15.899999976158142
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 2,
+      "mount": {
+        "flush": 9.900000095367432,
+        "contentReady": 31.100000023841858,
+        "settled": 37
+      },
+      "update": {
+        "flush": 7.300000071525574,
+        "contentReady": 12.700000047683716,
+        "settled": 31.200000047683716
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 7.300000071525574
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 3,
+      "mount": {
+        "flush": 10.100000023841858,
+        "contentReady": 32,
+        "settled": 43.299999952316284
+      },
+      "update": {
+        "flush": 7.099999904632568,
+        "contentReady": 15.699999928474426,
+        "settled": 40.799999952316284
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 24.5
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 3,
+      "mount": {
+        "flush": 9,
+        "contentReady": 28.299999952316284,
+        "settled": 30.799999952316284
+      },
+      "update": {
+        "flush": 6.5,
+        "contentReady": 12.100000023841858,
+        "settled": 32.39999997615814
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 9.300000071525574
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 4,
+      "mount": {
+        "flush": 6.600000023841858,
+        "contentReady": 23.899999976158142,
+        "settled": 51
+      },
+      "update": {
+        "flush": 7.5,
+        "contentReady": 14.800000071525574,
+        "settled": 42
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 9
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 4,
+      "mount": {
+        "flush": 11.199999928474426,
+        "contentReady": 34.10000002384186,
+        "settled": 41.199999928474426
+      },
+      "update": {
+        "flush": 7.399999976158142,
+        "contentReady": 15.100000023841858,
+        "settled": 39.199999928474426
+      },
+      "remove": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.2999999523162842,
+        "settled": 12.799999952316284
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 5,
+      "mount": {
+        "flush": 10.100000023841858,
+        "contentReady": 31.300000071525574,
+        "settled": 36.10000002384186
+      },
+      "update": {
+        "flush": 7.199999928474426,
+        "contentReady": 12.5,
+        "settled": 44.60000002384186
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 12.599999904632568
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 5,
+      "mount": {
+        "flush": 6.800000071525574,
+        "contentReady": 24.600000023841858,
+        "settled": 39.90000009536743
+      },
+      "update": {
+        "flush": 7,
+        "contentReady": 13.699999928474426,
+        "settled": 47
+      },
+      "remove": {
+        "flush": 0.6999999284744263,
+        "contentReady": 0.6999999284744263,
+        "settled": 6
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 6,
+      "mount": {
+        "flush": 6.799999952316284,
+        "contentReady": 25.199999928474426,
+        "settled": 29.699999928474426
+      },
+      "update": {
+        "flush": 7.300000071525574,
+        "contentReady": 24.800000071525574,
+        "settled": 59.300000071525574
+      },
+      "remove": {
+        "flush": 0.8000000715255737,
+        "contentReady": 0.8000000715255737,
+        "settled": 23.800000071525574
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 6,
+      "mount": {
+        "flush": 11.200000047683716,
+        "contentReady": 34.200000047683716,
+        "settled": 39.799999952316284
+      },
+      "update": {
+        "flush": 7.299999952316284,
+        "contentReady": 12.899999976158142,
+        "settled": 31.299999952316284
+      },
+      "remove": {
+        "flush": 1.399999976158142,
+        "contentReady": 1.399999976158142,
+        "settled": 3.299999952316284
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 7,
+      "mount": {
+        "flush": 9.700000047683716,
+        "contentReady": 30.100000023841858,
+        "settled": 32.60000002384186
+      },
+      "update": {
+        "flush": 8.299999952316284,
+        "contentReady": 13.799999952316284,
+        "settled": 31.699999928474426
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 8.899999976158142
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 7,
+      "mount": {
+        "flush": 6.600000023841858,
+        "contentReady": 23.800000071525574,
+        "settled": 35.60000002384186
+      },
+      "update": {
+        "flush": 6.5,
+        "contentReady": 15.099999904632568,
+        "settled": 40
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 15.600000023841858
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 8,
+      "mount": {
+        "flush": 7.699999928474426,
+        "contentReady": 30.5,
+        "settled": 33.199999928474426
+      },
+      "update": {
+        "flush": 6.799999952316284,
+        "contentReady": 11.5,
+        "settled": 30.799999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 11.700000047683716
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 8,
+      "mount": {
+        "flush": 10,
+        "contentReady": 31.5,
+        "settled": 33.799999952316284
+      },
+      "update": {
+        "flush": 6.399999976158142,
+        "contentReady": 11.600000023841858,
+        "settled": 42.299999952316284
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 10.199999928474426
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 9,
+      "mount": {
+        "flush": 11,
+        "contentReady": 32.700000047683716,
+        "settled": 49.5
+      },
+      "update": {
+        "flush": 7.300000071525574,
+        "contentReady": 16.300000071525574,
+        "settled": 41.10000002384186
+      },
+      "remove": {
+        "flush": 1.100000023841858,
+        "contentReady": 1.100000023841858,
+        "settled": 24.600000023841858
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 9,
+      "mount": {
+        "flush": 6.800000071525574,
+        "contentReady": 24.5,
+        "settled": 30.200000047683716
+      },
+      "update": {
+        "flush": 6.600000023841858,
+        "contentReady": 14.800000071525574,
+        "settled": 33.10000002384186
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 2.8000000715255737
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 10,
+      "mount": {
+        "flush": 6.5,
+        "contentReady": 26,
+        "settled": 61.199999928474426
+      },
+      "update": {
+        "flush": 7.600000023841858,
+        "contentReady": 13,
+        "settled": 34.5
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 6.799999952316284
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 10,
+      "mount": {
+        "flush": 9.699999928474426,
+        "contentReady": 29.09999990463257,
+        "settled": 49.89999997615814
+      },
+      "update": {
+        "flush": 6.899999976158142,
+        "contentReady": 15.5,
+        "settled": 40.60000002384186
+      },
+      "remove": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.2999999523162842,
+        "settled": 11.199999928474426
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 11,
+      "mount": {
+        "flush": 10.699999928474426,
+        "contentReady": 32.199999928474426,
+        "settled": 34.799999952316284
+      },
+      "update": {
+        "flush": 6.899999976158142,
+        "contentReady": 13.299999952316284,
+        "settled": 30.699999928474426
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 13.899999976158142
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 11,
+      "mount": {
+        "flush": 6.5,
+        "contentReady": 23.5,
+        "settled": 26.5
+      },
+      "update": {
+        "flush": 6.199999928474426,
+        "contentReady": 15.5,
+        "settled": 33.199999928474426
+      },
+      "remove": {
+        "flush": 0.6999999284744263,
+        "contentReady": 0.6999999284744263,
+        "settled": 7.799999952316284
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 12,
+      "mount": {
+        "flush": 6.899999976158142,
+        "contentReady": 29.59999990463257,
+        "settled": 51.5
+      },
+      "update": {
+        "flush": 7.299999952316284,
+        "contentReady": 14.199999928474426,
+        "settled": 42.799999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 16.300000071525574
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 12,
+      "mount": {
+        "flush": 10.899999976158142,
+        "contentReady": 33.10000002384186,
+        "settled": 35.60000002384186
+      },
+      "update": {
+        "flush": 6.700000047683716,
+        "contentReady": 14.700000047683716,
+        "settled": 48.10000002384186
+      },
+      "remove": {
+        "flush": 1.2000000476837158,
+        "contentReady": 1.2000000476837158,
+        "settled": 6.600000023841858
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 13,
+      "mount": {
+        "flush": 11,
+        "contentReady": 32.89999997615814,
+        "settled": 35.60000002384186
+      },
+      "update": {
+        "flush": 6.800000071525574,
+        "contentReady": 14.800000071525574,
+        "settled": 33.90000009536743
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 24.300000071525574
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 13,
+      "mount": {
+        "flush": 5.799999952316284,
+        "contentReady": 22.799999952316284,
+        "settled": 40.799999952316284
+      },
+      "update": {
+        "flush": 8,
+        "contentReady": 12.599999904632568,
+        "settled": 14.799999952316284
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 3.200000047683716
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "trial": 14,
+      "mount": {
+        "flush": 6.299999952316284,
+        "contentReady": 24.100000023841858,
+        "settled": 28.600000023841858
+      },
+      "update": {
+        "flush": 6.300000071525574,
+        "contentReady": 15.300000071525574,
+        "settled": 34.60000002384186
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 18.600000023841858
+      },
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "trial": 14,
+      "mount": {
+        "flush": 9.5,
+        "contentReady": 29.299999952316284,
+        "settled": 31.699999928474426
+      },
+      "update": {
+        "flush": 6.5,
+        "contentReady": 11.399999976158142,
+        "settled": 47
+      },
+      "remove": {
+        "flush": 0.9000000953674316,
+        "contentReady": 0.9000000953674316,
+        "settled": 9.700000047683716
+      },
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 0,
+      "mount": {
+        "flush": 5.700000047683716,
+        "contentReady": 5.800000071525574,
+        "settled": 15.600000023841858
+      },
+      "update": {
+        "flush": 4,
+        "contentReady": 4,
+        "settled": 17.699999928474426
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 19
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 0,
+      "mount": {
+        "flush": 5.899999976158142,
+        "contentReady": 5.899999976158142,
+        "settled": 18.5
+      },
+      "update": {
+        "flush": 2.0999999046325684,
+        "contentReady": 2.0999999046325684,
+        "settled": 17
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 6.700000047683716
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 1,
+      "mount": {
+        "flush": 4.700000047683716,
+        "contentReady": 4.700000047683716,
+        "settled": 17.899999976158142
+      },
+      "update": {
+        "flush": 3.600000023841858,
+        "contentReady": 3.600000023841858,
+        "settled": 16.600000023841858
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 16.90000009536743
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 1,
+      "mount": {
+        "flush": 5.899999976158142,
+        "contentReady": 5.899999976158142,
+        "settled": 17
+      },
+      "update": {
+        "flush": 4.600000023841858,
+        "contentReady": 4.600000023841858,
+        "settled": 16.299999952316284
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.8000000715255737,
+        "settled": 6.200000047683716
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 2,
+      "mount": {
+        "flush": 5.600000023841858,
+        "contentReady": 5.700000047683716,
+        "settled": 17.200000047683716
+      },
+      "update": {
+        "flush": 4,
+        "contentReady": 4,
+        "settled": 16.799999952316284
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 17
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 2,
+      "mount": {
+        "flush": 6.5,
+        "contentReady": 6.5,
+        "settled": 42.800000071525574
+      },
+      "update": {
+        "flush": 2.700000047683716,
+        "contentReady": 2.8000000715255737,
+        "settled": 24.200000047683716
+      },
+      "remove": {
+        "flush": 0.6999999284744263,
+        "contentReady": 0.6999999284744263,
+        "settled": 5.799999952316284
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 3,
+      "mount": {
+        "flush": 5.900000095367432,
+        "contentReady": 5.900000095367432,
+        "settled": 32.60000002384186
+      },
+      "update": {
+        "flush": 2.799999952316284,
+        "contentReady": 2.799999952316284,
+        "settled": 22.799999952316284
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 22
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 3,
+      "mount": {
+        "flush": 5.800000071525574,
+        "contentReady": 5.800000071525574,
+        "settled": 31.600000023841858
+      },
+      "update": {
+        "flush": 3.799999952316284,
+        "contentReady": 3.799999952316284,
+        "settled": 26.100000023841858
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.5999999046325684,
+        "settled": 13.5
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 4,
+      "mount": {
+        "flush": 6.699999928474426,
+        "contentReady": 6.699999928474426,
+        "settled": 22.199999928474426
+      },
+      "update": {
+        "flush": 4.900000095367432,
+        "contentReady": 4.900000095367432,
+        "settled": 18.800000071525574
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 23.399999976158142
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 4,
+      "mount": {
+        "flush": 6.600000023841858,
+        "contentReady": 6.600000023841858,
+        "settled": 19
+      },
+      "update": {
+        "flush": 2.8000000715255737,
+        "contentReady": 2.8000000715255737,
+        "settled": 17.100000023841858
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 9
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 5,
+      "mount": {
+        "flush": 5.699999928474426,
+        "contentReady": 5.699999928474426,
+        "settled": 18.199999928474426
+      },
+      "update": {
+        "flush": 2.600000023841858,
+        "contentReady": 2.600000023841858,
+        "settled": 16.800000071525574
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 18.700000047683716
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 5,
+      "mount": {
+        "flush": 6.700000047683716,
+        "contentReady": 6.700000047683716,
+        "settled": 18
+      },
+      "update": {
+        "flush": 4.099999904632568,
+        "contentReady": 4.199999928474426,
+        "settled": 15.899999976158142
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 7.100000023841858
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 6,
+      "mount": {
+        "flush": 5.899999976158142,
+        "contentReady": 5.899999976158142,
+        "settled": 25.899999976158142
+      },
+      "update": {
+        "flush": 6.899999976158142,
+        "contentReady": 7,
+        "settled": 23.100000023841858
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 32.59999990463257
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 6,
+      "mount": {
+        "flush": 5.199999928474426,
+        "contentReady": 5.199999928474426,
+        "settled": 21
+      },
+      "update": {
+        "flush": 2.8000000715255737,
+        "contentReady": 2.8000000715255737,
+        "settled": 18.100000023841858
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 10.699999928474426
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 7,
+      "mount": {
+        "flush": 4.800000071525574,
+        "contentReady": 4.800000071525574,
+        "settled": 18.300000071525574
+      },
+      "update": {
+        "flush": 2.899999976158142,
+        "contentReady": 2.899999976158142,
+        "settled": 31.399999976158142
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.5999999046325684,
+        "settled": 16.59999990463257
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 7,
+      "mount": {
+        "flush": 6.699999928474426,
+        "contentReady": 6.699999928474426,
+        "settled": 23.5
+      },
+      "update": {
+        "flush": 4.299999952316284,
+        "contentReady": 4.299999952316284,
+        "settled": 20.799999952316284
+      },
+      "remove": {
+        "flush": 0.6999999284744263,
+        "contentReady": 0.6999999284744263,
+        "settled": 13.399999976158142
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 8,
+      "mount": {
+        "flush": 6.100000023841858,
+        "contentReady": 6.100000023841858,
+        "settled": 17.899999976158142
+      },
+      "update": {
+        "flush": 4.300000071525574,
+        "contentReady": 4.300000071525574,
+        "settled": 17.100000023841858
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 19.100000023841858
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 8,
+      "mount": {
+        "flush": 5.600000023841858,
+        "contentReady": 5.600000023841858,
+        "settled": 17.899999976158142
+      },
+      "update": {
+        "flush": 4,
+        "contentReady": 4,
+        "settled": 14.399999976158142
+      },
+      "remove": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 7.600000023841858
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 9,
+      "mount": {
+        "flush": 5.899999976158142,
+        "contentReady": 6,
+        "settled": 23.5
+      },
+      "update": {
+        "flush": 6.200000047683716,
+        "contentReady": 6.200000047683716,
+        "settled": 21.300000071525574
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 40.10000002384186
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 9,
+      "mount": {
+        "flush": 6,
+        "contentReady": 6,
+        "settled": 19.700000047683716
+      },
+      "update": {
+        "flush": 3.799999952316284,
+        "contentReady": 3.799999952316284,
+        "settled": 15.799999952316284
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 9.699999928474426
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 10,
+      "mount": {
+        "flush": 5.399999976158142,
+        "contentReady": 5.5,
+        "settled": 42.5
+      },
+      "update": {
+        "flush": 4.899999976158142,
+        "contentReady": 4.899999976158142,
+        "settled": 24.300000071525574
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 16.899999976158142
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 10,
+      "mount": {
+        "flush": 6.600000023841858,
+        "contentReady": 6.600000023841858,
+        "settled": 22.5
+      },
+      "update": {
+        "flush": 3,
+        "contentReady": 3,
+        "settled": 18.600000023841858
+      },
+      "remove": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 8.099999904632568
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 11,
+      "mount": {
+        "flush": 5.5,
+        "contentReady": 5.5,
+        "settled": 18.199999928474426
+      },
+      "update": {
+        "flush": 3.299999952316284,
+        "contentReady": 3.299999952316284,
+        "settled": 19.100000023841858
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.6999999284744263,
+        "settled": 19.799999952316284
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 11,
+      "mount": {
+        "flush": 6.400000095367432,
+        "contentReady": 6.400000095367432,
+        "settled": 18.5
+      },
+      "update": {
+        "flush": 4.5,
+        "contentReady": 4.5,
+        "settled": 17.600000023841858
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 8.799999952316284
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 12,
+      "mount": {
+        "flush": 5.600000023841858,
+        "contentReady": 5.600000023841858,
+        "settled": 18.100000023841858
+      },
+      "update": {
+        "flush": 4.800000071525574,
+        "contentReady": 4.800000071525574,
+        "settled": 16
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 17.5
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 12,
+      "mount": {
+        "flush": 5.5,
+        "contentReady": 5.5,
+        "settled": 17.40000009536743
+      },
+      "update": {
+        "flush": 3.1999999284744263,
+        "contentReady": 3.1999999284744263,
+        "settled": 15.799999952316284
+      },
+      "remove": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 7.899999976158142
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 13,
+      "mount": {
+        "flush": 5,
+        "contentReady": 5,
+        "settled": 25.700000047683716
+      },
+      "update": {
+        "flush": 3.200000047683716,
+        "contentReady": 3.200000047683716,
+        "settled": 21.200000047683716
+      },
+      "remove": {
+        "flush": 0.5999999046325684,
+        "contentReady": 0.5999999046325684,
+        "settled": 33.59999990463257
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 13,
+      "mount": {
+        "flush": 6.5,
+        "contentReady": 6.5,
+        "settled": 26.600000023841858
+      },
+      "update": {
+        "flush": 4.900000095367432,
+        "contentReady": 4.900000095367432,
+        "settled": 22
+      },
+      "remove": {
+        "flush": 0.7000000476837158,
+        "contentReady": 0.7000000476837158,
+        "settled": 24.5
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "trial": 14,
+      "mount": {
+        "flush": 5.699999928474426,
+        "contentReady": 5.699999928474426,
+        "settled": 19.799999952316284
+      },
+      "update": {
+        "flush": 4.399999976158142,
+        "contentReady": 4.399999976158142,
+        "settled": 18.100000023841858
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 20.399999976158142
+      },
+      "nodes": 16
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "trial": 14,
+      "mount": {
+        "flush": 6,
+        "contentReady": 6,
+        "settled": 41.300000071525574
+      },
+      "update": {
+        "flush": 3.100000023841858,
+        "contentReady": 3.100000023841858,
+        "settled": 23.600000023841858
+      },
+      "remove": {
+        "flush": 0.8000000715255737,
+        "contentReady": 0.8000000715255737,
+        "settled": 5.100000023841858
+      },
+      "nodes": 17
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 0,
+      "mount": {
+        "flush": 2.799999952316284,
+        "contentReady": 2.899999976158142,
+        "settled": 18.299999952316284
+      },
+      "update": {
+        "flush": 1.2000000476837158,
+        "contentReady": 1.2000000476837158,
+        "settled": 15.600000023841858
+      },
+      "remove": {
+        "flush": 0.10000002384185791,
+        "contentReady": 0.10000002384185791,
+        "settled": 17.399999976158142
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 0,
+      "mount": {
+        "flush": 4.200000047683716,
+        "contentReady": 4.200000047683716,
+        "settled": 17
+      },
+      "update": {
+        "flush": 1.2000000476837158,
+        "contentReady": 1.2999999523162842,
+        "settled": 16.299999952316284
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 6
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 1,
+      "mount": {
+        "flush": 3.899999976158142,
+        "contentReady": 3.899999976158142,
+        "settled": 16.59999990463257
+      },
+      "update": {
+        "flush": 1.2000000476837158,
+        "contentReady": 1.2000000476837158,
+        "settled": 16.200000047683716
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 16.600000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 1,
+      "mount": {
+        "flush": 3.200000047683716,
+        "contentReady": 3.200000047683716,
+        "settled": 18.40000009536743
+      },
+      "update": {
+        "flush": 1.4000000953674316,
+        "contentReady": 1.4000000953674316,
+        "settled": 23.800000071525574
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 7.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 2,
+      "mount": {
+        "flush": 2.799999952316284,
+        "contentReady": 2.799999952316284,
+        "settled": 25.799999952316284
+      },
+      "update": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.2999999523162842,
+        "settled": 16
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 16.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 2,
+      "mount": {
+        "flush": 4.600000023841858,
+        "contentReady": 4.600000023841858,
+        "settled": 14.700000047683716
+      },
+      "update": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.1999999284744263,
+        "settled": 14.299999952316284
+      },
+      "remove": {
+        "flush": 1.7999999523162842,
+        "contentReady": 1.7999999523162842,
+        "settled": 5.699999928474426
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 3,
+      "mount": {
+        "flush": 3.6999999284744263,
+        "contentReady": 3.6999999284744263,
+        "settled": 18.299999952316284
+      },
+      "update": {
+        "flush": 1.1999999284744263,
+        "contentReady": 1.1999999284744263,
+        "settled": 15.600000023841858
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 25.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 3,
+      "mount": {
+        "flush": 2.399999976158142,
+        "contentReady": 2.399999976158142,
+        "settled": 18.100000023841858
+      },
+      "update": {
+        "flush": 1.0999999046325684,
+        "contentReady": 1.0999999046325684,
+        "settled": 39.799999952316284
+      },
+      "remove": {
+        "flush": 0.30000007152557373,
+        "contentReady": 0.30000007152557373,
+        "settled": 5.5
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 4,
+      "mount": {
+        "flush": 3.100000023841858,
+        "contentReady": 3.100000023841858,
+        "settled": 24.399999976158142
+      },
+      "update": {
+        "flush": 1.5,
+        "contentReady": 1.5999999046325684,
+        "settled": 21.59999990463257
+      },
+      "remove": {
+        "flush": 0.2999999523162842,
+        "contentReady": 0.2999999523162842,
+        "settled": 25.09999990463257
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 4,
+      "mount": {
+        "flush": 4.399999976158142,
+        "contentReady": 4.399999976158142,
+        "settled": 19
+      },
+      "update": {
+        "flush": 1.399999976158142,
+        "contentReady": 1.399999976158142,
+        "settled": 18
+      },
+      "remove": {
+        "flush": 0.6000000238418579,
+        "contentReady": 0.6000000238418579,
+        "settled": 9.300000071525574
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 5,
+      "mount": {
+        "flush": 3.799999952316284,
+        "contentReady": 3.799999952316284,
+        "settled": 18.899999976158142
+      },
+      "update": {
+        "flush": 1.3000000715255737,
+        "contentReady": 1.3000000715255737,
+        "settled": 16.800000071525574
+      },
+      "remove": {
+        "flush": 0.19999992847442627,
+        "contentReady": 0.19999992847442627,
+        "settled": 16.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 5,
+      "mount": {
+        "flush": 3.200000047683716,
+        "contentReady": 3.200000047683716,
+        "settled": 16.5
+      },
+      "update": {
+        "flush": 1.399999976158142,
+        "contentReady": 1.399999976158142,
+        "settled": 33
+      },
+      "remove": {
+        "flush": 0.2999999523162842,
+        "contentReady": 0.2999999523162842,
+        "settled": 7.399999976158142
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 6,
+      "mount": {
+        "flush": 3.3000000715255737,
+        "contentReady": 3.3000000715255737,
+        "settled": 23.800000071525574
+      },
+      "update": {
+        "flush": 1.600000023841858,
+        "contentReady": 1.600000023841858,
+        "settled": 19.700000047683716
+      },
+      "remove": {
+        "flush": 0.10000002384185791,
+        "contentReady": 0.20000004768371582,
+        "settled": 23.90000009536743
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 6,
+      "mount": {
+        "flush": 4.599999904632568,
+        "contentReady": 4.599999904632568,
+        "settled": 26.299999952316284
+      },
+      "update": {
+        "flush": 1.7000000476837158,
+        "contentReady": 1.7000000476837158,
+        "settled": 21.5
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 24.600000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 7,
+      "mount": {
+        "flush": 4.600000023841858,
+        "contentReady": 4.600000023841858,
+        "settled": 42.300000071525574
+      },
+      "update": {
+        "flush": 1.6999999284744263,
+        "contentReady": 1.6999999284744263,
+        "settled": 23.100000023841858
+      },
+      "remove": {
+        "flush": 0.2999999523162842,
+        "contentReady": 0.2999999523162842,
+        "settled": 20.299999952316284
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 7,
+      "mount": {
+        "flush": 3.600000023841858,
+        "contentReady": 3.600000023841858,
+        "settled": 41.89999997615814
+      },
+      "update": {
+        "flush": 1.7999999523162842,
+        "contentReady": 1.7999999523162842,
+        "settled": 23.299999952316284
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 5.200000047683716
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 8,
+      "mount": {
+        "flush": 3.8000000715255737,
+        "contentReady": 3.8000000715255737,
+        "settled": 19.90000009536743
+      },
+      "update": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 32.09999990463257
+      },
+      "remove": {
+        "flush": 0.19999992847442627,
+        "contentReady": 0.2999999523162842,
+        "settled": 21.799999952316284
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 8,
+      "mount": {
+        "flush": 5.100000023841858,
+        "contentReady": 5.100000023841858,
+        "settled": 22.700000047683716
+      },
+      "update": {
+        "flush": 1.5,
+        "contentReady": 1.5,
+        "settled": 20.699999928474426
+      },
+      "remove": {
+        "flush": 0.30000007152557373,
+        "contentReady": 0.30000007152557373,
+        "settled": 14.900000095367432
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 9,
+      "mount": {
+        "flush": 5.100000023841858,
+        "contentReady": 5.100000023841858,
+        "settled": 29.600000023841858
+      },
+      "update": {
+        "flush": 1.600000023841858,
+        "contentReady": 1.600000023841858,
+        "settled": 25.300000071525574
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 19.300000071525574
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 9,
+      "mount": {
+        "flush": 2.1999999284744263,
+        "contentReady": 2.1999999284744263,
+        "settled": 23.199999928474426
+      },
+      "update": {
+        "flush": 1,
+        "contentReady": 1,
+        "settled": 34
+      },
+      "remove": {
+        "flush": 0.5,
+        "contentReady": 0.5,
+        "settled": 12
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 10,
+      "mount": {
+        "flush": 4.200000047683716,
+        "contentReady": 4.200000047683716,
+        "settled": 21.700000047683716
+      },
+      "update": {
+        "flush": 1.399999976158142,
+        "contentReady": 1.399999976158142,
+        "settled": 17.899999976158142
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 21.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 10,
+      "mount": {
+        "flush": 4.100000023841858,
+        "contentReady": 4.100000023841858,
+        "settled": 26.600000023841858
+      },
+      "update": {
+        "flush": 0.8999999761581421,
+        "contentReady": 0.8999999761581421,
+        "settled": 24.100000023841858
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 23.200000047683716
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 11,
+      "mount": {
+        "flush": 3.399999976158142,
+        "contentReady": 3.399999976158142,
+        "settled": 18.100000023841858
+      },
+      "update": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.2999999523162842,
+        "settled": 17.59999990463257
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 20.600000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 11,
+      "mount": {
+        "flush": 3.100000023841858,
+        "contentReady": 3.100000023841858,
+        "settled": 41.10000002384186
+      },
+      "update": {
+        "flush": 1.5999999046325684,
+        "contentReady": 1.5999999046325684,
+        "settled": 22.09999990463257
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 5.100000023841858
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 12,
+      "mount": {
+        "flush": 3.899999976158142,
+        "contentReady": 3.899999976158142,
+        "settled": 20.199999928474426
+      },
+      "update": {
+        "flush": 1.5,
+        "contentReady": 1.600000023841858,
+        "settled": 16.5
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 20.40000009536743
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 12,
+      "mount": {
+        "flush": 5,
+        "contentReady": 5,
+        "settled": 17.5
+      },
+      "update": {
+        "flush": 1.7999999523162842,
+        "contentReady": 1.7999999523162842,
+        "settled": 39
+      },
+      "remove": {
+        "flush": 0.3999999761581421,
+        "contentReady": 0.3999999761581421,
+        "settled": 6.899999976158142
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 13,
+      "mount": {
+        "flush": 5.5,
+        "contentReady": 5.5,
+        "settled": 19.799999952316284
+      },
+      "update": {
+        "flush": 2,
+        "contentReady": 2,
+        "settled": 17.600000023841858
+      },
+      "remove": {
+        "flush": 0.2999999523162842,
+        "contentReady": 0.2999999523162842,
+        "settled": 22
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 13,
+      "mount": {
+        "flush": 3.5999999046325684,
+        "contentReady": 3.5999999046325684,
+        "settled": 18.799999952316284
+      },
+      "update": {
+        "flush": 0.7999999523162842,
+        "contentReady": 0.7999999523162842,
+        "settled": 18.700000047683716
+      },
+      "remove": {
+        "flush": 0.30000007152557373,
+        "contentReady": 0.30000007152557373,
+        "settled": 6.800000071525574
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "trial": 14,
+      "mount": {
+        "flush": 3,
+        "contentReady": 3,
+        "settled": 17.899999976158142
+      },
+      "update": {
+        "flush": 1.2999999523162842,
+        "contentReady": 1.2999999523162842,
+        "settled": 17.100000023841858
+      },
+      "remove": {
+        "flush": 0.10000002384185791,
+        "contentReady": 0.10000002384185791,
+        "settled": 18
+      },
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "trial": 14,
+      "mount": {
+        "flush": 4.100000023841858,
+        "contentReady": 4.100000023841858,
+        "settled": 17.100000023841858
+      },
+      "update": {
+        "flush": 1.2000000476837158,
+        "contentReady": 1.3000000715255737,
+        "settled": 25
+      },
+      "remove": {
+        "flush": 0.20000004768371582,
+        "contentReady": 0.20000004768371582,
+        "settled": 6.700000047683716
+      },
+      "nodes": 26
+    }
+  ],
+  "memory": [
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "before": {
+        "heap": {
+          "usedSize": 19019680,
+          "totalSize": 20496384,
+          "embedderHeapUsedSize": 4671192,
+          "backingStorageSize": 1735432
+        },
+        "dom": {
+          "documents": 3,
+          "nodes": 936,
+          "jsEventListeners": 238
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 18816208,
+            "totalSize": 20234240,
+            "embedderHeapUsedSize": 4900032,
+            "backingStorageSize": 1735490
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 936,
+            "jsEventListeners": 298
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 19049044,
+            "totalSize": 20496384,
+            "embedderHeapUsedSize": 4966616,
+            "backingStorageSize": 1735490
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 936,
+            "jsEventListeners": 358
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 19261704,
+            "totalSize": 21544960,
+            "embedderHeapUsedSize": 4903192,
+            "backingStorageSize": 1735432
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 936,
+            "jsEventListeners": 418
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "before": {
+        "heap": {
+          "usedSize": 21381076,
+          "totalSize": 23904256,
+          "embedderHeapUsedSize": 5042208,
+          "backingStorageSize": 1905738
+        },
+        "dom": {
+          "documents": 5,
+          "nodes": 1940,
+          "jsEventListeners": 210
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 21047420,
+            "totalSize": 22069248,
+            "embedderHeapUsedSize": 4976152,
+            "backingStorageSize": 1907020
+          },
+          "dom": {
+            "documents": 5,
+            "nodes": 1939,
+            "jsEventListeners": 210
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 21204660,
+            "totalSize": 22855680,
+            "embedderHeapUsedSize": 5092816,
+            "backingStorageSize": 1907020
+          },
+          "dom": {
+            "documents": 5,
+            "nodes": 1939,
+            "jsEventListeners": 210
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 21342828,
+            "totalSize": 22855680,
+            "embedderHeapUsedSize": 5004768,
+            "backingStorageSize": 1907020
+          },
+          "dom": {
+            "documents": 5,
+            "nodes": 1939,
+            "jsEventListeners": 210
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "before": {
+        "heap": {
+          "usedSize": 17303100,
+          "totalSize": 18415616,
+          "embedderHeapUsedSize": 3993176,
+          "backingStorageSize": 1700118
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 423,
+          "jsEventListeners": 35
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 17342804,
+            "totalSize": 18677760,
+            "embedderHeapUsedSize": 4027376,
+            "backingStorageSize": 1701400
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 35
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 17376112,
+            "totalSize": 18939904,
+            "embedderHeapUsedSize": 4049088,
+            "backingStorageSize": 1701400
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 35
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 17394600,
+            "totalSize": 18677760,
+            "embedderHeapUsedSize": 4060896,
+            "backingStorageSize": 1701400
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 35
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "before": {
+        "heap": {
+          "usedSize": 22179764,
+          "totalSize": 23396352,
+          "embedderHeapUsedSize": 4230176,
+          "backingStorageSize": 1904041
+        },
+        "dom": {
+          "documents": 3,
+          "nodes": 1062,
+          "jsEventListeners": 180
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 22240248,
+            "totalSize": 23396352,
+            "embedderHeapUsedSize": 4267384,
+            "backingStorageSize": 1905323
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 1062,
+            "jsEventListeners": 180
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 22318828,
+            "totalSize": 23658496,
+            "embedderHeapUsedSize": 4259192,
+            "backingStorageSize": 1905323
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 1062,
+            "jsEventListeners": 180
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 22354540,
+            "totalSize": 23658496,
+            "embedderHeapUsedSize": 4280200,
+            "backingStorageSize": 1905323
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 1062,
+            "jsEventListeners": 180
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "before": {
+        "heap": {
+          "usedSize": 16249012,
+          "totalSize": 17874944,
+          "embedderHeapUsedSize": 4008816,
+          "backingStorageSize": 1701763
+        },
+        "dom": {
+          "documents": 4,
+          "nodes": 429,
+          "jsEventListeners": 111
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 16452380,
+            "totalSize": 18137088,
+            "embedderHeapUsedSize": 4055536,
+            "backingStorageSize": 1702913
+          },
+          "dom": {
+            "documents": 4,
+            "nodes": 429,
+            "jsEventListeners": 151
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 16576432,
+            "totalSize": 17612800,
+            "embedderHeapUsedSize": 4121616,
+            "backingStorageSize": 1702913
+          },
+          "dom": {
+            "documents": 4,
+            "nodes": 429,
+            "jsEventListeners": 191
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 16738916,
+            "totalSize": 18399232,
+            "embedderHeapUsedSize": 4154728,
+            "backingStorageSize": 1702913
+          },
+          "dom": {
+            "documents": 4,
+            "nodes": 429,
+            "jsEventListeners": 231
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "before": {
+        "heap": {
+          "usedSize": 21922960,
+          "totalSize": 23347200,
+          "embedderHeapUsedSize": 4698696,
+          "backingStorageSize": 2727768
+        },
+        "dom": {
+          "documents": 6,
+          "nodes": 1684,
+          "jsEventListeners": 410
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 22129904,
+            "totalSize": 23085056,
+            "embedderHeapUsedSize": 4550384,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 22220620,
+            "totalSize": 23609344,
+            "embedderHeapUsedSize": 4586392,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 22312448,
+            "totalSize": 23609344,
+            "embedderHeapUsedSize": 4598888,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vdom",
+      "family": "selector",
+      "before": {
+        "heap": {
+          "usedSize": 15686212,
+          "totalSize": 17612800,
+          "embedderHeapUsedSize": 3220032,
+          "backingStorageSize": 1699433
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 423,
+          "jsEventListeners": 73
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 15834188,
+            "totalSize": 17088512,
+            "embedderHeapUsedSize": 3227664,
+            "backingStorageSize": 1699451
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 93
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 15907068,
+            "totalSize": 17088512,
+            "embedderHeapUsedSize": 3238128,
+            "backingStorageSize": 1699451
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 113
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 16005488,
+            "totalSize": 17350656,
+            "embedderHeapUsedSize": 3251216,
+            "backingStorageSize": 1699451
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 423,
+            "jsEventListeners": 133
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vapor",
+      "family": "selector",
+      "before": {
+        "heap": {
+          "usedSize": 16755900,
+          "totalSize": 18923520,
+          "embedderHeapUsedSize": 3323736,
+          "backingStorageSize": 1839357
+        },
+        "dom": {
+          "documents": 3,
+          "nodes": 538,
+          "jsEventListeners": 42
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 16859084,
+            "totalSize": 18137088,
+            "embedderHeapUsedSize": 3320272,
+            "backingStorageSize": 1839375
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 538,
+            "jsEventListeners": 42
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 16928872,
+            "totalSize": 17874944,
+            "embedderHeapUsedSize": 3323200,
+            "backingStorageSize": 1839375
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 538,
+            "jsEventListeners": 42
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 17021636,
+            "totalSize": 17874944,
+            "embedderHeapUsedSize": 3323264,
+            "backingStorageSize": 1839375
+          },
+          "dom": {
+            "documents": 3,
+            "nodes": 538,
+            "jsEventListeners": 42
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "before": {
+        "heap": {
+          "usedSize": 13454948,
+          "totalSize": 14696448,
+          "embedderHeapUsedSize": 3539848,
+          "backingStorageSize": 1699131
+        },
+        "dom": {
+          "documents": 1,
+          "nodes": 420,
+          "jsEventListeners": 35
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 13470988,
+            "totalSize": 14696448,
+            "embedderHeapUsedSize": 3261016,
+            "backingStorageSize": 1700413
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 420,
+            "jsEventListeners": 35
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 13505600,
+            "totalSize": 14434304,
+            "embedderHeapUsedSize": 3261016,
+            "backingStorageSize": 1700413
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 420,
+            "jsEventListeners": 35
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 13525160,
+            "totalSize": 14696448,
+            "embedderHeapUsedSize": 3277816,
+            "backingStorageSize": 1700413
+          },
+          "dom": {
+            "documents": 1,
+            "nodes": 420,
+            "jsEventListeners": 35
+          }
+        }
+      ]
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "before": {
+        "heap": {
+          "usedSize": 14715420,
+          "totalSize": 16269312,
+          "embedderHeapUsedSize": 3505600,
+          "backingStorageSize": 1870642
+        },
+        "dom": {
+          "documents": 2,
+          "nodes": 524,
+          "jsEventListeners": 36
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 14757516,
+            "totalSize": 15482880,
+            "embedderHeapUsedSize": 3371432,
+            "backingStorageSize": 1871924
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 524,
+            "jsEventListeners": 36
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 14787152,
+            "totalSize": 15745024,
+            "embedderHeapUsedSize": 3371432,
+            "backingStorageSize": 1871924
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 524,
+            "jsEventListeners": 36
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 14841856,
+            "totalSize": 15482880,
+            "embedderHeapUsedSize": 3371136,
+            "backingStorageSize": 1871924
+          },
+          "dom": {
+            "documents": 2,
+            "nodes": 524,
+            "jsEventListeners": 36
+          }
+        }
+      ]
+    }
+  ],
+  "scroll": [
+    {
+      "renderer": "vdom",
+      "family": "table",
+      "frames": [
+        0.20000004768371582,
+        3.1999999284744263,
+        4.300000071525574,
+        9.199999928474426,
+        10,
+        9.200000047683716,
+        9.299999952316284,
+        9.5,
+        9.200000047683716,
+        9.299999952316284,
+        9.100000023841858,
+        9.600000023841858,
+        9.100000023841858,
+        7.899999976158142,
+        25.799999952316284,
+        18.700000047683716,
+        10.299999952316284,
+        16.5,
+        9.600000023841858,
+        15,
+        8.700000047683716,
+        14,
+        7.600000023841858,
+        26.899999976158142,
+        16.699999928474426,
+        11.600000023841858,
+        14.800000071525574,
+        11.199999928474426,
+        13.700000047683716,
+        9.5
+      ],
+      "changed": true,
+      "scrollTop": 63756,
+      "height": 64000,
+      "nodes": 120
+    },
+    {
+      "renderer": "vapor",
+      "family": "table",
+      "frames": [
+        10.5,
+        12.900000095367432,
+        10.299999952316284,
+        13.399999976158142,
+        10.300000071525574,
+        12,
+        10,
+        8.399999976158142,
+        29.199999928474426,
+        15,
+        12.400000095367432,
+        14.299999952316284,
+        10.799999952316284,
+        13.5,
+        8.800000071525574,
+        13.799999952316284,
+        7,
+        28.100000023841858,
+        16.299999952316284,
+        11.5,
+        13.400000095367432,
+        11.5,
+        11.899999976158142,
+        10.5,
+        11.399999976158142,
+        9.799999952316284,
+        9.900000095367432,
+        9.099999904632568,
+        11.100000023841858,
+        8.899999976158142
+      ],
+      "changed": true,
+      "scrollTop": 63756,
+      "height": 64000,
+      "nodes": 124
+    },
+    {
+      "renderer": "vdom",
+      "family": "tree",
+      "frames": [
+        5.299999952316284,
+        3.299999952316284,
+        7,
+        11.200000047683716,
+        7.299999952316284,
+        10.5,
+        24.90000009536743,
+        19.399999976158142,
+        9,
+        17.799999952316284,
+        8.200000047683716,
+        16.299999952316284,
+        6.200000047683716,
+        15.299999952316284,
+        6.200000047683716,
+        14.299999952316284,
+        7.300000071525574,
+        13.199999928474426,
+        8,
+        12.700000047683716,
+        7.899999976158142,
+        13,
+        7.299999952316284,
+        12.600000023841858,
+        7.300000071525574,
+        12.5,
+        7.199999928474426,
+        12.300000071525574,
+        7,
+        11.899999976158142
+      ],
+      "changed": true,
+      "scrollTop": 63922,
+      "height": 64242,
+      "nodes": 75
+    },
+    {
+      "renderer": "vapor",
+      "family": "tree",
+      "frames": [
+        0.20000004768371582,
+        5.200000047683716,
+        5.699999928474426,
+        7.600000023841858,
+        10.399999976158142,
+        9,
+        10.399999976158142,
+        9,
+        10,
+        9,
+        8.5,
+        8.700000047683716,
+        9.5,
+        9.899999976158142,
+        8.300000071525574,
+        9.899999976158142,
+        8.699999928474426,
+        7.900000095367432,
+        27.5,
+        17.5,
+        9.599999904632568,
+        16.5,
+        9.100000023841858,
+        14.100000023841858,
+        9,
+        12.299999952316284,
+        7.400000095367432,
+        26.5,
+        17.199999928474426,
+        9.200000047683716
+      ],
+      "changed": true,
+      "scrollTop": 63712,
+      "height": 64032,
+      "nodes": 75
+    },
+    {
+      "renderer": "vdom",
+      "family": "pivot",
+      "frames": [
+        8.800000071525574,
+        12.399999976158142,
+        7.600000023841858,
+        26.799999952316284,
+        17.100000023841858,
+        9.600000023841858,
+        17.100000023841858,
+        8.199999928474426,
+        26.200000047683716,
+        18.100000023841858,
+        10.5,
+        15.799999952316284,
+        8.600000023841858,
+        27.5,
+        16.600000023841858,
+        10.599999904632568,
+        14.600000023841858,
+        11.399999976158142,
+        12.700000047683716,
+        10.200000047683716,
+        12.599999904632568,
+        9.100000023841858,
+        11,
+        11.100000023841858,
+        8.299999952316284,
+        11.5,
+        8,
+        25.700000047683716,
+        17.399999976158142,
+        10.300000071525574
+      ],
+      "changed": true,
+      "scrollTop": 63784,
+      "height": 64032,
+      "nodes": 212
+    },
+    {
+      "renderer": "vapor",
+      "family": "pivot",
+      "frames": [
+        3.899999976158142,
+        22,
+        11.100000023841858,
+        15.100000023841858,
+        10.899999976158142,
+        13.700000047683716,
+        9.899999976158142,
+        12.799999952316284,
+        9,
+        10.300000071525574,
+        10,
+        10.600000023841858,
+        9.299999952316284,
+        11.399999976158142,
+        7.800000071525574,
+        27.5,
+        15.299999952316284,
+        12.299999952316284,
+        15,
+        11.800000071525574,
+        11.899999976158142,
+        10.100000023841858,
+        11.100000023841858,
+        9.899999976158142,
+        10.399999976158142,
+        9.899999976158142,
+        9.800000071525574,
+        9.899999976158142,
+        9.600000023841858,
+        8.799999952316284
+      ],
+      "changed": true,
+      "scrollTop": 63784,
+      "height": 64032,
+      "nodes": 216
+    },
+    {
+      "renderer": "vdom",
+      "family": "scroller",
+      "frames": [
+        6.700000047683716,
+        18.600000023841858,
+        16.399999976158142,
+        10,
+        16.799999952316284,
+        8.700000047683716,
+        14.600000023841858,
+        7.599999904632568,
+        28.300000071525574,
+        16,
+        11,
+        16,
+        8.299999952316284,
+        25.700000047683716,
+        16.5,
+        10.399999976158142,
+        15.899999976158142,
+        9.899999976158142,
+        12.800000071525574,
+        8.299999952316284,
+        27.300000071525574,
+        15.099999904632568,
+        12.400000095367432,
+        13.699999928474426,
+        11.100000023841858,
+        12.600000023841858,
+        8.699999928474426,
+        13.600000023841858,
+        6.700000047683716,
+        26.899999976158142
+      ],
+      "changed": true,
+      "scrollTop": 63680,
+      "height": 64000,
+      "nodes": 26
+    },
+    {
+      "renderer": "vapor",
+      "family": "scroller",
+      "frames": [
+        3.9000000953674316,
+        11.699999928474426,
+        15.100000023841858,
+        10.399999976158142,
+        12.200000047683716,
+        10.699999928474426,
+        10.100000023841858,
+        10.600000023841858,
+        9.200000047683716,
+        8.299999952316284,
+        27.600000023841858,
+        16.699999928474426,
+        11.700000047683716,
+        17.100000023841858,
+        9.600000023841858,
+        13.199999928474426,
+        15.600000023841858,
+        5.899999976158142,
+        26.899999976158142,
+        18.700000047683716,
+        8.899999976158142,
+        16.300000071525574,
+        7.599999904632568,
+        25.200000047683716,
+        18,
+        9.799999952316284,
+        16.600000023841858,
+        10.700000047683716,
+        14.699999928474426,
+        7.700000047683716
+      ],
+      "changed": true,
+      "scrollTop": 63680,
+      "height": 64000,
+      "nodes": 26
+    }
+  ],
+  "bundles": {
+    "vdom": {
+      "files": 501,
+      "bytes": 2688438,
+      "gzipBytes": 935601
+    },
+    "vapor": {
+      "files": 507,
+      "bytes": 2844478,
+      "gzipBytes": 991828
+    }
+  },
+  "verification": {
+    "sourceManifestSha256": "fe367c91d1cdb754b20448c9e4ceba83383e9b31e97a3447bad35195a58d3f12",
+    "sourceFiles": 1284,
+    "scope": "Library migration under the unchanged VDOM Nuxt application root; same VDOM benchmark owner in both variants.",
+    "currentRemountGate": "Stable event listeners and no detached DOM growth between cycles 10 and 30."
+  },
+  "retentionRegression": {
+    "scope": "Pivot measurements from the incomplete initial diagnostic run, before the state-initializer retention fix; not a passing full benchmark.",
+    "beforeFix": {
+      "renderer": "vapor",
+      "family": "pivot",
+      "before": {
+        "heap": {
+          "usedSize": 65078652,
+          "totalSize": 72105984,
+          "embedderHeapUsedSize": 7923464,
+          "backingStorageSize": 10306912
+        },
+        "dom": {
+          "documents": 6,
+          "nodes": 10863,
+          "jsEventListeners": 3589
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 87719888,
+            "totalSize": 91242496,
+            "embedderHeapUsedSize": 9508664,
+            "backingStorageSize": 14736912
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 16263,
+            "jsEventListeners": 5459
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 110255068,
+            "totalSize": 114311168,
+            "embedderHeapUsedSize": 11165000,
+            "backingStorageSize": 19164282
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 21663,
+            "jsEventListeners": 7329
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 132788512,
+            "totalSize": 137641984,
+            "embedderHeapUsedSize": 12821960,
+            "backingStorageSize": 23591652
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 27063,
+            "jsEventListeners": 9199
+          }
+        }
+      ]
+    },
+    "retainingPath": [
+      "Nuxt application state initializer registry",
+      "per-mount Pivot source key",
+      "cached _default setup closure",
+      "Pivot store",
+      "rowsWrapperEl retained DOM ref",
+      "detached Pivot content"
+    ],
+    "afterFix": {
+      "renderer": "vapor",
+      "family": "pivot",
+      "before": {
+        "heap": {
+          "usedSize": 21922960,
+          "totalSize": 23347200,
+          "embedderHeapUsedSize": 4698696,
+          "backingStorageSize": 2727768
+        },
+        "dom": {
+          "documents": 6,
+          "nodes": 1684,
+          "jsEventListeners": 410
+        }
+      },
+      "checkpoints": [
+        {
+          "cycle": 10,
+          "heap": {
+            "usedSize": 22129904,
+            "totalSize": 23085056,
+            "embedderHeapUsedSize": 4550384,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        },
+        {
+          "cycle": 20,
+          "heap": {
+            "usedSize": 22220620,
+            "totalSize": 23609344,
+            "embedderHeapUsedSize": 4586392,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        },
+        {
+          "cycle": 30,
+          "heap": {
+            "usedSize": 22312448,
+            "totalSize": 23609344,
+            "embedderHeapUsedSize": 4598888,
+            "backingStorageSize": 2730398
+          },
+          "dom": {
+            "documents": 6,
+            "nodes": 1684,
+            "jsEventListeners": 410
+          }
+        }
+      ]
+    }
+  }
+}

@@ -10,6 +10,12 @@ const second = useTemplateRef<HTMLDivElement>('second')
 const results = reactive({ first: '', second: '', diff: '' })
 const calls = reactive({ first: 0, second: 0 })
 const ready = ref(false)
+const resizeOnReport = useRoute().query.mode === 'resize-handler'
+const hoverScrolling = useRoute().query.mode === 'hover-scroll'
+
+if (hoverScrolling) {
+  useHoverTextScroll(first, { mode: 'once', pauseMs: 0, speedPxPerSec: 60 })
+}
 
 const { onOverflow } = useOverflow()
 
@@ -17,6 +23,9 @@ const refreshFirst = onOverflow(first, value => {
   results.first = String(value)
   calls.first++
   props.onReport()
+  if (resizeOnReport && value === true) {
+    wide.value = true
+  }
 }, { direction: 'horizontal', threshold })
 
 const refreshSecond = onOverflow(() => second.value, value => {
@@ -57,7 +66,7 @@ onMounted(() => {
       :style="{ width: wide ? '240px' : '100px' }"
     >
       <div class="overflow-content">
-        First
+        {{ hoverScrolling ? 'A very long hover label' : 'First' }}
       </div>
     </div>
 

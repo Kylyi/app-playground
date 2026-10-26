@@ -17,7 +17,11 @@
     "test:e2e:prod": "E2E_PRODUCTION=1 playwright test",
     "test:e2e:report": "playwright show-report",
     "test:tooling": "node --test tooling/eslint/*.test.mjs",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "build:native": "nuxt build tooling/native-consumer",
+    "typecheck:native": "nuxt typecheck tooling/native-consumer",
+    "test:e2e:native": "playwright test --config playwright.native.config.mjs",
+    "test:e2e:visual": "E2E_PRODUCTION=1 playwright test --config playwright.visual.config.mjs"
   },
   "dependencies": {
     "@comark/vue": "^0.6.2",
@@ -83,10 +87,12 @@
     "happy-dom": "20.14.0",
     "playwright-core": "1.62.1",
     "sass-embedded": "1.104.0",
+    "sharp": "0.35.4",
     "typescript": "npm:typescript-native-bridge@6.0.3-bridge.16.tsgo.7.0.2",
     "unocss": "66.10.0",
     "utility-types": "3.11.0",
     "vitest": "5.0.0",
+    "vue-component-type-helpers": "3.3.11",
     "vue-eslint-parser": "10.4.1",
     "vue-tsc": "3.3.11"
   },

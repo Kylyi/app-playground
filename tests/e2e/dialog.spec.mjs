@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { assertRendererDiagnostics } from './renderer-diagnostics.mjs'
+
+assertRendererDiagnostics(test)
 
 test('default dialog is centered in the viewport', async ({ page }) => {
   await page.goto('/cs-CZ/')
