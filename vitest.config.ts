@@ -11,6 +11,7 @@ export default defineVitestConfig({
     // Vue 3.6 RC's Node/CJS entry omits Vapor. Keep one ESM runtime graph,
     // including test-utils and SSR, so both renderers share refs and sentinels.
     alias: {
+      'vue/compiler-sfc': fileURLToPath(import.meta.resolve('vue/compiler-sfc')),
       ...Object.fromEntries([
         ['vue/server-renderer', '@vue/server-renderer/dist/server-renderer.esm-bundler.js'],
         ['vue', 'vue/dist/vue.esm-bundler.js'],

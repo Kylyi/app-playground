@@ -53,7 +53,7 @@ test('button preserves content, submit, loading and DOM ownership through root c
   await expect(page.getByTestId('clicks')).toHaveText('1')
   await expect(page.getByTestId('submits')).toHaveText('1')
   await expect(subject.locator('.btn-label')).toHaveText('Action 1')
-  await expect(subject.locator('.ripple-container')).toHaveCount(1)
+  expect(await subject.evaluate(el => el.getAnimations({ subtree: true }).some(animation => animation.id === 'ripple'))).toBe(true)
   await page.getByRole('button', { name: 'Toggle loading', exact: true }).click()
   await subject.locator('.btn-loading').click()
   await expect(page.getByTestId('clicks')).toHaveText('1')

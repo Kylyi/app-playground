@@ -184,7 +184,7 @@ test('drawers resize from their inner edge through the native resizer', async ({
   await drag(pageDrawer, -150)
   await expect(widths).toHaveText('540:200')
 
-  // Releasing the pointer detaches the document listeners
+  // Releasing the pointer ends the drag
   await page.mouse.move(10, 10)
   await expect(widths).toHaveText('540:200')
 
@@ -207,7 +207,8 @@ test('removing a drawer during a resize cancels its queued model update and list
   await expect(resizer).toHaveClass(/(?:^|\s)is-resizing(?:\s|$)/)
   await expect(page.locator('body')).toHaveClass(/(?:^|\s)cursor-col-resize(?:\s|$)/)
   await page.getByRole('button', { name: 'Toggle owner', exact: true }).evaluate(button => {
-    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 10, clientY: 100, bubbles: true }))
+    document.querySelector('[data-testid="action-drawer-panel"] .drawer-resizer')
+      .dispatchEvent(new PointerEvent('pointermove', { clientX: 10, clientY: 100, bubbles: true }))
     button.click()
   })
   await expect(owner).toHaveCount(0)
