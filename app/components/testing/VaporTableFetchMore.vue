@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
-import type { ITableFetchPayload } from '../../../packages/UI/app/components/Table/types/table-fetch-payload.type'
-import type { TableExpose } from '../../../packages/UI/app/components/Table/functions/table-get-exposed'
-import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
+import type { ITableFetchPayload } from '#layers/ui/app/components/Table/types/table-fetch-payload.type'
+import type { TableExpose } from '#layers/ui/app/components/Table/functions/table-get-exposed'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
 
 const route = useRoute()
 const table = useTemplateRef<TableExpose>('table')

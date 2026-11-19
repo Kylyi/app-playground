@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TableColumn } from '../../packages/UI/app/components/Table/models/table-column.model'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
 
 const monoCells = ref(true)
 const changedFont = ref(false)

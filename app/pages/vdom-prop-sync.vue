@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IQueryBuilderRow } from '../../packages/UI/app/components/QueryBuilder/types/query-builder-row-props.type'
+import type { IQueryBuilderRow } from '#layers/ui/app/components/QueryBuilder/types/query-builder-row-props.type'
 
 const revision = ref(0)
 // Mount on demand to isolate prop updates from the separate hydration regressions.

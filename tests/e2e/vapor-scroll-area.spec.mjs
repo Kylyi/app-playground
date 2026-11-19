@@ -27,11 +27,18 @@ test('ScrollArea initializes after its DOM ancestor transition and follows slot 
   await page.getByRole('button', { name: 'Toggle child' }).click()
   await expect(area).not.toHaveClass(/ps--active-y/)
 
-  await page.getByRole('button', { name: 'Toggle area' }).click()
-  await page.getByRole('button', { name: 'Toggle area' }).click()
-  await expect(area.locator('.ps__rail-y')).toHaveCount(0)
-  // Dispose while initialization is still delayed.
-  await page.getByRole('button', { name: 'Toggle area' }).click()
+  const toggleArea = page.getByRole('button', { name: 'Toggle area' })
+  await toggleArea.click()
+  // Read the new DOM and dispose it before the transition timer can run.
+  const railsAtMount = await toggleArea.evaluate(async button => {
+    button.click()
+    await Promise.resolve()
+    const rails = document.querySelectorAll('.scroll-area .ps__rail-y').length
+    button.click()
+
+    return rails
+  })
+  expect(railsAtMount).toBe(0)
   await page.waitForTimeout(400)
   await expect(page.locator('.ps__rail-y')).toHaveCount(0)
   await page.getByRole('button', { name: 'Toggle immediate' }).click()

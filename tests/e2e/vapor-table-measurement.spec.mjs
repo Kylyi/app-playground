@@ -4,6 +4,14 @@ import { assertTableCellSlots } from './table-cell-contracts.mjs'
 
 assertRendererDiagnostics(test)
 
+test('direct 2.3 column autofit measures each occurrence of a row with the legacy slot', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-table-measurement')
+  await expect(page.getByTestId('table-measurement')).toHaveAttribute('data-ready', 'true')
+  await page.getByRole('button', { name: 'Measure legacy column' }).click()
+  await expect(page.getByTestId('legacy-column-width')).toHaveText('288px')
+  await expect(page.locator('[data-table-measurement]')).toHaveCount(0)
+})
+
 test('Table preserves provided-empty slot fallbacks, dynamic slots and card rows', async ({ page, browser, baseURL }) => {
   const path = '/cs-CZ/vapor-table-measurement?slot=empty'
   const context = await createObservedContext(browser, { baseURL, javaScriptEnabled: false })

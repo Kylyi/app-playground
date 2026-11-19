@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import type { ITabProps } from '../../../packages/UI/app/components/Tabs/types/tab-props.type'
+import type { ITabProps } from '#layers/ui/app/components/Tabs/types/tab-props.type'
 
 const route = useRoute()
 const mode = String(route.query.mode ?? 'cached')

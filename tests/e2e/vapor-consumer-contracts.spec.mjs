@@ -73,6 +73,7 @@ test('concurrent SSR requests and hydrated consumers keep their models isolated'
       await expect(page.getByTestId('consumer-value')).toHaveText(`Request-${index}`)
       await expect(page.getByTestId('consumer-updates')).toHaveText('0')
     }
+    await expect(pages[1].getByTestId('consumer-contracts')).toHaveAttribute('data-ready', 'true')
     await pages[1].getByTestId('consumer-owner').locator('input').fill('Hydrated request only')
     await expect(pages[1].getByTestId('consumer-value')).toHaveText('Hydrated request only')
     await expect(pages[0].getByTestId('consumer-value')).toHaveText('Request-0')

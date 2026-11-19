@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
 import ComarkTableCell from './ComarkTableCell.vue'
 
 const table = useTemplateRef('table')

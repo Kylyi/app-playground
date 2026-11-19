@@ -85,3 +85,21 @@ test('VDOM number, currency and date inputs keep typed model semantics through t
   }
   expect(errors).toEqual([])
 })
+
+test('CurrencyInput keeps negative signs for whole amounts and fractions when replacing a selection', async ({ page }) => {
+  await page.goto('/cs-CZ/vapor-input-mask')
+  await expect(page.getByTestId('mask-owner')).toHaveAttribute('data-live', 'true')
+  const field = page.getByTestId('mask-currency')
+  const input = field.locator('input')
+  for (const [text, expected] of [['-37,50', '-37.5'], ['-0,25', '-0.25']]) {
+    await input.fill('88')
+    await input.press('ControlOrMeta+a')
+    await input.pressSequentially(text)
+    await input.blur()
+    await expect(field.locator('output')).toHaveText(expected)
+    await input.fill('88')
+    await input.fill(text)
+    await input.blur()
+    await expect(field.locator('output')).toHaveText(expected)
+  }
+})

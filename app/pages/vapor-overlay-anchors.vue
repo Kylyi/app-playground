@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
-import Menu from '../../packages/UI/app/components/Menu/Menu.vue'
-import Tooltip from '../../packages/UI/app/components/Tooltip/Tooltip.vue'
+import Menu from '#layers/ui/app/components/Menu/Menu.vue'
+import Tooltip from '#layers/ui/app/components/Tooltip/Tooltip.vue'
 
 const ready = ref(false)
 const menuTarget = ref<string>()

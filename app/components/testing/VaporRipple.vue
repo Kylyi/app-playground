@@ -1,4 +1,5 @@
 <script setup lang="ts" vapor>
+import VdomRippleButton from './VdomRippleButton.vue'
 import UIChip from '#layers/ui/app/components/Chip/Chip.vue'
 import { vRippleVapor as vRipple } from '#layers/ui/app/directives/ripple.directive'
 
@@ -31,11 +32,9 @@ onMounted(() => ready.value = true)
       >
         Native Vapor ripple
       </button>
-      <Btn
+      <VdomRippleButton
         v-if="mounted"
-        outlined
         data-testid="vdom-ripple"
-        label="VDOM ripple"
         :ripple="enabled"
         :disabled
       />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineOptions({ name: 'LegacyTableStatePage' })
 const generation = ref(0)
 </script>
 
@@ -24,6 +25,15 @@ const generation = ref(0)
       <VaporTableState
         label="disabled"
         :storage-key="null"
+      />
+      <VaporInheritedTableState />
+      <Table
+        data-testid="empty-table"
+        :rows="[]"
+        :columns="[]"
+        :features="[]"
+        :auto-fit="{ onInit: false }"
+        :modifiers="{ useUrl: false, autoSaveSchema: false }"
       />
     </div>
   </main>

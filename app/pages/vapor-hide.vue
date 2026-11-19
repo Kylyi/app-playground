@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
-import Dialog from '../../packages/UI/app/components/Dialog/Dialog.vue'
-import Menu from '../../packages/UI/app/components/Menu/Menu.vue'
+import Dialog from '#layers/ui/app/components/Dialog/Dialog.vue'
+import Menu from '#layers/ui/app/components/Menu/Menu.vue'
 
 const dialog = ref(false)
 const outer = ref(false)

@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { useDialogLayout } from '../../../packages/UI/app/components/Dialog/functions/useDialogLayout'
+import { useDialogLayout } from '#layers/ui/app/components/Dialog/functions/useDialogLayout'
 
 const props = defineProps<{
   target?: string

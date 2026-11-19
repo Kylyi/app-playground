@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { useInputUtils } from '../../../packages/UI/app/components/Inputs/functions/useInputUtils'
+import { useInputUtils } from '#layers/ui/app/components/Inputs/functions/useInputUtils'
 
 const props = defineProps<{ id: string, modelValue?: string, multiline?: boolean }>()
 const emit = defineEmits<{

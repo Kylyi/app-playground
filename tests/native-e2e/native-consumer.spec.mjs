@@ -28,6 +28,17 @@ async function open(page, family, extra = '') {
   await expect(page.getByTestId('native-inventory')).toHaveText('242/242')
 }
 
+test('standalone native buttons start a ripple on a trusted click', async ({ page }) => {
+  await open(page, 'links')
+  const button = page.getByTestId('prevented-button-link')
+  await button.click()
+  expect(await button.evaluate(el => el.getAnimations({ subtree: true }).filter(animation => animation.id === 'ripple').length)).toBe(1)
+  const detached = await button.elementHandle()
+  await page.getByRole('button', { name: 'Toggle link owner' }).click()
+  expect(await detached.evaluate(el => el.getAnimations({ subtree: true }).filter(animation => animation.id === 'ripple').length)).toBe(0)
+  await detached.dispose()
+})
+
 test('native ordinary and standalone Pivot cells preserve their public contracts without interop', async ({ page }) => {
   await open(page, 'pivot', '&cells=true')
   await assertPivotCellContracts(page, 'en-US')

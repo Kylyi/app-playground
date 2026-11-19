@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
-import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
-import { PivotItem } from '../../../packages/UI/app/components/Pivot/models/pivot-item.model'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
+import { PivotItem } from '#layers/ui/app/components/Pivot/models/pivot-item.model'
 import VaporFocusEditor from './VaporFocusEditor.vue'
 
 const ready = ref(false)

@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { notify } from '#imports'
-import Tooltip from '../../packages/UI/app/components/Tooltip/Tooltip.vue'
+import Tooltip from '#layers/ui/app/components/Tooltip/Tooltip.vue'
 import TooltipSlotContext from '../components/testing/TooltipSlotContext.vue'
 
 provide('tooltip-test-context', 'Author context preserved')

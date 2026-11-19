@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { ComparatorEnum } from '$comparatorEnum'
-import type { IQueryBuilderRow } from '../../../packages/UI/app/components/QueryBuilder/types/query-builder-row-props.type'
+import type { IQueryBuilderRow } from '#layers/ui/app/components/QueryBuilder/types/query-builder-row-props.type'
 
 const small = useRoute().query.small === 'true'
 const mounted = ref(true)

@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
 import VaporFloatingTarget from '../components/testing/VaporFloatingTarget.vue'
-import Menu from '../../packages/UI/app/components/Menu/Menu.vue'
-import Tooltip from '../../packages/UI/app/components/Tooltip/Tooltip.vue'
+import Menu from '#layers/ui/app/components/Menu/Menu.vue'
+import Tooltip from '#layers/ui/app/components/Tooltip/Tooltip.vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 
 const component = useTemplateRef<ComponentExposed<typeof VaporFloatingTarget>>('component')

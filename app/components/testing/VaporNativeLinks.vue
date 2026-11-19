@@ -106,7 +106,7 @@ onMounted(() => ready.value = true)
       </UILink>
       <UILink
         :to="target"
-        target="_blank"
+        :navigate-to-options="{ target: '_blank', rel: 'nofollow noopener' }"
         data-testid="blank-link"
       >
         New tab destination

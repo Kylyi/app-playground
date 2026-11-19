@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { listGetExposed } from '../../packages/UI/app/components/List/functions/list-get-exposed'
-import { formSubmitKey } from '../../packages/UI/app/components/Form/provide/form.provide'
+import type { listGetExposed } from '#layers/ui/app/components/List/functions/list-get-exposed'
+import { formSubmitKey } from '#layers/ui/app/components/Form/provide/form.provide'
 
 const list = useTemplateRef<ReturnType<typeof listGetExposed>>('list')
 const submits = ref(0)

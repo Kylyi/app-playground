@@ -77,7 +77,7 @@ test('replace, prevented/disabled links, hashes, downloads and new-tab clicks re
   const child = await popup
   await expect(child).toHaveURL(/vapor-native-links-target\?item=alpha$/)
   await child.close()
-  await expect(page.getByTestId('blank-link')).toHaveAttribute('rel', 'noopener noreferrer')
+  await expect(page.getByTestId('blank-link')).toHaveAttribute('rel', 'nofollow noopener')
   for (const id of ['download-link', 'empty-download-link', 'boolean-download-link']) {
     const download = page.waitForEvent('download')
     await page.getByTestId(id).click()

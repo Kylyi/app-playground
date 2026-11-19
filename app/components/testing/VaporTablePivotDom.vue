@@ -1,11 +1,11 @@
 <script setup lang="ts" vapor>
 import { ComparatorEnum } from '$comparatorEnum'
-import { FilterItem } from '../../../packages/Utilities/app/models/filter-item.model'
-import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
-import { PivotItem } from '../../../packages/UI/app/components/Pivot/models/pivot-item.model'
-import type { TableFeature } from '../../../packages/UI/app/components/Table/types/table-feature.type'
-import type { ITableTotal } from '../../../packages/UI/app/components/Table/types/table-total.type'
-import type { IPivotCellClickPayload } from '../../../packages/UI/app/components/Pivot/types/pivot-emits.type'
+import { FilterItem } from '#layers/utilities/app/models/filter-item.model'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
+import { PivotItem } from '#layers/ui/app/components/Pivot/models/pivot-item.model'
+import type { TableFeature } from '#layers/ui/app/components/Table/types/table-feature.type'
+import type { ITableTotal } from '#layers/ui/app/components/Table/types/table-total.type'
+import type { IPivotCellClickPayload } from '#layers/ui/app/components/Pivot/types/pivot-emits.type'
 
 const route = useRoute()
 const { currentLocaleCode } = useLocale()

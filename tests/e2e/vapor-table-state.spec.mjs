@@ -11,14 +11,30 @@ test('Table state in Vapor preserves legacy keys and isolates local instances', 
       errors.push(message.text())
     }
   })
-  await page.goto('/vapor-table-state')
-  await expect(page.getByTestId('saved')).toHaveAttribute('data-ready', 'true')
-  await page.evaluate(() => {
-    const state = JSON.parse(localStorage.getItem('LegacyTablePage'))
-    state.customData = { count: 7 }
-    localStorage.setItem('LegacyTablePage', JSON.stringify(state))
+  // Card rows intentionally size headers to their labels. Use the desktop column layout.
+  await page.setViewportSize({ width: 1920, height: 1080 })
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem('seeded-2.3-table-state')) {
+      return
+    }
+    sessionStorage.setItem('seeded-2.3-table-state', 'true')
+    const state = { columns: [], layouts: [], metaRaw: null, queryBuilder: [], search: '', queryParams: '' }
+    localStorage.setItem('LegacyTablePage', JSON.stringify({ ...state, customData: { count: 7 } }))
+    localStorage.setItem('LegacyOrdersTableOwner', JSON.stringify({
+      ...state,
+      columns: [{ field: 'id', width: '173px' }],
+      customData: { count: 15 },
+    }))
   })
-  await page.reload()
+  await page.goto('/cs-CZ/vapor-table-state')
+  await expect(page.getByTestId('saved')).toHaveAttribute('data-ready', 'true')
+  const implicit = page.getByTestId('implicit-table')
+  await expect(implicit.getByTestId('saved-count')).toHaveText('15')
+  await expect(implicit.locator('.th[data-column="id"]')).toHaveCSS('width', '173px')
+  await implicit.getByRole('button', { name: 'Save implicit preference' }).click()
+  await expect(implicit.getByTestId('saved-count')).toHaveText('16')
+  await expect(page.getByTestId('empty-table').locator('.table-empty')).toBeVisible()
+  expect(await page.evaluate(() => localStorage.getItem('LegacyTableStatePage'))).toBeTruthy()
   const value = label => page.getByTestId(label).getByTestId('value')
   await expect(value('saved')).toHaveText('7')
   for (const label of ['saved', 'other', 'local', 'disabled']) {
@@ -33,6 +49,7 @@ test('Table state in Vapor preserves legacy keys and isolates local instances', 
   expect(new Set(localIds).size).toBe(2)
   for (const remount of [() => page.getByTestId('remount').click(), () => page.reload()]) {
     await remount()
+    await expect(implicit.getByTestId('saved-count')).toHaveText('16')
     await expect(value('saved')).toHaveText('8')
     await expect(value('other')).toHaveText('1')
     await expect(value('local')).toHaveText('0')

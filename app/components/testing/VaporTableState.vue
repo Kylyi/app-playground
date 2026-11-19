@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { useTableStore } from '../../../packages/UI/app/components/Table/stores/table.store'
+import { useTableStore } from '#layers/ui/app/components/Table/stores/table.store'
 
 const props = defineProps<{ label: string, storageKey?: string | null }>()
 const { customData, storageKey } = useTableStore({

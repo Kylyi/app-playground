@@ -1,21 +1,16 @@
 import { existsSync } from 'node:fs'
-import { env as processEnv } from 'node:process'
 import { connectLibs } from './connect-libs.ts'
 import { createResolver } from 'nuxt/kit'
 
-const isMonorepo = processEnv.VITE_MONOREPO === 'true'
 const connectedLibs = connectLibs()
 
 const { resolve } = createResolver(import.meta.url)
-const hasUtilitiesLib = isMonorepo || existsSync(resolve('./packages/Utilities'))
+const hasLocalLayers = ['UI', 'Utilities'].every(name => existsSync(resolve(`./packages/${name}/nuxt.config.ts`)))
 
 export default defineNuxtConfig({
-  extends: [
-    // Gentl
-    ...hasUtilitiesLib
-      ? ['./packages/UI', './packages/Utilities']
-      : ['github:gentlsro/UI#2.3'],
-  ],
+  extends: hasLocalLayers
+    ? ['./packages/UI', './packages/Utilities']
+    : ['github:gentlsro/UI#0392fed6f3d8d0b96ba7c47f7ff552911123b7e1'],
 
   modules: [
     '@nuxt/image',

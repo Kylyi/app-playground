@@ -1,7 +1,7 @@
 <script setup lang="ts" vapor>
-import { TableColumn } from '../../../packages/UI/app/components/Table/models/table-column.model'
-import { useRenderTemporaryTableCell } from '../../../packages/UI/app/components/Table/composables/useRenderTemporaryTableCell'
-import TableMeasurement from '../../../packages/UI/app/components/Table/TableMeasurement.vue'
+import { TableColumn } from '#layers/ui/app/components/Table/models/table-column.model'
+import { useRenderTemporaryTableCell } from '#layers/ui/app/components/Table/composables/useRenderTemporaryTableCell'
+import TableMeasurement from '#layers/ui/app/components/Table/TableMeasurement.vue'
 import TemporaryMeasurementContent from './TemporaryMeasurementContent.vue'
 
 const measurements = useRenderTemporaryTableCell()

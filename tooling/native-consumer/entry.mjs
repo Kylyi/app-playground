@@ -4,6 +4,7 @@ import { applyPlugin, createNuxtApp } from '#app/nuxt'
 import routerPlugin from '#native-router'
 import i18nPlugin from '#native-i18n'
 import devicePlugin from '#native-device'
+import ripplePlugin from '../../packages/UI/app/plugins/ripple.client'
 import tooltipPlugin from '../../packages/UI/app/plugins/tooltip-host'
 import floatingPlugin from '../../packages/UI/app/plugins/floating-ui-esc.client'
 import pageSizePlugin from '../../packages/UI/app/plugins/page-size.client'
@@ -28,6 +29,7 @@ async function bootstrap() {
   await nuxtApp.$i18n.loadLocaleMessages(unref(nuxtApp.$i18n.locale))
   await applyPlugin(nuxtApp, devicePlugin)
   await applyPlugin(nuxtApp, tooltipPlugin)
+  await applyPlugin(nuxtApp, ripplePlugin)
   await applyPlugin(nuxtApp, floatingPlugin)
   await applyPlugin(nuxtApp, pageSizePlugin)
   await nuxtApp.callHook('app:created', app)

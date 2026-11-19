@@ -1,5 +1,5 @@
 <script setup lang="ts" vapor>
-import { useScrollerScroll } from '../../../packages/UI/app/components/Scroller/composables/useScrollerScroll'
+import { useScrollerScroll } from '#layers/ui/app/components/Scroller/composables/useScrollerScroll'
 
 const emitted = ref(0)
 const verticalEmitted = ref(0)

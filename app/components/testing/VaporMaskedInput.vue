@@ -1,6 +1,6 @@
 <script setup lang="ts" vapor>
 import { isNil } from 'lodash-es'
-import { useInputMask } from '../../../packages/UI/app/components/Inputs/functions/useInputMask'
+import { useInputMask } from '#layers/ui/app/components/Inputs/functions/useInputMask'
 
 const props = defineProps<{ radix: string, inputVisible: boolean, onAccepted: () => void }>()
 const model = defineModel<number | null>({ default: 12.5 })
