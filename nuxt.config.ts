@@ -10,7 +10,7 @@ const hasLocalLayers = ['UI', 'Utilities'].every(name => existsSync(resolve(`./p
 export default defineNuxtConfig({
   extends: hasLocalLayers
     ? ['./packages/UI', './packages/Utilities']
-    : ['github:gentlsro/UI#0392fed6f3d8d0b96ba7c47f7ff552911123b7e1'],
+    : ['github:gentlsro/UI#bb05b7e8dbf286638ec3b27f4d513c782269cc36'],
 
   modules: [
     '@nuxt/image',
