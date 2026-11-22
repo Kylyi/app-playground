@@ -11,6 +11,9 @@ const { toggleDark } = useTheme()
       <NuxtLink to="/zz">
         ZZ
       </NuxtLink>
+      <NuxtLink to="/timeline">
+        Timeline
+      </NuxtLink>
 
       <Btn
         label="Toggle dark"
